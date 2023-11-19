@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>股票实时查询产品DEMO</title>
+<script src="{{ url_for('static',filename='echarts.js') }}"></script>
+<!--    <script src="js/echarts.min.js"></script>  自定义路径   -->
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<center>
+	<form id="form" name="form" method='POST' action='/query/' style="text-alige:left">
+		<h1>请输入需要查询股票代码:
+			<input type="text" name="name" style="height:30px;width:160px;font-size:30px;">
+			<input type="submit" value="点击查询" >
+		</h1>
+	</form>
+	<div id="main" style="width:1500px;height:750px;alige:center"></div>  <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = echarts.init(document.getElementById('main'));
+        var option =
+         {  //设置一个变量，是字典格式，传入到echart中
+			 title: [	
+				 {
+					 text: '近30交易日\n涨跌天数',
+					 x: '25%',   //是整个页面比例，不是表格的
+					 y: '25%',
+					 textAlign: 'center',  
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30交易日净值变化',
+					 x: '73%',
+					 y: '9%',
+					 textAlign: 'center',
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30交易日成交量',
+					 x: '20.8%',
+					 y: '55%',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30个交易日收盘价',
+					 x: '73%',
+					 y: '55%',
+					 textAlign: 'center',
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+			 ],
+			 tooltip: {   //悬浮框 提示框  https://blog.csdn.net/weixin_43765747/article/details/122064344
+				 trigger: 'axis',
+				 axisPointer: {
+					 type: 'shadow'
+				 }
+			 },
+			 backgroundColor:'#00ccff',
+			 grid: [
+			 		{   //https://www.python100.com/html/9Q73M1V75XGW.html
+					 left: '5%',
+					 right: '55%',
+					 top: '60%',
+					 bottom: '5%',
+					 containLabel: true
+					 },
+				 	{
+					 gridindex: 1,
+					 left: '50%',
+					 right: '5%',
+					 top: '60%',
+					 bottom: '5%',
+					 containLabel: true
+				 	},
+				 	{
+					 gridindex: 2,
+					 left: '50%',
+					 right: '5%',
+					 top: '17%',
+					 bottom: '55%',
+					 containLabel: true
+				 	}
+			 	],
+
+			 xAxis: 
+			 	[
+					 {
+						 type: 'category',    // x轴设置type: 'category'，为类目轴，适用于离散的类目数据  
+						 data: {{dict_return['close_index']|tojson}},
+						 axisLabel: {
+							 interval: 0,
+							 rotate:90
+						 },
+					 },
+					 {
+						 gridIndex: 1,
+						 type: 'category',
+						 boundaryGap: false,
+						 data: {{dict_return['close_index']|tojson}}
+					 },
+					 {
+						 gridIndex: 2,
+						 type: 'category',
+						 boundaryGap: false,
+						 data: {{dict_return['close_index']|tojson}}
+					 }
+			 	],
+			 yAxis: 
+			 	[
+				 	 {
+						 type: 'value', //y轴设置type: 'value'，为数值轴，适用于连续数据。
+						 axisLabel: {
+							 formatter: '{value} '
+						 },
+						 boundaryGap: [0, 0.02]
+					 },
+					 {
+						 gridIndex: 1,
+						 type: 'value',
+						 axisLabel: {
+							 formatter: '{value} '
+						 }
+					 },
+					 {
+						 gridIndex: 2,
+						 type: 'value',
+						 axisLabel: {
+							 formatter: '{value} '
+						 }
+					 }
+			 	],
+			 series: 
+			 	[
+			 		{
+						 name: '',
+						 type: 'bar',
+						 label: {
+								 normal: {
+									 show: true,
+									 position: 'top',
+									 rotate:90,
+									 show: false 
+								 	}
+						 		},
+						 data: {{dict_return['volume']|tojson}}
+					 },
+				 {
+					 name: '',
+					 type: 'pie',
+					 center: ['25%', '25%'],
+					 radius: ['25%', '35%'],
+					 label: {
+						 normal: {
+							 formatter: '{b} :\n{c}({d}%)'
+						 }
+					 },
+					 data: {{dict_return['diff']|tojson}}
+				 },
+				 {
+					 xAxisIndex: 1,
+					 yAxisIndex: 1,
+					 name: '',
+					 type: 'line',
+					 lineStyle: {
+							 normal: {
+								 color: ''
+						 		}
+						 },
+					 //data: ['416', '382', '318', '184', '215', '265', '557', '954', '1627', '1180', '2416', '2678', '3021', '2590','2100','1809','2300','2539',],
+					 data: {{dict_return['close_value']|tojson}},
+					 smooth: true,
+					 markPoint: {
+						 data: [{
+								 type: 'max',
+								 name: '最大值',
+								 symbolSize: 60
+							 },
+							 {
+								 type: 'min',
+								 name: '最小值',
+								 symbolSize: 60
+							 }
+						 ],
+						 itemStyle: {
+							 normal: {
+								 color: '#F36100'
+							 }
+						 }
+					 },
+					 markLine: {
+						 data: [{
+							 type: 'average',
+							 name: '平均值'
+						 }]
+					 }
+				 },
+
+				 {
+					 xAxisIndex: 2,
+					 yAxisIndex: 2,
+					 name: '',
+					 type: 'line',
+					 lineStyle: {
+						 normal: {
+							 color: ''
+						 }
+					 },
+					 //data: ['416', '382', '318', '184', '215', '265', '557', '954', '1627', '1180', '2416', '2678', '3021', '2590','2100','1809','2300','2539',],
+					 data: {{dict_return['price_change']|tojson}},
+					 smooth: true,
+					 markPoint: {
+						 data: [{
+								 type: 'max',
+								 name: '最大值',
+								 symbolSize: 60
+							 },
+							 {
+								 type: 'min',
+								 name: '最小值',
+								 symbolSize: 60
+							 }
+						 ],
+						 itemStyle: {
+							 normal: {
+								 color: '#F36100'
+							 }
+						 }
+					 },
+					 markLine: {
+						 data: [{
+							 type: 'average',
+							 name: '平均值'
+						 }
+						 ]
+					 }
+				  }
+				]
+		 };
+        // 为echarts对象加载数据 
+        myChart.setOption(option);
+    </script>
+	</center>
+</body>
+</html>

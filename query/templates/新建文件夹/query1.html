@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>股票实时查询产品DEMO</title>
+<script src="{{ url_for('static',filename='echarts.js') }}"></script>
+<!--    <script src="js/echarts.min.js"></script>  自定义路径   -->
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<center>
+	<form id="form" name="form" method='POST' action='/query/' style="text-alige:left">
+		<h1>请输入需要查询股票代码:
+			<input type="text" name="name" style="height:30px;width:160px;font-size:30px;">
+			<input type="submit" value="点击查询" >
+		</h1>
+	</form>
+	<!-- 
+	<div id="main" style="width:1500px;height:600px;alige:center"></div>
+	-->  
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom height:600px 刚好目前是首页 -->
+	<div class="echarts" id="echarts1" style="width: 1500px; height:600px;"></div>
+	<div class="echarts" id="echarts2" style="width: 1500px; height:800px;"></div>
+	<div class="echarts" id="echarts3" style="width: 1500px; height:800px;"></div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts图表
+        var option1 =//echart 的容器格式设置
+         {  //设置一个变量，是字典格式，传入到echart中
+			 title: [	
+				 {
+					 text: '近30交易日\n涨跌天数',
+					 x: '25%',   //是整个页面比例，不是表格的
+					 y: '25%',
+					 textAlign: 'center',  
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30交易日净值变化',
+					 x: '73%',
+					 y: '9%',
+					 textAlign: 'center',
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30交易日成交量',
+					 x: '20.8%',
+					 y: '55%',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+				 {
+					 text: '近30个交易日收盘价',
+					 x: '73%',
+					 y: '55%',
+					 textAlign: 'center',
+					 textBaseline: 'middle',
+					 textStyle: {
+						 fontSize: 20
+					 }
+				 },
+			 ],
+			 tooltip: {   //悬浮框 提示框  https://blog.csdn.net/weixin_43765747/article/details/122064344
+				 trigger: 'axis',
+				 axisPointer: {
+					 type: 'shadow'
+				 }
+			 },
+			 backgroundColor:'#00ccff',
+			 grid: //所有的echart各类表格，通过网格来排列布局，方便
+			 	[
+			 		{   //https://www.python100.com/html/9Q73M1V75XGW.html
+					 left: '5%',     // 左下角图表  成交量
+					 right: '55%',
+					 top: '60%',
+					 bottom: '5%',   
+					 containLabel: true //表示是否考虑坐标轴标签的位置
+					 //backgroundColor: '#00a966' //有问题这里设置
+					 },
+				 	{
+					 gridindex: 1,    // 右下角图表   收盘价
+					 left: '50%',
+					 right: '5%',
+					 top: '60%',
+					 bottom: '5%',
+					 containLabel: true
+				 	},
+				 	{
+					 gridindex: 2,  // 右上角图表   净值变化
+					 left: '50%',
+					 right: '5%',
+					 top: '17%',
+					 bottom: '55%',
+					 containLabel: true
+				 	}
+			 	],
+
+			 xAxis: 
+			 	[
+					 {
+						 type: 'category',    // x轴设置type: 'category'，为类目轴，适用于离散的类目数据  
+						
+						 data: {{dict_return['close_index']|tojson}},
+						 axisLabel: {
+							 interval: 0,//成交量
+							 rotate:90
+						 },
+					 },
+					 {
+						 gridIndex: 1,   //决定是右下角这个图标格式
+						 type: 'category',
+						 boundaryGap: false,  //收盘价
+						 data: {{dict_return['date']|tojson}}
+					 },
+					 {
+						 gridIndex: 2,   //决定是右上角这个图标格式
+						 type: 'category',
+						 boundaryGap: false,  //净值
+						 data: {{dict_return['close_index']|tojson}}
+						 
+
+					 }
+			 	],
+			 yAxis: 
+			 	[
+				 	 {
+						 type: 'value', //y轴设置type: 'value'，为数值轴，适用于连续数据。
+						 axisLabel: {
+							 formatter: '{value} '
+						 },
+						 boundaryGap: [0, 0.02]  //x轴：https://blog.csdn.net/weixin_42064877/article/details/131964598
+						 //y周    https://wangxiaoting.blog.csdn.net/article/details/88889342?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-88889342-blog-131964598.235%5Ev38%5Epc_relevant_sort_base1&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-88889342-blog-131964598.235%5Ev38%5Epc_relevant_sort_base1&utm_relevant_index=1
+					 },
+					 {
+						 gridIndex: 1,//决定是右下角这个图标格式
+						 type: 'value',
+						 axisLabel: {
+							 formatter: '{value} '
+						 }
+					 },
+					 {
+						 gridIndex: 2,//决定是右上角这个图标格式
+						 type: 'value',
+						 axisLabel: {
+							 formatter: '{value} '
+						 }
+					 }
+			 	],
+			series: 
+			 	[
+			 		{
+						 name: '',
+						 type: 'bar',
+						 label: {
+								 normal: {
+									 show: true,
+									 position: 'top',
+									 rotate:90,
+									 show: false 
+								 	}
+						 		},
+						 data: {{dict_return['volume']|tojson}}
+					 },
+
+					 {
+						 name: '',
+						 type: 'pie',
+						 center: ['25%', '25%'],
+						 radius: ['25%', '35%'],
+						 label: {
+							 normal: {
+								 formatter: '{b} :\n{c}({d}%)'
+							 }
+						 },
+						 data: {{dict_return['diff']|tojson}}
+					 },
+
+					 {
+						 xAxisIndex: 1,
+						 yAxisIndex: 1,
+						 name: '',
+						 type: 'line',
+						 lineStyle: 
+						 		{
+								 	normal: 
+								 	{
+									 	color: '#F36100'
+							 		}
+								},
+						 //data: ['416', '382', '318', '184', '215', '265', '557', '954', '1627', '1180', '2416', '2678', '3021', '2590','2100','1809','2300','2539',],
+						data: {{dict_return['data']|tojson}}, //收盘价
+						//smooth: true,
+						markPoint://标记出特殊点
+						 		 {
+									data: 
+										[
+									 		{
+												type: 'max',
+												name: '最大值',
+												symbolSize: 60
+											},
+											{
+												type: 'min',
+												name: '最小值',
+												symbolSize: 60
+											}
+										],
+									itemStyle:
+										{
+											 normal: 
+											 {
+												 color: '#F36100'
+											 }
+										 }
+						 		},
+						markLine:
+							{
+								data: 
+									[
+										{
+											 type: 'average',
+											 name: '平均值'
+										}
+									]
+							}
+					},
+
+					{
+						 xAxisIndex: 2,
+						 yAxisIndex: 2,
+						 name: '',
+						 type: 'line',
+						 lineStyle: {
+							 normal: {
+								 color: ''
+							 }
+						 },
+						 //data: ['416', '382', '318', '184', '215', '265', '557', '954', '1627', '1180', '2416', '2678', '3021', '2590','2100','1809','2300','2539',],
+						 data: {{dict_return['price_change']|tojson}}, //涨跌天数
+						 smooth: true,
+						 markPoint: {
+							 data: [{
+									 type: 'max',
+									 name: '最大值',
+									 symbolSize: 60
+								 },
+								 {
+									 type: 'min',
+									 name: '最小值',
+									 symbolSize: 60
+								 }
+							 ],
+							 itemStyle: {
+								 normal: {
+									 color: '#F36100'
+								 }
+							 }
+						 },
+						 markLine: {
+							 data: [{
+								 type: 'average',
+								 name: '平均值'
+							 }
+							 ]
+						 }
+					}
+
+				]
+		};
+        // 为echarts对象加载数据 
+        var myChart1 = echarts.init(document.getElementById('echarts1'));
+        myChart1.setOption(option1);
+
+        var option2 =
+        {
+        	title: [	
+					 {
+						 text: '情绪龙头连板',
+						 x: '50%',   //是整个页面比例，不是表格的
+						 y: '10%',
+						 textAlign: 'center',  
+						 textBaseline: 'middle',
+						 textStyle: {
+							 fontSize: 20
+						 }
+					 }
+				 ],
+			backgroundColor:'#14A44d',
+			
+			tooltip: {   //悬浮框 提示框  https://blog.csdn.net/weixin_43765747/article/details/122064344
+				 trigger: 'axis',
+				 axisPointer: {
+					 type: 'cross'
+				 }
+			 },
+
+			xAxis: {
+			    type: 'category',
+			    //data: ['A', 'B', 'C']
+			    data:{{dict_return['date']|tojson}}
+			  },
+			yAxis: {
+			    type: 'value'
+			  },
+			series: [
+					    {
+					      //data: [120, 200, 150],
+					      data: {{dict_return['data']|tojson}}, 
+					      type: 'line'
+					    }
+			  	]
+
+        };
+		var myChart2 = echarts.init(document.getElementById('echarts2'));
+		myChart2.setOption(option2);
+
+
+
+		var option3 =
+        {
+        	title: [	
+					 {
+						 text: '测试',
+						 x: '50%',   //是整个页面比例，不是表格的
+						 y: '10%',
+						 textAlign: 'center',  
+						 textBaseline: 'middle',
+						 textStyle: {
+							 fontSize: 20
+						 }
+					 }
+				 ],
+
+			backgroundColor:'#54b4d3',
+
+			tooltip: {   //悬浮框 提示框  https://blog.csdn.net/weixin_43765747/article/details/122064344
+				 trigger: 'axis',
+				 axisPointer: {
+					 type: 'cross'
+				 }
+			 },
+
+			  series: 
+			  	[
+				    {
+				      type: 'pie',
+				      data: 
+					      [
+					        {
+					          value: 335,
+					          name: '直接访问'
+					        },
+					        {
+					          value: 234,
+					          name: '联盟广告'
+					        },
+					        {
+					          value: 1548,
+					          name: '搜索引擎'
+					        }
+					      ]
+				    }
+				]
+
+        };
+		var myChart3 = echarts.init(document.getElementById('echarts3'));
+		myChart3.setOption(option3);
+
+    </script>
+
+    <!--目前能笨办法是  <div id="main1" style="width:1500px;height:600px;alige:center"></div>   在模仿一遍，但是肯定有简化方式 css？ -->
+	</center>
+</body>
+</html>
