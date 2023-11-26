@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link href="https://www.highcharts.com/highslide/highslide.css" rel="stylesheet" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts-more.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/heatmap.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/exporting.js"></script>
+    </head>
+    <body style="margin:0;padding:0">
+                <div id="container" style="">Loading....</div>
+
+
+    <script>
+        $(function(){
+
+
+
+
+
+            Highcharts.setOptions({"global": {}, "lang": {}});
+            var option = {"chart": {"renderTo": "container", "inverted": true}, "colors": {}, "credits": {"enabled": false}, "drilldown": {}, "exporting": {}, "labels": {}, "legend": {"enabled": false}, "loading": {}, "navigation": {}, "pane": {}, "plotOptions": {}, "series": {}, "subtitle": {"text": "According to the Standard Atmosphere Model"}, "title": {"text": "Atmosphere Temperature by Altitude"}, "tooltip": {"headerFormat": "<b>{series.name}</b><br/>", "pointFormat": "{point.x} km: {point.y}\u00b0C"}, "xAxis": {"reversed": false, "title": {"enabled": true, "text": "Altitude"}, "labels": {"formatter": function () {                return this.value + "km";            }}, "maxPadding": 0.05, "showLastLabel": true}, "yAxis": {"title": {"text": "Temperature"}, "labels": {"formatter": function () {                return this.value + 'бу';            }}, "lineWidth": 2}};
+
+
+ 
+
+            var chart = new Highcharts.Chart(option);
+
+            var data = [{"data": [[0, 15], [10, -50], [20, -56.5], [30, -46.5], [40, -22.1], [50, -2.5], [60, -27.7], [70, -55.7], [80, -76.5]], "type": "spline", "marker": {"enabled": false}, "name": "Temperature"}];
+            var dataLen = data.length;
+            for (var ix = 0; ix < dataLen; ix++) {
+                chart.addSeries(data[ix]);
+            }
+ 
+
+
+
+
+
+
+
+        
+    });
+        </script>
+
+    </body>
+</html>

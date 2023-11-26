@@ -35,14 +35,14 @@ def query():
         code = request.form.get('name')
         dict_return = get_data(code)   # https://www.cnblogs.com/zpf666/p/10438423.html
        
-        lb=连板股_连板数统计(连板数=3,start='2023-11-11',end='')#时间先不从网页获取
+        lb=连板股_连板数统计(连板数=3,start='',end='')#时间先不从网页获取
 
         return render_template('query.html', dict_return = dict_return,dict2=lb)   
          
     else:
         dict_return = get_data('601318')
         
-        lb=连板股_连板数统计(连板数=3,start='2023-11-11',end='')#时间先不从网页获取
+        lb=连板股_连板数统计(连板数=3,start='',end='')#时间先不从网页获取
         result=dict()
         for i in range(len(lb['data']['曲线'])):
             tt=lb['data']['曲线'][i]
@@ -53,7 +53,7 @@ def query():
         #print(result)
         df_lb={'0':lb['date'],'1':list(lb['data']['名称'])}#日期横坐标，名称是图例，result是纵坐标
         result.update(df_lb)
-        print(result)
+        #print(result)
          
          
         return render_template('query.html', dict_return = dict_return,dict2=result)   

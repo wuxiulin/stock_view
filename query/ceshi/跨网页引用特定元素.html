@@ -1,0 +1,57 @@
+<!-- 潜入整个网页 案例-->
+
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的网页</title>
+</head>
+<body>
+    <iframe src="http://data.10jqka.com.cn/hsgt/index" width="600" height="400"></iframe>
+</body>
+</html>
+ -->
+
+
+
+
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的网页</title>
+</head>
+<body>
+    <div id="externalContent"></div>
+
+    <script>
+        // 使用 JavaScript 进行异步加载外部内容
+        window.onload = function() {
+            // 创建一个 XMLHttpRequest 对象
+            var xhr = new XMLHttpRequest();
+
+            // 设置要获取的外部网页的 URL
+            var url = "http://data.10jqka.com.cn/hsgt/index";
+
+            // 发送请求
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // 处理获取的 HTML 内容
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(xhr.responseText, "text/html");
+                    
+                    // 找到特定的元素
+                    var targetElement = doc.querySelector('');
+
+                    // 将该元素的 HTML 内容插入到你的网页中
+                    document.getElementById("externalContent").innerHTML = targetElement.innerHTML;
+                }
+            };
+            xhr.send();
+        };
+    </script>
+</body>
+</html>

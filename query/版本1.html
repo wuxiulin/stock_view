@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>显示标签</title>
+    <style>
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #checkboxContainer {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        #resultContainer {
+            display: none;
+            margin-top: 40px;
+            margin-left: 200px;
+            text-align: center;
+        }
+
+        .label {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="checkboxContainer">
+        <form action="#" id="checkboxForm">
+            <h2>请选择以下选项：</h2>
+            <input type="checkbox" id="option1" name="option" value="1">
+            <label for="option1">选项1</label><br>
+
+            <input type="checkbox" id="option2" name="option" value="2">
+            <label for="option2">选项2</label><br>
+
+            <input type="checkbox" id="option3" name="option" value="3">
+            <label for="option3">选项3</label><br>
+
+            <input type="submit" value="提交">
+        </form>
+    </div>
+
+    <div id="resultContainer">
+        <h3>显示的标签：</h3>
+        <p class="label" id="label1">标签1</p>
+        <p class="label" id="label2">标签2</p>
+        <p class="label" id="label3">标签3</p>
+        <p class="label" id="label5">标签5</p>
+        <p class="label" id="label6">标签6</p>
+        <p class="label" id="label7">标签7</p>
+        <p class="label" id="label8">标签8</p>
+        <p class="label" id="label9">标签9</p>
+    </div>
+
+    <script>
+        document.getElementById('checkboxForm').addEventListener('change', function() {
+            updateLabels();
+        });
+
+        function updateLabels() {
+            var option1Checked = document.getElementById('option1').checked;
+            var option2Checked = document.getElementById('option2').checked;
+            var option3Checked = document.getElementById('option3').checked;
+
+            document.getElementById('label1').style.display = option1Checked ? 'block' : 'none';
+            document.getElementById('label2').style.display = option1Checked ? 'block' : 'none';
+            document.getElementById('label3').style.display = option1Checked ? 'block' : 'none';
+
+            document.getElementById('label5').style.display = option2Checked ? 'block' : 'none';
+            document.getElementById('label6').style.display = option2Checked ? 'block' : 'none';
+            document.getElementById('label7').style.display = option2Checked ? 'block' : 'none';
+
+            document.getElementById('label8').style.display = option3Checked ? 'block' : 'none';
+            document.getElementById('label9').style.display = option3Checked ? 'block' : 'none';
+
+            document.getElementById('resultContainer').style.display = (option1Checked || option2Checked || option3Checked) ? 'block' : 'none';
+        }
+    </script>
+
+</body>
+</html>

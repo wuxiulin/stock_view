@@ -60,7 +60,7 @@ def dict_to_json(dic_data):
 	# 如果ensure_ascii=True则会输出中文的ascii码，这里设为False
 	    f.write(    json.dumps(   dic_data  ,ensure_ascii=False , indent=4   )     )  
 
-def json_to_dict(filename=""):
+def json_to_dict(filename="股票池.json"):
 	with open(filename,"r", encoding='utf-8'  ) as f:
 	    load_dict = json.load(f)
 
@@ -78,8 +78,9 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 	trade_date_list = trade_date_df["trade_date"].astype(str).tolist()
 	#print(trade_date_list)
 	if(start==''):
-		print('start error')
-		return
+		start=date.today()-datetime.timedelta(days=15)#这借口太长时间没有数据报错
+		start=datetime.datetime.strftime(start,"%Y-%m-%d")
+		#print(start)
 	if('-' not in start):
 		print("start is like 2023-11-11")
 		return 
@@ -110,6 +111,7 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 	out=[]
 	#处理start这天快照 #接口数据有限，所以即使保存
 	temp=start.split('-')
+	#print(temp)
 	start_shotcut = ak.stock_zt_pool_em(date=temp[0]+temp[1]+temp[2])#么有st和北交所，涨停股票池   涨停统计n/m，m天中n次涨停  连板数
 	#print(start_shotcut)
 
@@ -121,13 +123,14 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 	#所以处理思路不用处理start之前的情况，直接有结果了！但是统计时间很长，这个接口可能没有数据，所以其他需要统计，以后补缺口！
 
 	#有了起始状态，那么怎么添加处理？
-	stitcs_df=start_shotcut[start_shotcut['连板数'] >=3]  ##要统计和显示的codes start是三板开始基础上增删，以后再改是从1板还是四五板
+	stitcs_df=start_shotcut[start_shotcut['连板数'] >=连板数]  ##要统计和显示的codes start是三板开始基础上增删，以后再改是从1板还是四五板
 	stitcs_df=stitcs_df.reset_index(drop=True)
 
 	stitcs_df['曲线']=[list([stitcs_df['连板数'][x]]) for x in range(len(stitcs_df.index))]
 	#print(stitcs_df)
 
 	dayls=daylist[1:]
+
 	for dayi in range(len(dayls)):#去掉开始那天数据
 		day=dayls[dayi]
 		#print('****************************',day,'***********************************')
@@ -136,7 +139,7 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 		#print('****************************',day,'***********************************')
 		temp=day.split('-')
 		data = ak.stock_zt_pool_em(date=temp[0]+temp[1]+temp[2])#么有st和北交所，涨停股票池   涨停统计n/m，m天中n次涨停  连板数
-		data=data[data['连板数']>=3]
+		data=data[data['连板数']>=连板数]
 		data=data.reset_index(drop=True)
 		data['曲线']=[list([data['连板数'][x]]) for x in range(len(data.index))]
 		#print(data)
@@ -216,7 +219,11 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 	# #print(df_lb)
 	# #print(result)
 	# dict2=json.dumps(result)
+	
 	#print(out)
+	#out['data']= out['data'].to_json()#在其他query中需要json不是df格式，在这里处理了
+	
+	#dict_to_json(out)#保存下次快速文件读取
 
 	return out
 
@@ -251,4 +258,9 @@ def 连板股_连板数统计(连板数=3,start='',end=''):#连板数=3,小于�
 
 	#保存数据
 if __name__ == '__main__':
-	连板股_连板数统计(连板数=3,start='2023-11-11',end='')
+	out=连板股_连板数统计(连板数=3,start='',end='')
+	print(out)
+
+	#所属概念太杂，按照时间排序，和涨停原因交叉，大概是得到的
+	#
+	#

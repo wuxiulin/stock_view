@@ -1,0 +1,53 @@
+<!--https://www.cnblogs.com/montai/p/13128790.html-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<style type="text/css">
+    #div0 {width:376px;height:500px;padding:10px;border:2px solid #aaaaaa;}
+    #div1 {width:350px;height:25px;padding:10px;border:1px solid #aaaaaa; text-align:left}
+</style>
+<script type="text/javascript">
+    function allowDrop(ev)
+    {
+        ev.preventDefault();
+    }
+ 
+    function drag(ev)
+    {
+        ev.dataTransfer.setData("Text",ev.target.id);
+    }
+ 
+    function drop(ev)
+    {
+        var data=ev.dataTransfer.getData("Text");
+        ev.target.appendChild(document.getElementById(data));
+        ev.preventDefault();
+    }
+</script>
+</head>
+<body>
+    <h1 style="text-align:center"> 词语分类</h1>
+    <div id = "div0" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div id = "div1">分类1</div><br>
+        <div id = "div1">分类2</div><br>
+        <div id = "div1">分类3</div><br>
+        <div id = "div1">分类4</div><br>
+        <div id = "div1">分类5</div><br>
+        <div id = "div1">分类6</div><br>
+        <button id="dragA" draggable="true" ondragstart="drag(event)"> 水果 </button>
+        <button id="dragB" draggable="true" ondragstart="drag(event)"> 动物 </button>
+        <button id="dragC" draggable="true" ondragstart="drag(event)"> 蔬菜 </button>
+        <button id="dragD" draggable="true" ondragstart="drag(event)"> 玩具 </button>
+        <button id="dragE" draggable="true" ondragstart="drag(event)"> 苹果 </button>
+        <button id="dragF" draggable="true" ondragstart="drag(event)"> 皮球 </button>
+        <button id="dragG" draggable="true" ondragstart="drag(event)"> 布娃娃 </button>
+        <button id="dragH" draggable="true" ondragstart="drag(event)"> 小汽车 </button>
+        <button id="dragI" draggable="true" ondragstart="drag(event)"> 公共汽车 </button>
+        <button id="dragJ" draggable="true" ondragstart="drag(event)"> 香蕉 </button>
+        <button id="dragK" draggable="true" ondragstart="drag(event)"> 熊猫 </button>
+        <button id="dragL" draggable="true" ondragstart="drag(event)"> 狗 </button>
+        <button id="dragM" draggable="true" ondragstart="drag(event)"> 面包 </button>
+        <button id="dragN" draggable="true" ondragstart="drag(event)"> 猫 </button>
+    </div>
+</body>
+</html>

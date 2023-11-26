@@ -1,0 +1,25 @@
+就是说这里保存一个模版，
+方便爬取数据后直接用曲线展示
+
+python自带的plt不好用太丑了！！
+
+
+
+#类似https://legulegu.com/stockdata/market-style?indexCode=1
+
+方便 直观，好看 web，自由组合
+#可以选择多条直线，隐身和现实，
+#沪深300等指数和个股统计同时显示
+#时间轴拖拽和放大，异动滑块
+
+#
+
+
+#json模版+html+python
+我想用html展示，所以结果是html，一些html中图表都是js实现，但是我只想用python处理html和处理json
+#如果你有 JavaScript 代码并想用 Python 生成相应的 HTML，可以考虑使用一个模板引擎，比如 Jinja2
+
+#js中数据需要替换，如果你希望在 Python 中生成包含动态数据的 JavaScript 代码，并将其嵌入到 HTML 中，可以使用类似 Jinja2 的模板引擎来动态插入数据。下面是一个示例，演示如何使用 Jinja2 和 Python 动态替换 JavaScript 中的曲线数据：
+
+
+

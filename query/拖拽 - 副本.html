@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可拖动的标签框</title>
+    <style>
+        .draggable {
+            position: absolute;
+            cursor: move;
+            background-color: #f1f1f1;
+            border: 2px solid #ccc;
+            border-radius: 8px; /* 圆角边框 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        }
+
+        #box1 {
+            z-index: 2; /* 更高的 z-index */
+            border-color: #3498db; /* 蓝色边框 */
+            width: 150px;
+            height: 93px; /* 150 / 1.618 ≈ 93 */
+            left: 20px;
+            top: 20px;
+        }
+
+        #box2 {
+            z-index: 2;
+            border-color: #e74c3c; /* 红色边框 */
+            width: 100px;
+            height: 62px; /* 100 / 1.618 ≈ 62 */
+            left: 180px;
+            top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="box1" class="draggable" draggable="true" ondragstart="drag(event)" ondblclick="editContent(event)">
+    标签框1
+</div>
+
+<div id="box2" class="draggable" draggable="true" ondragstart="drag(event)" ondblclick="editContent(event)">
+    标签框2
+</div>
+
+<script>
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function editContent(event) {
+        var box = event.target;
+        var newContent = prompt("Enter new content:", box.innerText);
+        if (newContent !== null) {
+            box.innerText = newContent;
+            saveContent(box.id, newContent);
+        }
+    }
+
+    function saveContent(boxId, content) {
+        // Save content to local storage
+        localStorage.setItem(boxId + '_content', content);
+    }
+
+    document.addEventListener("dragover", function (event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener("drop", function (event) {
+        event.preventDefault();
+        var data = event.dataTransfer.getData("text");
+        var draggedElement = document.getElementById(data);
+
+        var offsetX = event.clientX - draggedElement.clientWidth / 2;
+        var offsetY = event.clientY - draggedElement.clientHeight / 2;
+
+        // 检查是否和其他标签框重叠
+        var isOverlapping = checkOverlap(draggedElement, offsetX, offsetY);
+
+        if (!isOverlapping) {
+            draggedElement.style.left = offsetX + "px";
+            draggedElement.style.top = offsetY + "px";
+
+            // 保存位置信息到本地存储
+            localStorage.setItem(data + '_left', offsetX);
+            localStorage.setItem(data + '_top', offsetY);
+        }
+    });
+
+    // 在页面加载时恢复位置和内容
+    window.addEventListener('load', function () {
+        var boxes = document.querySelectorAll('.draggable');
+        boxes.forEach(function (box) {
+            var left = localStorage.getItem(box.id + '_left');
+            var top = localStorage.getItem(box.id + '_top');
+            var content = localStorage.getItem(box.id + '_content');
+            if (left && top) {
+                box.style.left = left + 'px';
+                box.style.top = top + 'px';
+            }
+            if (content) {
+                box.innerText = content;
+            }
+        });
+    });
+
+    // 在关闭页面时保存位置信息
+    window.addEventListener('beforeunload', function () {
+        var boxes = document.querySelectorAll('.draggable');
+        boxes.forEach(function (box) {
+            var rect = box.getBoundingClientRect();
+            localStorage.setItem(box.id + '_left', rect.left);
+            localStorage.setItem(box.id + '_top', rect.top);
+        });
+    });
+
+    function checkOverlap(draggedElement, x, y) {
+        var boxes = document.querySelectorAll('.draggable');
+        var isOverlapping = false;
+
+        boxes.forEach(function (box) {
+            if (box !== draggedElement) {
+                var rect = box.getBoundingClientRect();
+
+                if (
+                    x < rect.right &&
+                    x + draggedElement.clientWidth > rect.left &&
+                    y < rect.bottom &&
+                    y + draggedElement.clientHeight > rect.top
+                ) {
+                    isOverlapping = true;
+                }
+            }
+        });
+
+        return isOverlapping;
+    }
+</script>
+
+</body>
+</html>
