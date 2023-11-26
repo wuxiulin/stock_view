@@ -10,11 +10,9 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     
-  <!--  <script src="https://code.hcharts.cn/plugins/zh_cn-1.4.0.min.js"></script> 
-    没法调用
-    -->
+    <script src="./zh_cn-1.4.0.min.js"></script> 
+ 
     <script src="./zh_cn-1.4.0.min.js"></script>
 </head>
 <body>
@@ -23,35 +21,38 @@
     <script>
     // Your JavaScript code here
  
-        var dyn_data={{ data|tojson }};
-        Highcharts.stockChart(
-                'container', 
+  
+        var seriesData = 
+        [
+            {% for series_name, dyn_data in data.items() %}
                 {
-                    rangeSelector: { selected: 2// 默认选中的时间范围，0表示最大范围
-                                  },
-
-                    title: {
-                        text: '统计数据'
-                        },
-
-                    plotOptions: {
-                                 series: {
-                                            showInLegend: true
-                                         }
-                                },
-                    tooltip: {
-                            split: false,
-                            shared: true
-                                  },
-                    series: [{
-                        // type: 'line',
-                        id: '000001',
-                        name: '平安银行',
-                        data: dyn_data
-                        
-                    }]
+                    id: '{{ series_name }}',
+                    name: '{{ series_name }}',
+                    data: {{ dyn_data | tojson }},
                 }
-                );
+                {% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        console.log(seriesData);
+
+        Highcharts.stockChart(
+                                'container', 
+                                {
+                                    rangeSelector: { selected: 2},// 默认选中的时间范围，0表示最大范围
+                                    title: { text: '统计数据'},
+                                    plotOptions: {series: {showInLegend: true } },
+                                    tooltip: {split: false,shared: true },
+                                    // series: [{
+                                    //     // type: 'line',
+                                    //     id: '000001',
+                                    //     name: '平安银行',
+                                    //     data: dyn_data
+                                        
+                                    // }]
+                                    series:seriesData
+                                }
+                            );
 
     </script>
 </body>
