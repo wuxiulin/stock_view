@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="icon" href="https://static.jianshukeji.com/hcode/images/favicon.ico">
+    <style>
+        #container {
+    width: 100%;
+    height: 400px;
+}
+    </style>
+    <script src="./highcharts.js"></script>
+    <script src="./exporting.js"></script>
+    <script src="./annotations.js"></script>
+    <script src="http://cdn.hcharts.cn/highcharts/modules/oldie.js"></script>
+</head>
+
+<body>
+    <iframe width="100%" height="450" src="https://jshare.com.cn/demos/Vr5sqf/share/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <div id="container"></div>
+    <script>
+        // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
+         //三种标注符号   [时间，连板数]
+        // var elevationData = [
+        //     [Date.UTC(2023, 0, 1), 2],//0代表1月
+        //     [Date.UTC(2023, 0, 3), 3],
+        //     [Date.UTC(2023, 0, 5), 4],
+        //     [Date.UTC(2023, 0, 6), 5],
+        //     [Date.UTC(2023, 0, 7), 6],
+        //     [Date.UTC(2023, 0, 8), 7],
+        //     [Date.UTC(2023, 0, 11), 7],
+        //     [Date.UTC(2023, 0, 12), 2],
+        //     [Date.UTC(2023, 0, 13), 3],
+        //     [Date.UTC(2023, 0, 14), 1],
+        //     [Date.UTC(2023, 0, 15),2],
+        //     [Date.UTC(2023, 0, 18),3],
+        //     [Date.UTC(2023, 0, 19), 4],
+        //     [Date.UTC(2023, 0, 20),5],
+        //     [Date.UTC(2023, 0, 21), 5],
+
+        // ];
+         // 初始化图标
+        var  chart=  Highcharts.chart('container', 
+        {
+            chart: {
+                type: 'area',
+                zoomType: 'x', // 启用 x 轴方向上的缩放
+                panning: true, // 启用平移
+                panKey: 'shift' // 按住 Shift 键时启用平移
+            },
+            title: {
+                text: '最高连板数'
+            },
+            annotations: 
+            [
+                  {
+                      labelOptions: {
+                          backgroundColor: 'rgba(255,255,255,0.5)',
+                          verticalAlign: 'top',
+                          y: 15
+                      },
+                      labels: [
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 3),
+                              y: 3
+                          },
+                          text: 'Montrond'
+                        }, 
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 6),
+                              y: 5
+                          },
+                          text: 'Saint-Claude'
+                        }]
+                  }, 
+                  {
+                      labels: [
+                      {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 8),
+                              y: 7
+                          },
+                          x: -30,
+                          text: 'Col de la Joux'
+                      }, 
+                      {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 12),
+                              y: 2
+                          },
+                          text: 'Côte de Viry'
+                      } ]
+                  }, 
+                  {
+                      labelOptions: {
+                          shape: 'connector',// 指定连接器的形状
+                          align: 'right',// 指定标签文本的水平对齐方式
+                          justify: false,// 不自动调整标签文本的位置以保持水平对齐
+                          crop: true, // 允许标签文本在需要时被剪裁
+                          style: {
+                              fontSize: '0.8em',// 设置标签文本的字体大小
+                              textOutline: '1px white'// 在文本周围添加白色边缘，以提高可读性
+                          }
+                      },
+                      labels: [{
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 15),
+                              y: 2
+                          },
+                          text: '6.1 km climb<br>4.6% on avg.'
+                      }, {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: Date.UTC(2023, 0, 20),
+                              y: 5
+                          },
+                          text: '7.6 km climb<br>5.2% on avg.'
+                      }]
+                  }
+            ],
+            xAxis: 
+            {
+
+                  type: 'datetime',  // 设置 X 轴类型为时间轴
+                  labels: {
+                              format:'{value:%Y-%m-%d}' ,// 设置时间轴上的标签格式
+                             rotation: -45, // 旋转 X 轴标签
+                               staggerLines: 1 // 交错显示 X 轴标签，可根据需要调整
+                          },
+                  minRange: 5,
+                  title: {
+                               text: '日期'
+                              }
+
+
+            },
+            yAxis: {
+                startOnTick: true, // 如果为 true，则轴从刻度开始，而不是从零开始
+                endOnTick: false,// 如果为 true，则轴在刻度结束，而不是在最大值结束
+                maxPadding: 0.35, // 轴的最大填充（百分比），用于确保图表中的数据点不靠近轴的边界
+                title: {            // 轴标题的文本内容，这里设置为 null 表示不显示标题
+                    text: null
+                },
+                labels: {
+                    format: '{value} 连板数'
+                }
+            },
+            tooltip: {
+                // headerFormat: '时间: {point.x} <br>',
+                // pointFormat: '连板数：{point.y} 板 ',
+                // shared: true
+                    headerFormat: '时间: {point.x:%Y-%m-%d} <br>',
+                        pointFormat: '连板数：{point.y} 板 ',
+                      shared: true,
+                      xDateFormat: '%Y-%m-%d'  // 添加这一行以指定日期格式
+            },
+            legend: {
+                enabled: false
+            },
+            series: 
+            [
+                  {
+                      data: [[1672502400000, 2], [1672675200000, 3], [1672761600000, 4], [1672848000000, 5], [1672934400000, 6], [1673020800000, 7], [1673193600000, 7], [1673280000000, 2], [1673366400000, 3], [1673452800000, 1], [1673539200000, 2], [1673625600000, 3], [1673712000000, 4], [1673971200000, 5], [1674057600000, 5]], // 数据系列的数据
+                      lineColor: Highcharts.getOptions().colors[1],// 折线颜色
+                      color: Highcharts.getOptions().colors[2], // 区域填充颜色
+                      fillOpacity: 0.5, // 区域填充的透明度
+                      name: '每日连板数',// 数据系列的名称
+                      marker: {
+                          enabled: false  // 是否显示数据点标记
+                      },
+                      threshold: null// 数据点是否被认为是区域内部的阈值    
+                  }
+            ]
+        }
+        );
+      
+    </script>
+</body>
+
+</html>

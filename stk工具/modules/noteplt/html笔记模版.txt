@@ -1,0 +1,2 @@
+index是主页，默认打开的页面
+help-center中的1blocks.html是这个页面的模版，然后保存为blocks.html

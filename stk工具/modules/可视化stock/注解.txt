@@ -1,0 +1,28 @@
+这个解决是问题是只有json源码，不知道调用哪个python库，生成类似的charts和类似的html
+通过这个模版解决这个问题！！
+2023 11.30
+版本2基础上改进
+
+首先是（1）https://jshare.com.cn/highstock/hhhhio?hc-theme=grid-light
+js拷贝到template.html中， <script>  代替XXXXXXX  <script>
+
+
+（2）留意https://jshare.com.cn/highstock/hhhhio?hc-theme=grid-light  外部资源的js库和template中引入是否全面
+   https://code.highcharts.com/modules/	  打不开，跳转到，https://code.highcharts.com  能看到
+
+（3）不知道js调用是否有顺序，根据网上的，顺序，修改模板顺序，
+外部资源右击下载，能看到下载本地，https://img.hcharts.cn/jquery/jquery-1.8.3.min.js  看到不都是在https://code.highcharts.com 
+https://img.hcharts.cn/
+（4）有的就用，没有就下载，
+
+调试方式
+：
+
+
+打开开发者工具： 在大多数现代浏览器中，你可以按下 F12 键或者右键点击页面并选择 "检查" 或 "审查元素"，然后切换到 "控制台" 选项卡。
+
+检查网络请求： 切换到 "网络" 选项卡，然后刷新你的页面。你应该能够看到页面加载期间的所有网络请求。找到你的数据请求（在这里是 https://data.jianshukeji.com/stock/history/000001），点击它以查看详细信息。
+
+查看响应： 在请求详细信息中，有一个标签为 "响应" 或 "Response" 的选项卡。点击它，你将看到服务器返回的实际数据。确保它是一个有效的 JSON 格式，没有错误。
+
+检查控制台： 切换到 "控制台" 选项卡，看看是否有任何错误消息。如果有错误，它们可能提供有关为何图表不显示的线索。

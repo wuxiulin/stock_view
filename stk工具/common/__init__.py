@@ -1,1 +1,1 @@
-from .com_DataStruct import DataStruct
+from .datastruct  import DataStruct

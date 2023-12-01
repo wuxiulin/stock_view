@@ -1,2 +1,48 @@
 问财那个文件，学习组建管理模块，学习代码！
 
+
+
+my_project/
+|-- __init__.py
+|-- data_structures/
+|   |-- __init__.py
+|   |-- custom_data_structure1.py
+|   |-- custom_data_structure2.py
+|-- modules/
+|   |-- __init__.py
+|   |-- module1.py
+|   |-- module2.py
+|-- utils/
+|   |-- __init__.py
+|   |-- utility_module1.py
+|   |-- utility_module2.py
+|-- tests/
+|   |-- __init__.py
+|   |-- test_custom_data_structure1.py
+|   |-- test_custom_data_structure2.py
+|   |-- test_module1.py
+|   |-- test_module2.py
+|-- main.py
+
+data_structures 目录：
+
+	将自定义数据结构的模块放在这里，每个数据结构一个模块。
+	使用 __init__.py 文件使得 data_structures 成为一个包。
+modules 目录：
+
+	存放模块，这些模块可能会使用自定义数据结构。
+	使用 __init__.py 文件使得 modules 成为一个包。
+utils 目录：
+
+	存放一些通用的工具函数或者辅助模块，可能包含一些和数据结构相关的工具函数。
+	使用 __init__.py 文件使得 utils 成为一个包。
+tests 目录：
+
+	包含用于测试各个模块的测试模块。
+	使用 __init__.py 文件使得 tests 成为一个包。
+main.py 文件：
+
+	包含程序的入口点，用于调用和协调其他模块和功能。
+	通过这样的文件结构，你可以更好地组织代码，使得各个部分分离，提高了模块的可重用性和可测试性。测试代码也被独立到了 tests 目录，使得测试与实现分离。
+
+在实际项目中，这个结构可能需要根据具体需求和项目规模进行调整。但是，遵循模块化和清晰的组织原则通常能够提高代码的可维护性。
