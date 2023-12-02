@@ -1,12 +1,18 @@
+
+
 #pip install Jinja2
 #四个js文件，是highechart的
 #生成template ，创建一个 Jinja2 模板文件（比如 template.html） 
+
+
 
 
 #创建一个 Python 脚本，使用 Jinja2 渲染模板并将动态数据传递给模板：
 import webbrowser
 from jinja2 import Template
 from datetime import datetime
+import sys
+import os
 # 准备数据，这里使用一个简单的列表作为示例
 #dynamic_data = [1, 2, 3, 4, 5]
 class HC可视化( ):
@@ -50,8 +56,8 @@ class HC可视化( ):
 		if(isopen==1):
 			webbrowser.open(output_file_path)
 
-	def get_标注曲线(self,dynamic_data,name,isopen=0):#默认股票，带时间那种图形
-
+	def get_标注曲线(self,dynamic_data,labelxy,name,isopen=0):#默认股票，带时间那种图形
+		print(os.path.abspath(__file__))
 		# # 使用模板渲染 HTML，传递动态数据
 		# #在上面的代码中，dynamic_data 是一个包含你希望替换的动态数据的列表。
 		# #模板中的 {{ data | tojson | safe }} 部分将 Python 中的数据转换为 JSON 格式，并嵌入到 JavaScript 代码中。
@@ -63,7 +69,8 @@ class HC可视化( ):
 
 
 	# 读取模板文件
-		with open('模板_标注.html', 'r', encoding='utf-8') as template_file:
+		with open(   os.path.join( os.path.dirname(os.path.abspath(__file__)),'模板_标注.html'), 
+				'r', encoding='utf-8') as template_file:
 		    template_content = template_file.read()
 
 		# 创建 Jinja2 模板对象
@@ -74,9 +81,9 @@ class HC可视化( ):
 		#在上面的代码中，dynamic_data 是一个包含你希望替换的动态数据的列表。
 		#模板中的 {{ data | tojson | safe }} 部分将 Python 中的数据转换为 JSON 格式，并嵌入到 JavaScript 代码中。
 		#html_output = template.render(data=dynamic_data)
-		html_output = template.render(data=dynamic_data )
+		html_output = template.render(data=dynamic_data ,label=labelxy)
 		# 将生成的 HTML 写入文件
-		output_file_path='index.html'
+		output_file_path= os.path.join( os.path.dirname(os.path.abspath(__file__)),'index.html')
 		with open(output_file_path, 'w', encoding='utf-8') as output_file:
 		    output_file.write(html_output)
 
@@ -135,9 +142,15 @@ if __name__ == '__main__':
 
         ];
 	print(dynamic_data)
+	
+ 
 
-#
-	HC可视化().get_标注曲线(dynamic_data,"证券",1)
+	labelCoordinates = [
+			{ 'date':int(datetime(2023, 1, 7).timestamp())*1000, 'yValue': 3, 'labelText': 'Montrond' },
+			{ 'date': int(datetime(2023, 1, 15).timestamp())*1000, 'yValue': 5, 'labelText': 'Saint-Claude' },
+		]
+
+	HC可视化().get_标注曲线(dynamic_data=dynamic_data,labelxy=labelCoordinates,name="证券",isopen=1)
 
 	#print(a)
 

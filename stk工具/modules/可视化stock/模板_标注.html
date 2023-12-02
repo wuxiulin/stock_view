@@ -42,6 +42,46 @@
         //     [Date.UTC(2023, 0, 21), 5],
 
         // ];
+
+       // 接收从 Python 传递的 label 数据
+        var annotations = 
+        [
+
+           {
+             labelOptions: {
+                            backgroundColor: 'rgba(255,255,255,0.5)',//标签的背景颜色
+                            verticalAlign: 'top', //垂直对齐方式
+                             y: 15,//y: 在垂直方向上的偏移量
+
+                          shape: 'connector',// 指定连接器的形状
+                          align: 'right',// 指定标签文本的水平对齐方式
+                          justify: false,// 不自动调整标签文本的位置以保持水平对齐
+                          crop: true, // 允许标签文本在需要时被剪裁
+                          style: {
+                              fontSize: '0.8em',// 设置标签文本的字体大小
+                              textOutline: '1px white'// 在文本周围添加白色边缘，以提高可读性
+                                }
+                           },
+             labels: [
+                       {% for item in label %}
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: {{ item.date | tojson }},
+                              y: {{ item.yValue }}
+                          },
+                          text: ' {{ item.labelText }} '
+                        },
+                        {% endfor %}
+                    ]
+           },
+
+        ]
+
+
+        console.log(annotations);
+
          // 初始化图标
         var  chart=  Highcharts.chart('container', 
         {
@@ -54,86 +94,87 @@
             title: {
                 text: '最高连板数'
             },
-            annotations: 
-            [
-                  {
-                      labelOptions: {
-                          backgroundColor: 'rgba(255,255,255,0.5)',
-                          verticalAlign: 'top',
-                          y: 15
-                      },
-                      labels: [
-                        {
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 3),
-                              y: 3
-                          },
-                          text: 'Montrond'
-                        }, 
-                        {
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 6),
-                              y: 5
-                          },
-                          text: 'Saint-Claude'
-                        }]
-                  }, 
-                  {
-                      labels: [
-                      {
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 8),
-                              y: 7
-                          },
-                          x: -30,
-                          text: 'Col de la Joux'
-                      }, 
-                      {
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 12),
-                              y: 2
-                          },
-                          text: 'Côte de Viry'
-                      } ]
-                  }, 
-                  {
-                      labelOptions: {
-                          shape: 'connector',// 指定连接器的形状
-                          align: 'right',// 指定标签文本的水平对齐方式
-                          justify: false,// 不自动调整标签文本的位置以保持水平对齐
-                          crop: true, // 允许标签文本在需要时被剪裁
-                          style: {
-                              fontSize: '0.8em',// 设置标签文本的字体大小
-                              textOutline: '1px white'// 在文本周围添加白色边缘，以提高可读性
-                          }
-                      },
-                      labels: [{
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 15),
-                              y: 2
-                          },
-                          text: '6.1 km climb<br>4.6% on avg.'
-                      }, {
-                          point: {
-                              xAxis: 0,
-                              yAxis: 0,
-                              x: Date.UTC(2023, 0, 20),
-                              y: 5
-                          },
-                          text: '7.6 km climb<br>5.2% on avg.'
-                      }]
-                  }
-            ],
+            annotations:annotations,
+            // annotations: 
+            // [
+            //       {
+            //           labelOptions: {
+            //               backgroundColor: 'rgba(255,255,255,0.5)',
+            //               verticalAlign: 'top',
+            //               y: 15
+            //           },
+            //           labels: [
+            //             {
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023, 10, 3),//0是1月
+            //                   y: 3
+            //               },
+            //               text: 'Montrond'
+            //             }, 
+            //             {
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023,10, 6),//0是1月
+            //                   y: 5
+            //               },
+            //               text: 'Saint-Claude'
+            //             }]
+            //       }, 
+            //       {
+            //           labels: [
+            //           {
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023, 10, 8),
+            //                   y: 7
+            //               },
+            //               x: -30,
+            //               text: 'Col de la Joux'
+            //           }, 
+            //           {
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023, 10, 12),
+            //                   y: 2
+            //               },
+            //               text: 'Côte de Viry'
+            //           } ]
+            //       }, 
+            //       {
+            //           labelOptions: {
+            //               shape: 'connector',// 指定连接器的形状
+            //               align: 'right',// 指定标签文本的水平对齐方式
+            //               justify: false,// 不自动调整标签文本的位置以保持水平对齐
+            //               crop: true, // 允许标签文本在需要时被剪裁
+            //               style: {
+            //                   fontSize: '0.8em',// 设置标签文本的字体大小
+            //                   textOutline: '1px white'// 在文本周围添加白色边缘，以提高可读性
+            //               }
+            //           },
+            //           labels: [{
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023, 10, 15),
+            //                   y: 2
+            //               },
+            //               text: '6.1 km climb<br>4.6% on avg.'
+            //           }, {
+            //               point: {
+            //                   xAxis: 0,
+            //                   yAxis: 0,
+            //                   x: Date.UTC(2023, 10, 20),
+            //                   y: 5
+            //               },
+            //               text: '7.6 km climb<br>5.2% on avg.'
+            //           }]
+            //       }
+            // ],
             xAxis: 
             {
 
@@ -158,7 +199,7 @@
                     text: null
                 },
                 labels: {
-                    format: '{value} 连板数'
+                    format: '{value} 连板'
                 }
             },
             tooltip: {

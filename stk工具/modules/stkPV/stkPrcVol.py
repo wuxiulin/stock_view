@@ -16,14 +16,14 @@ sys.path.append(parent_dir)
 #运行各种监控代码得到结论
 #在html默认位置，根据结论添加文本
 #输出保存html
-
+import json
 import string
 from bs4 import BeautifulSoup
 import  pathlib
 import akshare as ak
 import datetime
 from datetime import date
-from datetime import datetime
+
 
 import pywencai 
 from  stk工具.common import DataStruct
@@ -50,7 +50,7 @@ class 证券():
 		zt_res_col=([ i  for i in columns  if('连续涨停天数' in i)  ])#连续涨停列名字
 		#print(zt_res_col)
 		if(len(zt_res_col)!=1):#结果df列名字有问题
-			res = pywencai.get(query="涨停，证券板块",loop=True,query_type='stock')#sort_key='所属同花顺行业'
+			res = pywencai.get(query=searchtxt,loop=True,query_type='stock')#sort_key='所属同花顺行业'
 			columns=res.columns
 			zt_res_col=([ i  for i in columns  if('连续涨停天数' in i)  ])#连续涨停列名字
 			if(len(zt_res_col)!=1):
@@ -111,19 +111,173 @@ class sktPriceVol():
 	"""docstring for ClassName"""
 	def __init__(self):
 		self.result=DataStruct()
-		self.情绪周期=[[]]
 
-	def 连板统计(self):
+
+	def 单日连板统计(self,searchtxt="连板，去掉st，去掉北交所"):
 		#爬取数据，每日循环，然后保存json
 		#每次都直接读取后json
 
 		#画出曲线
 		#然后
+		try:
+			res = pywencai.get(query=searchtxt,loop=True,query_type='stock')#测试'
+		except Exception as e:
+			print(e,"个股连板  pywencai.get    is error ") 
+			return None
+		#res = pywencai.get(query="涨停，证券板块",loop=True,query_type='stock')#sort_key='所属同花顺行业'
+		#print(res)
+		if(res is None):
+			return  None
+		columns=res.columns
+		#证券有个股三连板
+		zt_res_col=([ i  for i in columns  if('连续涨停天数' in i)  ])#连续涨停列名字
+		#print(zt_res_col)
+		if(len(zt_res_col)!=1):#结果df列名字有问题
+			print(" 连续涨停天数 搜索结果列名字 error")
+		zt_res_col=zt_res_col[0]
+		#print(res)
+		res= res.sort_values(by=zt_res_col, ascending=False)
+		res=res.reset_index(drop=True)
+		#print(res)
+		#print(res[zt_res_col][0])
+		return res[zt_res_col][0]
+	def 多日连板统计(self,start='',end=''):
+		##处理时间
+		file_path = "连板统计"+".json"
+		trade_date_df = ak.tool_trade_date_hist_sina()#获取交易日
+		trade_date_list = trade_date_df["trade_date"].astype(str).tolist()
+		#print(trade_date_list)#时间带 -
+		if(start==''):#返回，为了更好兼容这个代码，上层处理更多情况，这里不处理，必须输入start
+			# start=date.today()-datetime.timedelta(days=15)#这借口太长时间没有数据报错
+			# start=datetime.datetime.strftime(start,"%Y-%m-%d")
+			#print(start)
+			print("start is null,input start time!")
+			return
+		if('-' not in start):#获取交易日的接口格式是"2023-11-01"，所以做处理
+			start=start[:4]+'-'+start[4:6]+'-'+start[6:8]
+
+		tempday=datetime.datetime.strptime(start,"%Y-%m-%d") 
+		while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+			tempday =  tempday + datetime.timedelta(days=1)
+		if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+			print(tempday)
+			print("start iserror,input start time!")
+			return
+		start=datetime.datetime.strftime(tempday,"%Y-%m-%d")#
+
+		if(end==''):
+			tempday = date.today()
+			tempday = datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			while(tempday not in  trade_date_list):#今天是周末或假期
+				tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")-datetime.timedelta(days=1)
+				tempday=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			if(tempday not in trade_date_list):
+				print("end iserror,input start time!")
+				return
+			end=tempday
+		else:
+			if('-' not in end):#获取交易日的接口格式是"2023-11-01"，所以做处理
+				tempday=end[:4]+'-'+end[4:6]+'-'+end[6:8]
+			#print(tempday)
+			tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")
+			while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+				tempday =  tempday - datetime.timedelta(days=1)
+			if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+				print("end iserror,input start time!")
+				return
+			end=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+
+
+		#print("set:",start,end)，需要爬取的如下，
+		tradedays=trade_date_list[trade_date_list.index(start):trade_date_list.index(end)+1]#g根据输入获得tradedays
+
+		#得到设置的start  end
+
+		#为了保持交易日的list的顺序，这里处理一下防止中间有些日子没有爬取数据，
+		# 检查文件是否存在
+		if os.path.exists(file_path):
+		    # 文件存在，读取内容
+			with open(file_path, 'r') as json_file:
+				pre_data = json.load(json_file)
+				#print(pre_data)
+				#print(type(pre_data))
+				#pre_data=eval(pre_data)
+				pre_tradedays=pre_data['date']
+				#print("上一次",pre_tradedays)
+				#在tradedays  和tradedays都是有序的数列，比较看真正的扩大版额，不要取交集了，都爬取了
+				# print((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days)
+				# print(pre_tradedays[0],tradedays[0])
+				if((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days>0):
+					deal_day_start=tradedays[0] #选择时间更早一点的
+				else:
+					deal_day_start=pre_tradedays[0]
+
+				if((datetime.datetime.strptime(pre_tradedays[-1],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[-1],"%Y-%m-%d")).days>0):
+					deal_day_end=pre_tradedays[-1]#选择时间更晚一点的！
+				else:
+					deal_day_end=tradedays[-1]
+				# print(deal_day_start,deal_day_end)
+				#扩大版的爬取是日期方便简单处理一些
+				all_deal_tradedays = trade_date_list[trade_date_list.index(deal_day_start):trade_date_list.index(deal_day_end)+1]#g根据输入获得tradedays
+	 		    
+				print("kuoda:",all_deal_tradedays[0],all_deal_tradedays[-1])
+	 		    #差集，要新增爬取的days，扩大版本的，尽可能补齐数据
+				temp_tradedays = [element for element in all_deal_tradedays if (element not in pre_tradedays)]
+
+				#print("paqu",temp_tradedays)
+				print(f' Data loaded from {file_path}')
+				if(len(temp_tradedays)==0):
+					print(f'all days is ok return...')
+					return pre_data####要不要根据start，end截取，后面再瘦！
+		else:
+		    # 文件不存在，跳过 
+			temp_tradedays=tradedays #上面是差集，这里也是差集，为0而已，扩大版的所有需要处理的天数
+			all_deal_tradedays=tradedays
+			print(f'{file_path} does not exist. Skipping...')
+			if(len(temp_tradedays)==0):
+				print(f'no days is ok return...')
+				return 
+
+			#print(tradedays)
+			#结果队列
+
+			#文档读取结果，处理时间
+       
+
+		tempresult=	 {key: value for key, value in zip(temp_tradedays,[[]]*len(temp_tradedays)) }#新增的统计结果，后面会合并，保存对应日期day和结果
+
+		for day in temp_tradedays:
+			daynum=self.单日连板统计(searchtxt=day+"连板，去掉st，去掉北交所")
+			temp=[int(datetime.datetime.strptime(day, "%Y-%m-%d").timestamp())*1000,int(daynum)]
+			tempresult[day]=temp
+
+	#合并数据局
+		if(os.path.exists(file_path)):
+			tempresult.update(pre_data['data']) 
+
+		out={"date":all_deal_tradedays,"data":tempresult}
+		# 指定保存的文件路径
+		
+		if os.path.exists(file_path):
+			if os.path.exists('old_'+file_path):
+				os.remove('old_'+file_path)
+				os.rename(file_path, 'old_'+file_path)#备份
+			else:
+				os.rename(file_path, 'old_'+file_path)#备份
+			# 使用 json.dump 将字典保存为 JSON 文件
+		with open(file_path, 'w') as json_file:
+			json.dump(out, json_file)
+
+		#print(out)
+		return out#注意格式
+
+
+
 
 	def stocks_竞价跌停(self):#竞价跌停
 		pass
 
-	def stock_天地板(self,searchtxt=""):# 这里获取涨跌停时间不同搜索语句，获得不同方式，这是一种，为了好弄天地天等
+	def 单日天地板(self,searchtxt=""):# 这里获取涨跌停时间不同搜索语句，获得不同方式，这是一种，为了好弄天地天等
 		#这里很松散的一种爬取方式，自由组合， 这里看到先天后地，先地后天，还有只要天地有就行，都选出来
 		#首先都是情绪周期理论是个极致的现象，之前说过就是共识一致达成过程，是否成功看博弈结果。
 		#但是有资金就是利用周期理论特殊节点，拉动极致的天地，给出重要周期信号，强行得到周期理论结论，
@@ -217,11 +371,12 @@ class sktPriceVol():
 		# 	self.result.append(["地天板，情绪周期重要节点，能激活多少做多情绪不好说，但是有资金想开始一个新周期，是否成功不好说，\
 		# 		算是一个情绪周期界定点，之后走势很复杂不好说",
 		# 		"https://note.youdao.com/s/c8CQowSB"],keys=['index'])
-			return True
+			print("天地股: \n",df_天地)
+			return list(df_天地['股票简称'])
 		else :
-			return False
+			return None
 
-	def stock_地天板(self,searchtxt=""):# 这里获取涨跌停时间不同搜索语句，获得不同方式，这是一种，为了好弄天地天等
+	def 单日地天板(self,searchtxt=""):# 这里获取涨跌停时间不同搜索语句，获得不同方式，这是一种，为了好弄天地天等
 		#这里很松散的一种爬取方式，自由组合， 这里看到先天后地，先地后天，还有只要天地有就行，都选出来
 		#首先都是情绪周期理论是个极致的现象，之前说过就是共识一致达成过程，是否成功看博弈结果。
 		#但是有资金就是利用周期理论特殊节点，拉动极致的天地，给出重要周期信号，强行得到周期理论结论，
@@ -246,6 +401,7 @@ class sktPriceVol():
 		codes = set(list(res_zt["股票代码"])) & set(list(res_dt["股票代码"]))
 		codes = list(codes)
 		if(len(codes)==0):
+			print("没有地天板")
 			return None
 		#print(codes)
 		res_zt=res_zt[res_zt['股票代码'].isin(codes)]
@@ -316,10 +472,274 @@ class sktPriceVol():
 			self.result.append(["地天板，情绪周期重要节点，能激活多少做多情绪不好说，但是有资金想开始一个新周期，是否成功不好说，\
 				算是一个情绪周期界定点，之后走势很复杂不好说",
 				"https://note.youdao.com/s/c8CQowSB"],keys=['index'])
-			return True
+			print("地天股： \n",df_地天)
+			return list(df_地天['股票简称'])
 		else :
-			return False
+			return None
 
+	def 多日天地板(self,start='',end=''):
+		##处理时间
+		file_path = "多日天地板"+".json"
+		trade_date_df = ak.tool_trade_date_hist_sina()#获取交易日
+		trade_date_list = trade_date_df["trade_date"].astype(str).tolist()
+		#print(trade_date_list)#时间带 -
+		if(start==''):#返回，为了更好兼容这个代码，上层处理更多情况，这里不处理，必须输入start
+			# start=date.today()-datetime.timedelta(days=15)#这借口太长时间没有数据报错
+			# start=datetime.datetime.strftime(start,"%Y-%m-%d")
+			#print(start)
+			print("start is null,input start time!")
+			return None
+		if('-' not in start):#获取交易日的接口格式是"2023-11-01"，所以做处理
+			start=start[:4]+'-'+start[4:6]+'-'+start[6:8]
+
+		tempday=datetime.datetime.strptime(start,"%Y-%m-%d") 
+		while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+			tempday =  tempday + datetime.timedelta(days=1)
+		if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+			print(tempday)
+			print("start iserror,input start time!")
+			return
+		start=datetime.datetime.strftime(tempday,"%Y-%m-%d")#
+
+		if(end==''):
+			tempday = date.today()
+			tempday = datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			while(tempday not in  trade_date_list):#今天是周末或假期
+				tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")-datetime.timedelta(days=1)
+				tempday=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			if(tempday not in trade_date_list):
+				print("end iserror,input start time!")
+				return None
+			end=tempday
+		else:
+			if('-' not in end):#获取交易日的接口格式是"2023-11-01"，所以做处理
+				tempday=end[:4]+'-'+end[4:6]+'-'+end[6:8]
+			#print(tempday)
+			tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")
+			while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+				tempday =  tempday - datetime.timedelta(days=1)
+			if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+				print("end iserror,input start time!")
+				return None
+			end=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+
+
+		#print("set:",start,end)，需要爬取的如下，
+		tradedays=trade_date_list[trade_date_list.index(start):trade_date_list.index(end)+1]#g根据输入获得tradedays
+
+		#得到设置的start  end
+
+		#为了保持交易日的list的顺序，这里处理一下防止中间有些日子没有爬取数据，
+		# 检查文件是否存在
+		if os.path.exists(file_path):
+		    # 文件存在，读取内容
+			with open(file_path, 'r') as json_file:
+				pre_data = json.load(json_file)
+				#print(pre_data)
+				#print(type(pre_data))
+				#pre_data=eval(pre_data)
+				pre_tradedays=pre_data['date']
+				#print("上一次",pre_tradedays)
+				#在tradedays  和tradedays都是有序的数列，比较看真正的扩大版额，不要取交集了，都爬取了
+				# print((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days)
+				# print(pre_tradedays[0],tradedays[0])
+				if((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days>0):
+					deal_day_start=tradedays[0] #选择时间更早一点的
+				else:
+					deal_day_start=pre_tradedays[0]
+
+				if((datetime.datetime.strptime(pre_tradedays[-1],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[-1],"%Y-%m-%d")).days>0):
+					deal_day_end=pre_tradedays[-1]#选择时间更晚一点的！
+				else:
+					deal_day_end=tradedays[-1]
+				# print(deal_day_start,deal_day_end)
+				#扩大版的爬取是日期方便简单处理一些
+				all_deal_tradedays = trade_date_list[trade_date_list.index(deal_day_start):trade_date_list.index(deal_day_end)+1]#g根据输入获得tradedays
+	 		    
+				print("kuoda:",all_deal_tradedays[0],all_deal_tradedays[-1])
+	 		    #差集，要新增爬取的days，扩大版本的，尽可能补齐数据
+				temp_tradedays = [element for element in all_deal_tradedays if (element not in pre_tradedays)]
+
+				#print("paqu",temp_tradedays)
+				print(f' Data loaded from {file_path}')
+				if(len(temp_tradedays)==0):
+					print(f'all days is ok return...')
+					return pre_data####要不要根据start，end截取，后面再瘦！
+		else:
+		    # 文件不存在，跳过 
+			temp_tradedays=tradedays #上面是差集，这里也是差集，为0而已，扩大版的所有需要处理的天数
+			all_deal_tradedays=tradedays
+			print(f'{file_path} does not exist. Skipping...')
+			if(len(temp_tradedays)==0):
+				print(f'no days is ok return...')
+				return  None
+
+			#print(tradedays)
+			#结果队列
+
+			#文档读取结果，处理时间
+       
+
+		tempresult=	 {key: value for key, value in zip(temp_tradedays,[{}]*len(temp_tradedays)) }#新增的统计结果，后面会合并，保存对应日期day和结果
+
+		for day in temp_tradedays:
+			status=self.单日天地板(searchtxt=day)
+			if(status is not None):
+				tempstatus=' '.join(status)
+				temp={"date":int(datetime.datetime.strptime(day, "%Y-%m-%d").timestamp())*1000, 'yValue': 10,'labelText':"天地板："+tempstatus}
+				tempresult[day]=temp
+
+	#合并数据局
+		if(os.path.exists(file_path)):
+			tempresult.update(pre_data['data']) 
+
+		out={"date":all_deal_tradedays,"data":tempresult}
+		# 指定保存的文件路径
+		
+		if os.path.exists(file_path):
+			if os.path.exists('old_'+file_path):
+				os.remove('old_'+file_path)
+				os.rename(file_path, 'old_'+file_path)#备份
+			else:
+				os.rename(file_path, 'old_'+file_path)#备份
+			# 使用 json.dump 将字典保存为 JSON 文件
+		with open(file_path, 'w') as json_file:
+			json.dump(out, json_file)
+
+		#print(out)
+		return out#注意格式
+	def 多日地天板(self,start='',end=''):
+		##处理时间
+		file_path = "多日地天板"+".json"
+		trade_date_df = ak.tool_trade_date_hist_sina()#获取交易日
+		trade_date_list = trade_date_df["trade_date"].astype(str).tolist()
+		#print(trade_date_list)#时间带 -
+		if(start==''):#返回，为了更好兼容这个代码，上层处理更多情况，这里不处理，必须输入start
+			# start=date.today()-datetime.timedelta(days=15)#这借口太长时间没有数据报错
+			# start=datetime.datetime.strftime(start,"%Y-%m-%d")
+			#print(start)
+			print("start is null,input start time!")
+			return None
+		if('-' not in start):#获取交易日的接口格式是"2023-11-01"，所以做处理
+			start=start[:4]+'-'+start[4:6]+'-'+start[6:8]
+
+		tempday=datetime.datetime.strptime(start,"%Y-%m-%d") 
+		while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+			tempday =  tempday + datetime.timedelta(days=1)
+		if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+			print(tempday)
+			print("start iserror,input start time!")
+			return
+		start=datetime.datetime.strftime(tempday,"%Y-%m-%d")#
+
+		if(end==''):
+			tempday = date.today()
+			tempday = datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			while(tempday not in  trade_date_list):#今天是周末或假期
+				tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")-datetime.timedelta(days=1)
+				tempday=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+			if(tempday not in trade_date_list):
+				print("end iserror,input start time!")
+				return None
+			end=tempday
+		else:
+			if('-' not in end):#获取交易日的接口格式是"2023-11-01"，所以做处理
+				tempday=end[:4]+'-'+end[4:6]+'-'+end[6:8]
+			#print(tempday)
+			tempday=datetime.datetime.strptime(tempday,"%Y-%m-%d")
+			while datetime.datetime.strftime(tempday,"%Y-%m-%d")  not in trade_date_list:  # 如果当前日期不在交易日期列表内，则当前日期天数减一
+				tempday =  tempday - datetime.timedelta(days=1)
+			if(datetime.datetime.strftime(tempday,"%Y-%m-%d") not in trade_date_list):
+				print("end iserror,input start time!")
+				return None
+			end=datetime.datetime.strftime(tempday,"%Y-%m-%d")
+
+
+		#print("set:",start,end)，需要爬取的如下，
+		tradedays=trade_date_list[trade_date_list.index(start):trade_date_list.index(end)+1]#g根据输入获得tradedays
+
+		#得到设置的start  end
+
+		#为了保持交易日的list的顺序，这里处理一下防止中间有些日子没有爬取数据，
+		# 检查文件是否存在
+		if os.path.exists(file_path):
+		    # 文件存在，读取内容
+			with open(file_path, 'r') as json_file:
+				pre_data = json.load(json_file)
+				#print(pre_data)
+				#print(type(pre_data))
+				#pre_data=eval(pre_data)
+				pre_tradedays=pre_data['date']
+				#print("上一次",pre_tradedays)
+				#在tradedays  和tradedays都是有序的数列，比较看真正的扩大版额，不要取交集了，都爬取了
+				# print((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days)
+				# print(pre_tradedays[0],tradedays[0])
+				if((datetime.datetime.strptime(pre_tradedays[0],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[0],"%Y-%m-%d")).days>0):
+					deal_day_start=tradedays[0] #选择时间更早一点的
+				else:
+					deal_day_start=pre_tradedays[0]
+
+				if((datetime.datetime.strptime(pre_tradedays[-1],"%Y-%m-%d")- datetime.datetime.strptime(tradedays[-1],"%Y-%m-%d")).days>0):
+					deal_day_end=pre_tradedays[-1]#选择时间更晚一点的！
+				else:
+					deal_day_end=tradedays[-1]
+				# print(deal_day_start,deal_day_end)
+				#扩大版的爬取是日期方便简单处理一些
+				all_deal_tradedays = trade_date_list[trade_date_list.index(deal_day_start):trade_date_list.index(deal_day_end)+1]#g根据输入获得tradedays
+	 		    
+				print("kuoda:",all_deal_tradedays[0],all_deal_tradedays[-1])
+	 		    #差集，要新增爬取的days，扩大版本的，尽可能补齐数据
+				temp_tradedays = [element for element in all_deal_tradedays if (element not in pre_tradedays)]
+
+				#print("paqu",temp_tradedays)
+				print(f' Data loaded from {file_path}')
+				if(len(temp_tradedays)==0):
+					print(f'all days is ok return...')
+					return pre_data####要不要根据start，end截取，后面再瘦！
+		else:
+		    # 文件不存在，跳过 
+			temp_tradedays=tradedays #上面是差集，这里也是差集，为0而已，扩大版的所有需要处理的天数
+			all_deal_tradedays=tradedays
+			print(f'{file_path} does not exist. Skipping...')
+			if(len(temp_tradedays)==0):
+				print(f'no days is ok return...')
+				return  None
+
+			#print(tradedays)
+			#结果队列
+
+			#文档读取结果，处理时间
+       
+
+		tempresult=	 {key: value for key, value in zip(temp_tradedays,[{}]*len(temp_tradedays)) }#新增的统计结果，后面会合并，保存对应日期day和结果
+
+		for day in temp_tradedays:
+			status=self.单日地天板(searchtxt=day)
+			if(status is not None):
+				tempstatus=' '.join(status)
+				temp={"date":int(datetime.datetime.strptime(day, "%Y-%m-%d").timestamp())*1000, 'yValue': 10,'labelText':"地天板："+tempstatus}
+				 
+				tempresult[day]=temp
+
+	#合并数据局
+		if(os.path.exists(file_path)):
+			tempresult.update(pre_data['data']) 
+
+		out={"date":all_deal_tradedays,"data":tempresult}
+		# 指定保存的文件路径
+		
+		if os.path.exists(file_path):
+			if os.path.exists('old_'+file_path):
+				os.remove('old_'+file_path)
+				os.rename(file_path, 'old_'+file_path)#备份
+			else:
+				os.rename(file_path, 'old_'+file_path)#备份
+			# 使用 json.dump 将字典保存为 JSON 文件
+		with open(file_path, 'w') as json_file:
+			json.dump(out, json_file)
+
+		#print(out)
+		return out#注意格式
 
 
 	def stk_stocks_pv_monitor(self):#个股价量关系指标监控
@@ -372,20 +792,19 @@ class sktPriceVol():
 		self.result.update(inst证券.result)#合并DataStruct的数据 
 		return self.result
 
-	def stk_special_情绪周期_monitor(self):
+	def stk_special_情绪周期转折信号_monitor(self):
 		#x轴是时间，Y轴是最高连板（这里手动给个文档就是删除个股和时间段的统计不作为最好连板，
 		#类似利好停盘不断涨停这种连板意义不大，所以复盘历史时候通过增加辅助文件个股和时间区间，去掉就是）
 		#实时的也可以利用这个给个期限就是
 		#不用太纠结卡位接力这种，至少说明一个重要转折点来了，至于新周期也好啥周期也好谨慎一点，不用那么较真
 		#慢慢再细化，太机械，太情绪周期理论了，感觉容易被收割！
 		notes=""#保存情绪周期的提示
-		status=self.stock_天地板()
-		if(status):
-			notes=notes+"天地板 "
-
-		status=self.stock_地天板()
-		if(status):
-			notes=notes+"地天板 "
+		out=self.单日天地板()  #整个市场，是否有地天天地，后面可以写固定股票池
+		if(out is not None):
+			notes=notes+"天地板 "+str(out)
+		out=self.stock_地天板()
+		if(out is not None):
+			notes=notes+"地天板 "+str(out)
 
 
 
@@ -417,7 +836,7 @@ class sktPriceVol():
 		#写入
 
 
-		self.stk_情绪周期()
+		self.stk_special_情绪周期转折信号_monitor()
 
 
 		return self.result
@@ -443,6 +862,12 @@ if __name__ == '__main__':
 	# a=sktPriceVol().stock_天地板(searchtxt="2023年11月29日")
 	# print(a.data)
 
+	#out=sktPriceVol().多日连板统计(start="20231101")
+
+
+	a=sktPriceVol().多日天地板(start="20231120")
+
+	a=sktPriceVol().多日地天板(start="20231120")
 
 
  
