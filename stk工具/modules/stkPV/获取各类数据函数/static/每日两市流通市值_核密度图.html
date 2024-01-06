@@ -1,0 +1,124 @@
+<!--采用简单的文字替代字符串方式最简单了-->
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>Highcharts demo</title>
+    <meta charset='utf-8'>
+</head>
+
+<body>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/stock.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/modules/gantt.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/parallel-coordinates.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/draggable-points.js"></script>
+    <script src="https://code.highcharts.com/modules/static-scale.js"></script>
+    <script src="https://code.highcharts.com/modules/broken-axis.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/tilemap.js"></script>
+    <script src="https://code.highcharts.com/modules/timeline.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
+    <script src="https://code.highcharts.com/modules/item-series.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
+    <script src="https://code.highcharts.com/modules/bullet.js"></script>
+    <script src="https://code.highcharts.com/modules/funnel.js"></script>
+    <script src="https://code.highcharts.com/modules/funnel3d.js"></script>
+    <script src="https://code.highcharts.com/modules/pyramid3d.js"></script>
+    <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+    <script src="https://code.highcharts.com/modules/pareto.js"></script>
+    <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+    <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+    <script src="https://code.highcharts.com/modules/sankey.js"></script>
+    <script src="https://code.highcharts.com/modules/arc-diagram.js"></script>
+    <script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/sonification.js"></script>
+    <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+    <script src="https://code.highcharts.com/modules/streamgraph.js"></script>
+    <script src="https://code.highcharts.com/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+    <script src="https://code.highcharts.com/modules/variwide.js"></script>
+    <script src="https://code.highcharts.com/modules/vector.js"></script>
+    <script src="https://code.highcharts.com/modules/venn.js"></script>
+    <script src="https://code.highcharts.com/modules/windbarb.js"></script>
+    <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+    <script src="https://code.highcharts.com/modules/xrange.js"></script>
+    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script src="https://code.highcharts.com/modules/drag-panes.js"></script>
+    <script src="https://code.highcharts.com/modules/debugger.js"></script>
+    <script src="https://code.highcharts.com/modules/dumbbell.js"></script>
+    <script src="https://code.highcharts.com/modules/lollipop.js"></script>
+    <script src="https://code.highcharts.com/modules/cylinder.js"></script>
+    <script src="https://code.highcharts.com/modules/organization.js"></script>
+    <script src="https://code.highcharts.com/modules/dotplot.js"></script>
+    <script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+    <script src="https://code.highcharts.com/modules/hollowcandlestick.js"></script>
+    <script src="https://code.highcharts.com/modules/heikinashi.js"></script>
+    <div id="container"></div>
+    <div id="container1"></div>
+</body>
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: '核密度图'
+        },
+        xAxis: {
+            //categories: ['数据点1', '数据点2', '数据点3', '数据点4', '数据点5']
+            categories: [150482, 196517, 242553, 288589, 334625, 380661, 426697, 472732, 518768, 564804, 610840, 656876, 702912, 748947, 794983, 841019, 887055, 933091, 979127, 1025163],
+        },
+        yAxis: {
+            title: {
+                text: '概率密度'
+            }
+        },
+        series: [{
+            name: '数据',
+            //data: [0.1, 0.3, 0.5, 0.2, 0.4],
+           data: [0.005, 0.0008, 0.0025, 0.0008, 0.0182, 0.0199, 0.1614, 0.0919, 0.0041, 0.0646, 0.1374, 0.274, 0.2094, 0.0075, 0.0, 0.0, 0.0, 0.0017, 0.0008],
+            // 将面积图堆叠起来，以近似展示核密度图
+            stacking: 'normal'
+        }]
+    });
+</script>
+<script>
+    Highcharts.chart('container1', {
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: '核密度图'
+        },
+        xAxis: {
+            //categories: ['数据点1', '数据点2', '数据点3', '数据点4', '数据点5']
+            categories: [150482, 196517, 242553, 288589, 334625, 380661, 426697, 472732, 518768, 564804, 610840, 656876, 702912, 748947, 794983, 841019, 887055, 933091, 979127, 1025163],
+        },
+        yAxis: {
+            title: {
+                text: '概率密度'
+            }
+        },
+        series: [{
+            name: '数据',
+            //data: [0.1, 0.3, 0.5, 0.2, 0.4],
+           data: [0, 0.005, 0.0058, 0.0083, 0.0091, 0.0273, 0.0472, 0.2086, 0.3005, 0.3046, 0.3692, 0.5066, 0.7806, 0.99, 0.9975, 0.9975, 0.9975, 0.9975, 0.9992],
+            // 将面积图堆叠起来，以近似展示核密度图
+            stacking: 'normal'
+        }]
+    });
+</script>
+
+</html>

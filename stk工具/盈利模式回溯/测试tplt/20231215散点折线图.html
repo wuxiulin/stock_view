@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 使用CSS样式调整canvas元素的大小 */
+        #myScatterChart {
+            width: 300px;/*似乎是chart.js影响导致尝试在 Chart.js 的初始化中不设置 maintainAspectRatio，或者设置为 true，并查看是否有变化：*/
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myScatterChart"></canvas>
+
+    <script>
+        var data = {
+            datasets: [{
+                label: 'My Dataset',
+                data: [
+                { x: 0, y: -1.6 }, { x: 1, y: -3.51 }, { x: 2, y: -2.14 }, { x: 3, y: -1.37 }, { x: 4, y: -2.08 }, { x: 5, y: -3.27 }, { x: 6, y: -2.08 }, { x: 7, y: 1.16 }, { x: 8, y: 0.0 }, { x: 9, y: 2.52 }, { x: 10, y: -0.93 }, { x: 11, y: 10.06 }, { x: 12, y: -0.59 }, { x: 13, y: -0.72 }, { x: 14, y: 1.35 }, { x: 15, y: 0.07 }, { x: 16, y: -0.96 }, { x: 17, y: -0.41 }, { x: 18, y: -2.19 }, { x: 19, y: -0.95 }, { x: 20, y: -2.77 }, { x: 21, y: -4.87 }, { x: 22, y: 0.06 }, { x: 23, y: -1.62 }, { x: 24, y: -3.22 }, { x: 25, y: -1.07 }, { x: 26, y: -2.18 }, { x: 27, y: -1.53 }, { x: 28, y: -1.37 }, { x: 29, y: -3.76 }, { x: 30, y: -2.01 }, { x: 31, y: -2.51 }, { x: 32, y: -1.03 }, { x: 33, y: 1.8 }, { x: 34, y: 0.0 }, { x: 35, y: -0.14 }, { x: 36, y: -2.48 }, { x: 37, y: -2.05 }, { x: 38, y: -3.49 }, { x: 39, y: -0.8 }, { x: 40, y: -1.77 }, { x: 41, y: -0.39 }, { x: 42, y: -0.47 }, { x: 43, y: -0.6 }, { x: 44, y: -1.18 }, { x: 45, y: -0.97 }, { x: 46, y: -1.46 }, { x: 47, y: -1.95 }, { x: 48, y: -0.58 }, { x: 49, y: -0.94 }, { x: 50, y: -1.58 }, { x: 51, y: 0.71 }
+                ],
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        };
+
+        var ctx = document.getElementById('myScatterChart').getContext('2d');
+
+        var myScatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: {
+                maintainAspectRatio: false, // 禁用默认的纵横比例
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+                // 设置其他图表选项（可选）
+            }
+        });
+    </script>
+
+</body>
+</html>

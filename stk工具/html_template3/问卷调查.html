@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调查问卷</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .text-input {
+            width: 300px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="survey-container">
+    <div class="question-container">
+        <div class="question">1. 请选择你最喜欢的编程语言：</div>
+        <div class="options">
+            <input type="radio" name="q1" value="Python"> Python<br>
+            <input type="radio" name="q1" value="JavaScript"> JavaScript<br>
+            <input type="radio" name="q1" value="Java"> Java<br>
+            <input type="radio" name="q1" value="C++"> C++
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">2. 你对当前的网站设计满意吗？</div>
+        <div class="options">
+            <input type="radio" name="q2" value="Satisfied"> 满意<br>
+            <input type="radio" name="q2" value="Neutral"> 一般<br>
+            <input type="radio" name="q2" value="Dissatisfied"> 不满意
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">3. 请提供你的建议或意见：</div>
+        <textarea class="text-input" rows="4"></textarea>
+    </div>
+
+    <button onclick="submitSurvey()">提交问卷</button>
+</div>
+
+<script>
+    function submitSurvey() {
+        // 在这里添加处理提交问卷的逻辑
+        alert("问卷已提交！");
+    }
+</script>
+
+</body>
+</html>

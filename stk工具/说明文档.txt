@@ -1,0 +1,37 @@
+有一些工具可以帮助您生成Python代码的文档。其中一种流行的工具是Sphinx。Sphinx是一个文档生成工具，可以从代码中提取文档注释，自动生成漂亮的文档。
+
+以下是使用Sphinx的基本步骤：
+
+    安装Sphinx：
+        pip install sphinx
+
+    sphinx-apidoc -o . C:\Users\DELL\Desktop\stk
+
+    创建Sphinx项目：
+
+        在要生成文档的代码目录中执行以下命令：
+        sphinx-quickstart       您需要回答一些问题，例如文档的根目录、源代码目录等。
+
+    配置Sphinx：
+      编辑生成的conf.py文件，确保设置了sys.path以便Sphinx可以找到您的代码。您可能需要添加类似以下的内容：
+
+     
+        import os
+        import sys
+        sys.path.insert(0, os.path.abspath('..'))
+
+
+
+    编写文档注释：在您的Python代码中使用适当的文档字符串注释您的类和方法。Sphinx会根据这些注释来生成文档。
+
+     
+        class MyClass:
+            """This is a docstring for MyClass."""
+            def my_method(self):
+                """This is a docstring for the my_method."""
+                pass
+
+    生成文档：在Sphinx项目的根目录下运行：
+        sphinx-build -b html xxxsrc xxxdes
+        这将在build目录中生成HTML文档。
+        请注意，这只是一个基本的起点。Sphinx有丰富的功能，您可以根据需要进行自定义。更多详细信息，请查阅Sphinx文档：Sphinx Documentation。

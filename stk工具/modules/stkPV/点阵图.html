@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点阵图</title>
+  <style>
+    /* 设置容器样式 */
+    .pixel-container {
+      display: grid;
+      grid-template-columns: repeat(10, 20px); /* 设置列数和每列的宽度 */
+      gap: 2px; /* 设置像素之间的间距 */
+    }
+
+    /* 设置像素样式 */
+    .pixel {
+      width: 20px;
+      height: 20px;
+      background-color: #ddd; /* 设置像素的背景颜色 */
+      border: 1px solid #fff; /* 设置像素的边框颜色 */
+    }
+  </style>
+</head>
+<body>
+
+<div class="pixel-container">
+  <!-- 使用循环生成点阵图，这里生成一个简单的10x10点阵 -->
+  <!-- 你可以根据需要修改列数和行数 -->
+  <!-- 这个示例中使用了一个简单的灰色背景 -->
+  <!-- 你可以在像素的样式中自定义颜色 -->
+  <!-- 使用循环生成点阵图，这里生成一个简单的10x10点阵 -->
+  <!-- 你可以根据需要修改列数和行数 -->
+  <!-- 这个示例中使用了一个简单的灰色背景 -->
+  <!-- 你可以在像素的样式中自定义颜色 -->
+  <?php
+  for ($i = 0; $i < 10; $i++) {
+    for ($j = 0; $j < 10; $j++) {
+      echo '<div class="pixel"></div>';
+    }
+  }
+  ?>
+</div>
+
+</body>
+</html>

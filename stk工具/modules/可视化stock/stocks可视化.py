@@ -21,7 +21,7 @@ class HC可视化( ):
 		pass
 	
 
-	def get_chart(self,dynamic_data,name,isopen=0):#默认股票，带时间那种图形
+	def get_chart(self,dynamic_data,name,isopenweb=0):#默认股票，带时间那种图形
 
 		# # 使用模板渲染 HTML，传递动态数据
 		# #在上面的代码中，dynamic_data 是一个包含你希望替换的动态数据的列表。
@@ -53,10 +53,10 @@ class HC可视化( ):
 
 
 		# 用默认浏览器打开生成的 HTML 文件
-		if(isopen==1):
+		if(isopenweb==1):
 			webbrowser.open(output_file_path)
 
-	def get_标注曲线(self,dynamic_data,labelxy,name,isopen=0):#默认股票，带时间那种图形
+	def get_标注曲线(self,dynamic_data,labelxy天地板,labelxy地天板,name,isopen=0):#默认股票，带时间那种图形
 		print(os.path.abspath(__file__))
 		# # 使用模板渲染 HTML，传递动态数据
 		# #在上面的代码中，dynamic_data 是一个包含你希望替换的动态数据的列表。
@@ -81,7 +81,7 @@ class HC可视化( ):
 		#在上面的代码中，dynamic_data 是一个包含你希望替换的动态数据的列表。
 		#模板中的 {{ data | tojson | safe }} 部分将 Python 中的数据转换为 JSON 格式，并嵌入到 JavaScript 代码中。
 		#html_output = template.render(data=dynamic_data)
-		html_output = template.render(data=dynamic_data ,label=labelxy)
+		html_output = template.render(data=dynamic_data ,labelxy天地板=labelxy天地板,labelxy地天板=labelxy地天板)
 		# 将生成的 HTML 写入文件
 		output_file_path= os.path.join( os.path.dirname(os.path.abspath(__file__)),'index.html')
 		with open(output_file_path, 'w', encoding='utf-8') as output_file:

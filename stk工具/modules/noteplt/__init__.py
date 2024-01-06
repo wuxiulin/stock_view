@@ -11,4 +11,4 @@
 #                                )
 
 
-from .notes_template import notes_stocks 
+from .notes_template import 复盘笔记类 

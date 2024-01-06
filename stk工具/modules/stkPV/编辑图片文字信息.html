@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   左侧图片，右侧可编辑文字
+  </title>
+  <style>
+   .container {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .image-container img {
+      max-width: 400px;
+      height: auto;
+    }
+
+    .text-container {
+      white-space: pre-wrap;
+      padding: 20px;
+      text-align: justify;
+      border: 1px solid #ccc;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 1px;
+      margin-bottom: 10px;
+      width: 800px;
+      height: 2000px;
+      overflow: auto;
+    }
+
+    .file-save-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 20px; /* 调整按钮的右侧边距 */
+    }
+
+    #fileInput {
+      margin-bottom: 10px;
+    }
+
+    #saveButton {
+      margin-bottom: 10px;
+    }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <!-- 左侧图片 -->
+   <div class="image-container">
+    <img alt="左侧图片" id="pic_src" src="./clspic/20230517.png"/>
+   </div>
+   <!-- 右侧可编辑文字 -->
+   <div class="text-container" contenteditable="true" id="editableText">
+    <!-- 文本内容将在此显示 -->
+   </div>
+   <!-- 文件输入和保存按钮 -->
+   <div class="file-save-container">
+    <!-- 文件输入 -->
+    <input id="fileInput" type="file"/>
+    <!-- 保存按钮 -->
+    <button data-filename="" id="saveButton">
+     保存到本地
+    </button>
+   </div>
+  </div>
+  <script>
+   const textContainer = document.getElementById('editableText');
+  const fileInput = document.getElementById('fileInput');
+  const saveButton = document.getElementById('saveButton');
+
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        textContainer.innerText = e.target.result;
+
+        // 设置保存时的默认文件名
+        saveButton.dataset.fileName = file.name;
+      };
+
+      reader.readAsText(file, 'UTF-8');
+    }
+  });
+
+  saveButton.addEventListener('click', () => {
+    const contentToSave = textContainer.innerText;
+    const blob = new Blob([contentToSave], { type: 'text/plain' });
+    const a = document.createElement('a');
+
+    // 使用存储的文件名，如果不可用则提供默认名称
+    const fileName = saveButton.dataset.fileName || 'saved.txt';
+
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+  </script>
+ </body>
+</html>

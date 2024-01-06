@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Generated HTML</title>
+    <script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    
+    <script src="./zh_cn-1.4.0.min.js"></script> 
+ 
+    <script src="./zh_cn-1.4.0.min.js"></script>
+</head>
+<body>
+    <div id="container" style="min-width:400px;height:600px"></div>
+
+    <script>
+    // Your JavaScript code here
+ 
+  
+        var seriesData = 
+        [
+            {% for series_name, dyn_data in data.items() %}
+                {
+                    id: '{{ series_name }}',
+                    name: '{{ series_name }}',
+                    data: {{ dyn_data[0] | tojson }},
+                    yAxis: {{dyn_data[1]}}
+                }
+                {% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+        
+        var temp = {{ data | tojson }};
+        var temp_keys = Object.keys(temp);
+        var temp_data=temp[temp_keys[0]][0]
+        //console.log(temp_data);
+        var temptimestamp = temp_data.map(function(item) {
+                        return item[0];
+                    });
+        console.log(temptimestamp);
+
+        Highcharts.setOptions({//如果不设置，在unix时间戳转为字符串时间的时候会提前一天
+          global: {
+            timezoneOffset: new Date().getTimezoneOffset()
+          }
+        });
+        // var tempdate= temptimestamp.map(function(item) {
+        //         return Highcharts.dateFormat('%Y%m%d', item)
+        //      });
+        // console.log(tempdate);
+        Highcharts.stockChart(
+                                'container', 
+                                {
+                                    rangeSelector: { selected: 2},// 默认选中的时间范围，0表示最大范围
+                                    title: { text: '统计数据'},
+                                    plotOptions: {
+                                                    series: {showInLegend: true } ,
+                                                    events: {
+                                                                        legendItemClick: function () {} 
+                                                                        // 处理图例项点击事件，如果需要的话
+                                                            }
+                                                },
+                                    // tooltip: {//版本1
+
+                                    //             split: false,
+                                    //             shared: true,
+                                    //             crosshairs: [true, true],//鼠标十字针
+                                    //         },
+
+                                    tooltip: {//替换版本1的原因是日期是中文
+                                                split: false,
+                                                shared: true,
+                                                crosshairs: [true, true],//鼠标十字针
+                                      formatter: function() {
+                                        var tooltip = '<b>日期: ' + Highcharts.dateFormat('%Y年%m月%d日 %H:%M', new Date(this.x)) + '</b><br/>';
+                                        
+                                        // 遍历每个数据点
+                                        this.points.forEach(function(point) {
+                                          tooltip += point.series.name + ': ' + point.y + '<br/>';
+                                        });
+                                        
+                                        return tooltip;
+                                      },
+                                    },
+
+                                    legend: {
+                                        align: 'right',
+                                        verticalAlign: 'top',
+                                        layout: 'vertical',
+                                        enabled: true
+                                    },
+                                    //由于输入的时间戳不连续，如果您的数据中有缺失的时间点，Highcharts将自动补全这些时间点。如果您希望禁用自动补全功能，您可以在xAxis中设置ordinal属性为false。
+                                    // xAxis: {
+                                    //             type: 'datetime',
+                                    //              ordinal: false,
+                                                   // 设置最大的间隔，使之不自动补全超过这个间隔的缺失值
+                                    //              gapSize: 24 * 60 * 60 * 1000  // 例如，设置为1天的间隔
+
+                                    //         },
+                                    //我尝试了，结果不行，理由是在 Highcharts 中，ordinal 属性只适用于类别轴（xAxis.type 设置为 "category"）而不适用于时间轴（xAxis.type 设置为 "datetime"）。
+                                    //解决办法是如下 使用 xAxis.tickPositions 属性，并将其设置为您想要显示的时间点的时间戳数组
+                                        // xAxis: {
+                                        //     type: 'datetime',
+                                        //     tickPositions: [1701360000000.0, 1701619200000.0, 1701705600000.0]
+                                        // },
+                                    // xAxis: {
+                                    //         type: 'datetime',
+                                    //         tickPositions: {{timestamps}},
+                                    //     },
+                                        //还是有问题，就是显示16:00而不是想要的‘20231201’
+                                    //如下进行修改
+                                    xAxis: {
+                                            type: 'datetime',
+                                            tickPositions: temptimestamp,
+                                            labels:   {
+                                                            formatter: function() {//this.value是用tickPositions
+                                                             return Highcharts.dateFormat('%Y%m%d', this.value);}
+                                                    }
+                                        },
+                                    
+                                    yAxis: [
+                                                { // 第一个纵坐标轴（左边）
+                                                    title: {
+                                                        text: '指数'
+                                                    },
+                                                    opposite: false // 将此轴放在相对位置的反方向（右侧）
+                                                },
+                                                { // 第二个纵坐标轴（右边）
+                                                    title: {
+                                                        text: '数据'
+                                                    },
+                                                    opposite: true // 将此轴放在相对位置的反方向（右侧）
+                                                }
+                                            ],
+                                    series:seriesData
+                                }
+                            );
+
+    </script>
+</body>
+</html>

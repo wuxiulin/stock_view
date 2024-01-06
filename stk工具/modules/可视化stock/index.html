@@ -46,20 +46,20 @@
        // 接收从 Python 传递的 label 数据
         var annotations = 
         [
-
+            //第一大类标签
            {
              labelOptions: {
-                            backgroundColor: 'rgba(255,255,255,0.5)',//标签的背景颜色
+                            backgroundColor: 'rgba(255,255,255,0.5)',//标签的背景颜色（红、绿、蓝、透明度）
                             verticalAlign: 'top', //垂直对齐方式
                              y: 15,//y: 在垂直方向上的偏移量
 
-                          shape: 'connector',// 指定连接器的形状
+                          shape: 'connector',// 指定连接器的形状  callout circle diamond  square  connector
                           align: 'right',// 指定标签文本的水平对齐方式
                           justify: false,// 不自动调整标签文本的位置以保持水平对齐
                           crop: true, // 允许标签文本在需要时被剪裁
                           style: {
                               fontSize: '0.8em',// 设置标签文本的字体大小
-                              textOutline: '1px white'// 在文本周围添加白色边缘，以提高可读性
+                              textOutline: '0.3px blue'// 在文本周围添加白色边缘，以提高可读性
                                 }
                            },
              labels: [
@@ -86,8 +86,91 @@
                         
                     ]
            },
+           //第二大类标签
+           {
+             labelOptions: {
+                            //backgroundColor: 'rgba(0,0,255,1)',//标签的背景颜色 对connector没效果
+                            //verticalAlign: 'top', //垂直对齐方式
+                            //y: 15,//y: 在垂直方向上的偏移量
 
-        ]
+                          shape: 'connector',//这里只有connetor有连线，其他没有不好用
+                          // 指定连接器的形状 callout circle diamond  square  connector
+                          align: 'right',// 指定标签文本的水平对齐方式
+                          justify: false,// 不自动调整标签文本的位置以保持水平对齐
+                          crop: true, // 允许标签文本在需要时被剪裁
+                          style:    {
+                                        fontSize: '0.8em',// 设置标签文本的字体大小
+                                        textOutline: '1px red',// 在文本周围添加白色边缘，以提高可读性
+                                        //color:'red'
+                                    }
+                           },
+             labels: [
+                       
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1700409600000,
+                              y: 7
+                          },
+                          text: ' 地天板：三柏硕 '
+                        },
+                        
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1700582400000,
+                              y: 9
+                          },
+                          text: ' 地天板：三柏硕 '
+                        },
+                        
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1700755200000,
+                              y: 4
+                          },
+                          text: ' 地天板：惠威科技 '
+                        },
+                        
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1701360000000,
+                              y: 7
+                          },
+                          text: ' 地天板：东安动力 '
+                        },
+                        
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1701619200000,
+                              y: 8
+                          },
+                          text: ' 地天板：威帝股份 '
+                        },
+                        
+                        {
+                          point: {
+                              xAxis: 0,
+                              yAxis: 0,
+                              x: 1701705600000,
+                              y: 8
+                          },
+                          text: ' 地天板：威帝股份 '
+                        },
+                        
+                    ]
+           },
+            //第三大类标签
+
+        ]//annotations结束
 
 
         console.log(annotations);
@@ -227,7 +310,7 @@
             series: 
             [
                   {
-                      data: [[1699977600000, 7], [1700064000000, 5], [1700150400000, 6], [1700409600000, 7], [1700496000000, 8], [1700582400000, 9], [1700668800000, 6], [1700755200000, 4], [1701014400000, 5], [1701100800000, 4], [1701187200000, 5], [1701273600000, 6], [1701360000000, 7]], // 数据系列的数据
+                      data: [[1699977600000, 7], [1700064000000, 5], [1700150400000, 6], [1700409600000, 7], [1700496000000, 8], [1700582400000, 9], [1700668800000, 6], [1700755200000, 4], [1701014400000, 5], [1701100800000, 4], [1701187200000, 5], [1701273600000, 6], [1701360000000, 7], [1701619200000, 8], [1701705600000, 8]], // 数据系列的数据
                       lineColor: Highcharts.getOptions().colors[1],// 折线颜色
                       color: Highcharts.getOptions().colors[2], // 区域填充颜色
                       fillOpacity: 0.5, // 区域填充的透明度

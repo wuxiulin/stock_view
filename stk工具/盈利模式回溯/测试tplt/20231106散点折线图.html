@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 使用CSS样式调整canvas元素的大小 */
+        #myScatterChart {
+            width: 300px;/*似乎是chart.js影响导致尝试在 Chart.js 的初始化中不设置 maintainAspectRatio，或者设置为 true，并查看是否有变化：*/
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myScatterChart"></canvas>
+
+    <script>
+        var data = {
+            datasets: [{
+                label: 'My Dataset',
+                data: [
+                { x: 0, y: -2.08 }, { x: 1, y: -1.5 }, { x: 2, y: -0.74 }, { x: 3, y: -0.69 }, { x: 4, y: -0.43 }, { x: 5, y: -0.35 }, { x: 6, y: -0.2 }, { x: 7, y: -0.08 }, { x: 8, y: 0.0 }, { x: 9, y: 0.21 }, { x: 10, y: 0.24 }, { x: 11, y: 0.3 }, { x: 12, y: 0.38 }, { x: 13, y: 0.44 }, { x: 14, y: 0.54 }, { x: 15, y: 0.62 }, { x: 16, y: 0.73 }, { x: 17, y: 1.01 }, { x: 18, y: 1.06 }, { x: 19, y: 1.08 }, { x: 20, y: 1.58 }, { x: 21, y: 1.88 }, { x: 22, y: 1.95 }, { x: 23, y: 2.21 }, { x: 24, y: 2.48 }, { x: 25, y: 2.86 }, { x: 26, y: 3.09 }, { x: 27, y: 3.18 }, { x: 28, y: 3.23 }, { x: 29, y: 3.25 }, { x: 30, y: 3.44 }, { x: 31, y: 3.84 }, { x: 32, y: 3.98 }, { x: 33, y: 4.23 }, { x: 34, y: 4.6 }, { x: 35, y: 4.61 }, { x: 36, y: 4.62 }, { x: 37, y: 4.67 }, { x: 38, y: 4.71 }, { x: 39, y: 5.07 }, { x: 40, y: 6.65 }, { x: 41, y: 6.73 }, { x: 42, y: 7.07 }, { x: 43, y: 10.06 }, { x: 44, y: 20.01 }
+                ],
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        };
+
+        var ctx = document.getElementById('myScatterChart').getContext('2d');
+
+        var myScatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: {
+                maintainAspectRatio: false, // 禁用默认的纵横比例
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+                // 设置其他图表选项（可选）
+            }
+        });
+    </script>
+
+</body>
+</html>

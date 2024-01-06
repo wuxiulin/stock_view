@@ -1,0 +1,386 @@
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+    <title>1A0001(上证指数)_宏观研究_同花顺基金F10</title>
+  <link id="css_master" rel="stylesheet" href="static/css/master_v1.css">
+  <link id="css_skin" rel="stylesheet" href="static/css/skin.css" />
+  <link id="css_scroll" rel="stylesheet" href="static/css/jscrollpane.css" />
+  <script type="text/javascript" src="static/js/chameleon.min.1702728.js"></script> <script type="text/javascript" src="static/js/chameleon.min.1702728.js"></script> <script type="text/javascript" src="static/js/jquery.js"></script>
+  <script type="text/javascript" src="static/js/cookie.js"></script>
+
+    <script type="text/javascript" src="static/js/echarts0311.min.js"></script>
+  <script type="text/javascript" src="static/js/mac_v1.js"></script>
+  
+  
+  </head>
+
+<body>
+  <div class="main" id="main" style="width:930px">
+    <div class="nav">
+    <div class="submenu">
+      <div class="logo-fundf10 fr"></div>
+      <span class="fr v"><a href="#" onclick="javascript:changeSkin();">换肤</a></span>
+      <strong>上证指数<span class="number">1A0001</span><span id="client"></span></strong>
+      <span class="english-name"></span>
+      <input type="hidden" id="skin" />
+    </div>
+    <div class="menu">
+      <div class="left-img"></div>
+      <div class="right-img"></div>
+      <table id="menuLink">
+        <tr>
+          <td ><a  href="index.html">龙虎榜     </a></td>
+          <td ><a  href="market.html">市场概览</a></td>
+          <td ><a  href="news.html">证券要闻</a></td>
+          <td ><a  href="newstock.html">新股分析</a></td>
+          <td ><a  href="financial.html">融资融券</a></td>
+          <td class="over"><a id="c2B6085" href="mac.html">宏观研究</a></td>
+          <td ><a   href="info.html">基本信息</a></td>
+		  <td ><span style="display:block;width:6em">&nbsp;</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+    <div id="msgMain">
+      <div class="module">
+  <div class="title">
+    <span class="fr error"></span>
+    <strong>CPI-PPI与上证指数</strong>
+  </div>
+  <div class="content">
+    <div style="margin:10px;color:#666">
+      <div class="lable" style="float:left;vertical-align: middle">
+        指数<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#f06f6f"></span>
+        CPI-PPI<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#7eb2f3"></span>
+      </div>
+      <div style="float:right">数据来源："同花顺iFind"金融数据终端</div>
+    </div>
+    <div id="cpi_ppi" class="chart" style="height:245px;width:900px">
+    </div>
+    <div class="msg">
+      <span>CPI-PPI的差值反映的是企业盈利增长情况:</span>
+      <p>
+        通过实证研究发现，CPI-PPI对于工业企业利润有较强的领先作用。CPI-PPI指标也与经济整体增长速度呈较强的相关性。CPI-PPI的差值越小，也就是CPI-PPI指标走势向下，说明企业经营成本增加，企业利润被压缩，企业利润增长速度下降，经济增长趋缓；CPI-PPI的差值越大，也就是CPI-PPI指标走势往上，说明企业利润在反弹，企业利润增长速度上升，经济增长动力强劲。
+        从研究中发现，股市涨跌与企业盈利增长趋势线基本吻合，区别只是涨跌幅度。当处于企业盈利增长上升期时，股市表现为上涨；而当企业盈利增长处于回落期时，股市无一例外均为下跌。CPI-PPI指标反映的正是企业盈利增长情况，因此，CPI-PPI指标对于股市涨跌有领先作用。
+      </p>
+    </div>
+  </div>
+</div>
+<!--cpi-->
+<!--m1m2-->
+<div class="module">
+  <div class="title"><strong>M1-M2与指数走势</strong></div>
+  <div class="content">
+    <div style="margin:10px;color:#666">
+      <div class="label" style="float:left;vertical-align: middle">
+        指数<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#f06f6f"></span>
+        M1-M2<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#7eb2f3"></span>
+      </div>
+      <div style="float:right">数据来源："同花顺iFind"金融数据终端</div>
+    </div>
+    <div id="m1_m2" class="chart" style="height:245px;width:900px"></div>
+    <div class="msg">
+      <span>M1-M2同比增长率的差值是股市资金供应的一个指标之一:</span>
+      <p>
+        若M1-M2的差值不断变大，说明存款活期化，企业和居民交易活跃，经济景气度上升。若M1-M2的差值不断变小，则表明企业和居民选择将资金以定期的形式存在银行，未来可选择的投资机会有限，多余的资金开始从实体经济中沉淀下来，经济运行回落。
+        货币供应与股市之间的实证关系表明，M1-M2差值与上证指数呈现较为明显的正向关系。M1-M2差值的拐点对股指有指示作用。</p>
+    </div>
+  </div>
+</div>
+<!--m1m2-->
+<!-- 准备 -->
+<div class="module">
+  <div class="title">
+    <strong>准备金率调整消息公布次日上证指数涨跌情况</strong>
+  </div>
+  <div class="content">
+    <div style="margin:10px;color:#666">
+      <div class="label" style="float:left;vertical-align: middle">
+        指数<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#f06f6f"></span>
+        大型金融机构<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#7eb2f3"></span>
+        中小型金融<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#fea31e"></span>
+      </div>
+      <div style="float:right">数据来源："同花顺iFind"金融数据终端</div>
+    </div>
+    <div id="zbj" class="chart" style="height:245px;width:900px"></div>
+    <div class="msg">
+      <!-- <span>注：为了方便统计，图中柱状图代表消息公布的次日上证指数涨跌情况，红色为上涨，绿色为下跌。鼠标移上去可显示对应涨跌幅。下图同上。</span> -->
+    </div>
+  </div>
+</div>
+<!-- 准备 -->
+<!--利率调整-->
+<div class="module">
+  <div class="title">
+    <strong>利率调整消息公布次日上证指数涨跌情况</strong>
+  </div>
+  <div class="content">
+    <div style="margin:10px;color:#666">
+      <div class="label" style="float:left;vertical-align: middle">
+        指数<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#f06f6f"></span>
+        存款基准利率<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#7eb2f3"></span>
+        贷款基准利率<span
+          style="display: inline-block;width:10px;vertical-align: middle;height:10px;margin:0 10px;background:#fea31e"></span>
+      </div>
+      <div style="float:right">数据来源："同花顺iFind"金融数据终端</div>
+    </div>
+    <div id="interest" class="chart" style="height:245px;width:900px"></div>
+  </div>
+</div>
+
+<script>
+  //<!-- 数据替换地方、数据格式如下-->
+
+// var cp = 
+// [
+   // {
+   //      "name": "指数",
+   //      "data": 
+   //         [
+  //                   ["2023-01", 3255.67],
+  //                   ["2023-02", 3279.61],
+  //                   ["2023-03", 3272.86],
+  //                   ["2023-04", 3323.27],
+  //                   ["2023-05", 3204.56],
+  //                   ["2023-06", 3202.06],
+  //                   ["2023-07", 3291.04],
+  //                   ["2023-08", 3119.88],
+  //                   ["2023-09", 3110.48],
+  //                   ["2023-10", 3018.77],
+  //                   ["2023-11", 3029.67]
+  //         ]
+  // }, 
+  //   {
+//        "name": "CPI-PPI",
+//        "data": 
+//           [
+//               ["2023-01", 2.9],
+//               ["2023-02", 2.4],
+//               ["2023-03", 3.2],
+//               ["2023-04", 3.7],
+//               ["2023-05", 4.8],
+//               ["2023-06", 5.4],
+//               ["2023-07", 4.1],
+//               ["2023-08", 3.1],
+//               ["2023-09", 2.5],
+//               ["2023-10", 2.4],
+//               ["2023-11", 2.5]
+//        ]
+//   }
+// ]
+
+
+// var mm = 
+// [
+  // {
+  //   "name": "指数",
+  //   "data": 
+  //    [
+  //       ["2023-01", 3255.67],
+  //       ["2023-02", 3279.61],
+  //       ["2023-03", 3272.86],
+  //       ["2023-04", 3323.27],
+  //       ["2023-05", 3204.56],
+  //       ["2023-06", 3202.06],
+  //       ["2023-07", 3291.04],
+  //       ["2023-08", 3119.88],
+  //       ["2023-09", 3110.48],
+  //       ["2023-10", 3018.77],
+  //       ["2023-11", 3029.67]
+  //   ]
+  // }, 
+  // {
+  //   "name": "M1-M2",
+  //   "data": 
+  //    [
+  //       ["2023-01", -76.07],
+  //       ["2023-02", -76.12],
+  //       ["2023-03", -75.91],
+  //       ["2023-04", -76.15],
+  //       ["2023-05", -76.06],
+  //       ["2023-06", -75.79],
+  //       ["2023-07", -76.27],
+  //       ["2023-08", -76.32],
+  //       ["2023-09", -76.58],
+  //       ["2023-10", -76.59],
+  //       ["2023-11", -76.79]
+//     ]
+//   }
+// ]
+
+
+// var zbj = 
+// [
+//   {
+//     "name": "上证",
+//     "data": 
+//      [
+
+//         ["20210715", -0.71],
+//         ["20211215", 0.75],
+//         ["20220425", -1.44],
+//         ["20221205", 0.02],
+//         ["20230327", -0.19],
+//         ["20230915", -0.28]
+//     ]
+//    }, 
+//   {
+//     "name": "大型金融机构",
+//     "data": 
+//      [
+//         ["20210715", 12],
+//         ["20211215", 11.5],
+//         ["20220425", 11.25],
+//         ["20221205", 11],
+//         ["20230327", 10.75],
+//         ["20230915", 10.5]
+//     ]
+//   }, 
+//   {
+//     "name": "中小金融机构",
+//     "data":
+//      [
+
+//         ["20210715", 9],
+//         ["20211215", 8.5],
+//         ["20220425", 8.25],
+//         ["20221205", 8],
+//         ["20230327", 7.75],
+//         ["20230915", 7.5]
+//     ]
+// }]
+// var interest = [{
+//     "name": "上证",
+//     "data": [
+//         ["20020221", -0.58],
+//         ["20041029", -1.58],
+//         ["20060819", -0.33],
+//         ["20070318", 2.87],
+//         ["20070519", -0.45],
+//         ["20070721", 3.73],
+//         ["20070822", 1.05],
+//         ["20070915", 0.73],
+//         ["20071221", 1.15],
+//         ["20081009", -3.57],
+//         ["20081030", -1.97],
+//         ["20081127", -2.44],
+//         ["20081223", -1.76],
+//         ["20101020", -0.68],
+//         ["20101226", -1.9],
+//         ["20110209", 1.59],
+//         ["20110406", 0.22],
+//         ["20110707", 0.13],
+//         ["20120608", -0.51],
+//         ["20120706", 1.01],
+//         ["20141122", 1.39],
+//         ["20150301", 0.79],
+//         ["20150511", 1.56],
+//         ["20150628", -3.34],
+//         ["20150826", 5.34],
+//         ["20151024", 1.3]
+//     ]
+// }, {
+//     "name": "存款基准利率",
+//     "data": [
+//         ["20020221", 1.98],
+//         ["20041029", 2.25],
+//         ["20060819", 2.52],
+//         ["20070318", 2.79],
+//         ["20070519", 3.06],
+//         ["20070721", 3.33],
+//         ["20070822", 3.6],
+//         ["20070915", 3.87],
+//         ["20071221", 4.14],
+//         ["20081009", 3.87],
+//         ["20081030", 3.6],
+//         ["20081127", 2.52],
+//         ["20081223", 2.25],
+//         ["20101020", 2.5],
+//         ["20101226", 2.75],
+//         ["20110209", 3],
+//         ["20110406", 3.25],
+//         ["20110707", 3.5],
+//         ["20120608", 3.25],
+//         ["20120706", 3],
+//         ["20141122", 2.75],
+//         ["20150301", 2.5],
+//         ["20150511", 2.25],
+//         ["20150628", 2],
+//         ["20150826", 1.75],
+//         ["20151024", 1.5]
+//     ]
+// }, {
+//     "name": "贷款基准利率",
+//     "data": [
+//         ["20020221", 5.31],
+//         ["20041029", 5.58],
+//         ["20060819", 6.12],
+//         ["20070318", 6.39],
+//         ["20070519", 6.57],
+//         ["20070721", 6.84],
+//         ["20070822", 7.02],
+//         ["20070915", 7.29],
+//         ["20071221", 7.47],
+//         ["20081009", 6.93],
+//         ["20081030", 6.66],
+//         ["20081127", 5.58],
+//         ["20081223", 5.31],
+//         ["20101020", 5.56],
+//         ["20101226", 5.81],
+//         ["20110209", 6.06],
+//         ["20110406", 6.31],
+//         ["20110707", 6.56],
+//         ["20120608", 6.31],
+//         ["20120706", 6],
+//         ["20141122", 5.6],
+//         ["20150301", 5.35],
+//         ["20150511", 5.1],
+//         ["20150628", 4.85],
+//         ["20150826", 4.6],
+//         ["20151024", 4.35]
+//     ]
+// }]
+</script> 
+<div class="footer">
+  <!--<div class="friendlink">
+  	<a href="http://basic.10jqka.com.cn/report/message/new/jiejing.html" target="_blank">数据面面观</a> | 
+  	<a href="http://bbs.10jqka.com.cn/ths,5453,1" target="_blank">同花顺F10论坛</a></div>-->
+  <div class="statement">免责声明:本信息由同花顺金融研究中心提供，仅供参考，同花顺金融研究中心力求但不保证数据的完全准确，如有错漏请以中国证监会指定上市公司信息披露媒体为准，同花顺金融研究中心不对因该资料全部或部分内容而引致的盈亏承担任何责任。用户个人对服务的使用承担风险。同花顺对此不作任何类型的担保。同花顺不担保服务一定能满足用户的要求，也不担保服务不会受中断，对服务的及时性，安全性，出错发生都不作担保。同花顺对在同花顺上得到的任何信息服务或交易进程不作担保。同花顺提供的包括同花顺理财的所有文章，数据，不构成任何的投资建议，用户查看或依据这些内容所进行的任何行为造成的风险和结果都自行负责，与同花顺无关。 </div>
+</div>
+    </div>
+  </div>
+</body>
+
+<input type="hidden" id="curName" value="宏观研究">
+<input type="hidden" id="curPart" value="Mac">
+<input type="hidden" id="curCode" value="000001">
+<input type="hidden" id="curId" value="18605860">
+<script type="text/javascript" src="static/js/jscrollpane.js"></script>
+<script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="static/js/qeechart.js"></script>
+<script type="text/javascript" src="static/js/main_v2.js"></script>
+    <script type="text/javascript" src="static/js/ta.min.js"></script>
+<script type="text/javascript">
+  var sid = 'F10ind_sh';
+  var fid = 'F10,F10master,F10main,F10ind';
+  
+  TA.log({
+    'id': sid,
+    'fid': fid
+  });
+  
+</script>
+
+</html>

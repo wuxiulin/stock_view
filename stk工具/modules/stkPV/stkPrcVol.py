@@ -26,7 +26,7 @@ from datetime import date
 
 
 import pywencai 
-from  stk工具.common import DataStruct
+from  common import DataStruct
 import pandas as pd
 
 class 证券():
@@ -865,9 +865,11 @@ if __name__ == '__main__':
 	#out=sktPriceVol().多日连板统计(start="20231101")
 
 
-	a=sktPriceVol().多日天地板(start="20231120")
+	# a=sktPriceVol().多日天地板(start="20231120")
 
-	a=sktPriceVol().多日地天板(start="20231120")
+	# a=sktPriceVol().多日地天板(start="20231120")
 
-
+	a=证券()
+	b=a.证券个股异动()
+	print(b.data)
  

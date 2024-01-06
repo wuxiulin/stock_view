@@ -1,0 +1,15 @@
+模板来源
+1、 https://www.hcharts.cn/demo/highstock/basic-line
+2、查看源码
+3、外部资源，js代码 ，html  css得到这个完整展示html
+
+然后这里为了简化，对这里案例进行进一步处理简化，就是teplates中的模板
+
+index.html就是这个模板+数据被pyhon生成后的结果
+
+所以这里用python处理就好了，处理方式有两种，一种是str.replace(),替代html中的内容；一种是str.format，一种是利用from jinja2 import Template
+
+各有特点
+
+这里是案例调试用的，直用模板，和js，其他代码不要调用
+

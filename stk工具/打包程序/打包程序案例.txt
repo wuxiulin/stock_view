@@ -1,0 +1,34 @@
+要为Windows添加一个图标，并使其在双击时执行你的Python代码，你可以将Python脚本打包成一个可执行文件，并将该文件关联到一个快捷方式。以下是一种使用PyInstaller的方法：
+
+安装 PyInstaller:
+
+打开命令行窗口（Command Prompt）或终端，然后运行以下命令安装 PyInstaller：
+
+bash
+Copy code
+pip install pyinstaller
+将 Python 脚本转换为可执行文件:
+
+使用 PyInstaller 将你的 Python 脚本转换为可执行文件。在命令行中，导航到包含你的 Python 脚本的目录，然后运行以下命令：
+
+bash
+Copy code
+pyinstaller --onefile your_script.py
+这将在 dist 目录中生成一个可执行文件，例如 your_script.exe。
+
+创建快捷方式:
+
+在你的 Python 脚本所在的目录，右键单击空白处，选择“新建” -> “快捷方式”。
+
+配置快捷方式:
+
+在弹出的窗口中，点击“浏览”按钮，选择上一步中生成的可执行文件 (your_script.exe)。
+点击“下一步”。
+为快捷方式取一个名称，然后点击“完成”。
+更改图标:
+
+右键单击新创建的快捷方式，选择“属性”。
+在“快捷方式”选项卡中，点击“更改图标”按钮。
+选择一个图标文件，或者点击“浏览”并选择一个包含图标的文件（通常是 ICO 文件）。
+确认更改。
+现在，你的 Python 脚本的快捷方式应该有一个指定的图标，双击该快捷方式会执行你的 Python 代码。请确保在打包过程中没有出现错误，并且生成的可执行文件在同一目录中执行正常。

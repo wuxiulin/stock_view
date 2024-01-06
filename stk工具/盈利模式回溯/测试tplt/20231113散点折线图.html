@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 使用CSS样式调整canvas元素的大小 */
+        #myScatterChart {
+            width: 300px;/*似乎是chart.js影响导致尝试在 Chart.js 的初始化中不设置 maintainAspectRatio，或者设置为 true，并查看是否有变化：*/
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myScatterChart"></canvas>
+
+    <script>
+        var data = {
+            datasets: [{
+                label: 'My Dataset',
+                data: [
+                { x: 0, y: -6.11 }, { x: 1, y: -5.62 }, { x: 2, y: -4.64 }, { x: 3, y: -2.76 }, { x: 4, y: -2.52 }, { x: 5, y: -1.35 }, { x: 6, y: -0.97 }, { x: 7, y: -0.75 }, { x: 8, y: -0.66 }, { x: 9, y: -0.57 }, { x: 10, y: -0.4 }, { x: 11, y: -0.33 }, { x: 12, y: -0.21 }, { x: 13, y: 0.0 }, { x: 14, y: 0.0 }, { x: 15, y: 0.05 }, { x: 16, y: 0.05 }, { x: 17, y: 0.68 }, { x: 18, y: 0.7 }, { x: 19, y: 0.77 }, { x: 20, y: 1.15 }, { x: 21, y: 1.21 }, { x: 22, y: 1.49 }, { x: 23, y: 1.54 }, { x: 24, y: 1.77 }, { x: 25, y: 1.86 }, { x: 26, y: 2.68 }, { x: 27, y: 6.3 }, { x: 28, y: 6.76 }, { x: 29, y: 9.96 }
+                ],
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        };
+
+        var ctx = document.getElementById('myScatterChart').getContext('2d');
+
+        var myScatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: {
+                maintainAspectRatio: false, // 禁用默认的纵横比例
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+                // 设置其他图表选项（可选）
+            }
+        });
+    </script>
+
+</body>
+</html>

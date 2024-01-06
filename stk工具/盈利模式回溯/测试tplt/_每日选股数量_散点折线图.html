@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 使用CSS样式调整canvas元素的大小 */
+        #myScatterChart {
+            width: 300px;/*似乎是chart.js影响导致尝试在 Chart.js 的初始化中不设置 maintainAspectRatio，或者设置为 true，并查看是否有变化：*/
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myScatterChart"></canvas>
+
+    <script>
+        var data = {
+            datasets: [{
+                label: 'My Dataset',
+                data: [
+                { x: 0, y: 87 }, { x: 1, y: 45 }, { x: 2, y: 154 }, { x: 3, y: 245 }, { x: 4, y: 75 }, { x: 5, y: 71 }, { x: 6, y: 30 }, { x: 7, y: 65 }, { x: 8, y: 163 }, { x: 9, y: 98 }
+                ],
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        };
+
+        var ctx = document.getElementById('myScatterChart').getContext('2d');
+
+        var myScatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: {
+                maintainAspectRatio: false, // 禁用默认的纵横比例
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+                // 设置其他图表选项（可选）
+            }
+        });
+    </script>
+
+</body>
+</html>

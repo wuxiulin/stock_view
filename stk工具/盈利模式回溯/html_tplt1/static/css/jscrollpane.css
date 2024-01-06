@@ -1,0 +1,57 @@
+ 
+.jScrollPaneContainer {position:relative; width:100%; height:100%; top:9px; left:0; overflow:hidden; z-index:1}
+/*滚动条背�?/
+.jScrollPaneTrack { right:0px; width:17px; height:100%; cursor:pointer; position:absolute; top:0px; right:0px; }
+/*滑块背景*/
+.jScrollPaneDrag { overflow:hidden; width:17px; height:38px; min-height:18px; cursor:pointer; position:absolute; background:url(../images/huakuai_v.png) 0px center repeat-y;}
+/*滑块上端贴图*/
+.jScrollPaneDragTop { left:0px; overflow:hidden; position:absolute; top:0px; background:url(../images/images.png) 0 px no-repeat;height:10px;}
+/*滑块下端贴图*/
+.jScrollPaneDragBottom {left:0px; overflow:hidden; position:absolute; bottom:0px; background:url(../images/images.png) -6px 0px no-repeat; height:2px;}
+/*鼠标OVER*/
+.jScrollPaneDrag_over { overflow:hidden; cursor:pointer; position:absolute; background:url(../images/huakuai_v.png) -19px center repeat-y;}
+.jScrollPaneDragTop_over { left:0px; overflow:hidden; position:absolute; top:0px; background:url(../images/images.png) -57px -5px no-repeat; height:3px;}
+.jScrollPaneDragBottom_over {left:0px; overflow:hidden; position:absolute; bottom:0px; background:url(../images/images.png) -76px -5px no-repeat; height:3px;}
+/*鼠标PRESS*/
+.jScrollPaneDrag_press { overflow:hidden; cursor:pointer; position:absolute; background:url(../images/huakuai_v.png) -38px center repeat-y;}
+.jScrollPaneDragTop_press { left:0px; overflow:hidden; position:absolute; top:0px; background:url(../images/images.png) -57px -10px no-repeat; height:3px;}
+.jScrollPaneDragBottom_press {left:0px; overflow:hidden; position:absolute; bottom:0px; background:url(../images/images.png) -76px -10px no-repeat; height:3px;}
+
+/*上下按钮贴图*/
+a.jScrollArrowUpV { display:block; z-index:1; opacity:0.5; background-color:#333; border:1px solid #666; right:0px; overflow:hidden; text-indent:-2000px; position:absolute; top:0px; height:12px;}
+a.jScrollArrowUpV:hover {background:#666}
+a.jScrollArrowDownV {display:block; z-index:1; opacity:0.5; background-color:#333; border:1px solid #666; right:0px; overflow:hidden; text-indent:-2000px; position:absolute; bottom:0px; height:12px;}
+a.jScrollArrowDownV:hover {background:#666}
+a.jScrollActiveArrowButton {}
+a.jScrollActiveArrowButton:hover {}
+
+.scroll-pane2 { float:left; overflow:auto; color:#CCCCCC; height:142px; width:378px; }
+.scroll-pane3 { float:left; overflow:auto; color:#CCCCCC; height:490px;}
+
+
+/*纵向滚动条背�?/
+.jScrollPaneTrackV { right:0px; z-index:1000; width:17px; height:100%; cursor:pointer; position:absolute; top:0px; right:0px; background:#222}
+/*纵向滚动条上端贴�?/
+.jScrollPaneTrackTopV { position:absolute; top:0; overflow:hidden; height:0px; width:100%; background:url(../images/images.png) -17px 0 no-repeat;}
+/*纵向滚动条下端贴�?/
+.jScrollPaneTrackBottomV { position:absolute; bottom:0px; overflow:hidden; height:0px; width:100%;  background:url(../images/images.png) -17px -6px no-repeat;}
+/*滑块背景*/
+.jScrollPaneDragV { overflow:hidden; width:17px; height:38px; cursor:pointer; position:relative; background:#214055}
+/*滑块上端贴图*/
+.jScrollPaneDragTopV { left:0px; overflow:hidden; position:absolute; top:0px; width:100%; height:4px; background: url(../images/images.png) -34px 0 no-repeat;}
+/*滑块下端贴图*/
+.jScrollPaneDragBottomV {left:0px; overflow:hidden; position:absolute; bottom:0px; width:100%; background:url(../images/images.png) -34px -4px no-repeat; height:4px;}
+
+
+/*横向滚动条背�?/
+.jScrollPaneTrackH { left:0px; z-index:999; height:17px; width:100%; cursor:pointer; position:absolute; bottom:0px; background-color:#111; border:1px soild #333; }
+/*纵向滚动条左端贴�?/
+.jScrollPaneTrackLeftH { position:absolute; left:0; width:0; height:100%; }
+/*纵向滚动条右端贴�?/
+.jScrollPaneTrackRightH { position:absolute; right:0; width:0; height:100%; }
+/*滑块背景*/
+.jScrollPaneDragH { overflow:hidden; left:0px; width:38px; height:17px; cursor:pointer; position:relative; background:url(../images/huakuai_h.png) center 0px repeat-x;}
+/*滑块左端贴图*/
+.jScrollPaneDragLeftH { left:0px; overflow:hidden; position:absolute; top:0px; background:url(../images/images.png) 0px -4px no-repeat; height:2px;}
+/*滑块右端贴图*/
+.jScrollPaneDragRightH {left:0px; overflow:hidden; position:absolute; bottom:0px; background:url(../images/images.png) -6px 0px no-repeat; height:2px;}

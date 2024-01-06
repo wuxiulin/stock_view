@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>左侧图片，右侧可编辑文字</title>
+  <style>
+    /* 设置容器样式 */
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 设置图片样式 */
+    .image-container {
+      flex: 1;
+    }
+
+    /* 设置文字样式 */
+    .text-container {
+      flex: 1;
+      padding: 20px;
+      text-align: justify;
+      border: 1px solid #ccc;
+      margin-left: 20px; /* 调整可编辑区域的左侧边距 */
+      margin-right: 20px; /* 调整可编辑区域的右侧边距 */
+      margin-top: 1px; /* 调整可编辑区域的顶部边距 */
+      margin-bottom: 10px; /* 调整可编辑区域的底部边距 */
+
+      /* 添加下面的样式来调整可编辑区域的大小 */
+      width: 300px; /* 设置宽度为300像素 */
+      height: 2000px; /* 设置高度为200像素 */
+      overflow: auto; /* 添加滚动条，以便处理超出尺寸的内容 */
+    }
+
+    /* 添加这一行，调整图片大小 */
+    .image-container img {
+      max-width: 400px; /* 设置最大宽度为400像素 */
+      height: auto; /* 让高度自适应，以保持纵横比 */
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 左侧图片 -->
+  <div class="image-container">
+    <img src="https://img.cls.cn/images/20230517/Ew637c1616.png" alt="左侧图片">
+  </div>
+
+  <!-- 右侧可编辑文字 -->
+  <div class="text-container" contenteditable="true" id="editableText">
+    <!-- 文本内容将在此显示 -->
+  </div>
+
+  <!-- 文件输入 -->
+  <input type="file" id="fileInput" />
+
+  <!-- 保存按钮 -->
+  <button id="saveButton">保存到本地</button>
+</div>
+
+<script>
+  // 获取文本容器
+  const textContainer = document.getElementById('editableText');
+
+  // 获取文件输入
+  const fileInput = document.getElementById('fileInput');
+
+  // 获取保存按钮
+  const saveButton = document.getElementById('saveButton');
+
+  // 监听文件输入的变化
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      // 读取文件内容
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // 将文件内容设置为文本容器的内容
+        textContainer.innerText = e.target.result;
+      };
+
+      reader.readAsText(file, 'UTF-8');
+    }
+  });
+
+  // 监听保存按钮的点击事件
+  saveButton.addEventListener('click', () => {
+    // 获取编辑框的内容
+    const contentToSave = textContainer.innerText;
+
+    // 创建Blob对象并保存到本地
+    const blob = new Blob([contentToSave], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'saved_text.txt';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+</script>
+
+</body>
+</html>

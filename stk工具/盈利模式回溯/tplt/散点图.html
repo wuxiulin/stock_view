@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>散点图和曲线</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 使用CSS样式调整canvas元素的大小 */
+        #myCombinedChart {
+            width: 300px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myCombinedChart"></canvas>
+
+    <script>
+        var data = {
+            datasets: [
+                {
+                    label: 'Scatter Dataset',
+                    data: [
+                        { x: 1, y: 10 },
+                        { x: 2, y: 20 },
+                        { x: 3, y: 15 },
+                        { x: 4, y: 25 },
+                        { x: 5, y: 30 }
+                    ],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    type: 'scatter'
+                },
+                {
+                    label: 'Line Dataset',
+                    data: [
+                        { x: 1, y: 15 },
+                        { x: 2, y: 18 },
+                        { x: 3, y: 22 },
+                        { x: 4, y: 28 },
+                        { x: 5, y: 35 }
+                    ],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill: false,
+                    type: 'line'
+                }
+            ]
+        };
+
+        var ctx = document.getElementById('myCombinedChart').getContext('2d');
+
+        var myCombinedChart = new Chart(ctx, {
+            type: 'scatter', // 设置为 scatter，因为散点图是主图
+            data: data,
+            options: {
+                maintainAspectRatio: false, // 禁用默认的纵横比例
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+                // 设置其他图表选项（可选）
+            }
+        });
+    </script>
+
+</body>
+</html>

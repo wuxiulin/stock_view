@@ -1,0 +1,321 @@
+@charset "gb2312";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {margin:0;padding:0;outline:none}
+body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;}
+ol,ul,li {list-style:none;}
+html {overflow:hidden}
+img { border:0}
+a {outline:none}
+.main{margin:0 auto}
+
+.fl { float:left}
+.fr { float:right}
+.tal { text-align:left!important;}
+.tar { text-align:right}
+.tac { text-align:center}
+.mt10 { margin-top:10px}
+.mt20 { margin-top:20px}
+.h96 {height:96px}
+.curspr-p { cursor:pointer}
+
+.main { padding:0 10px 20px 0}
+.nav { height:60px;position:relative}
+  .nav .submenu { height:24px; line-height:24px; }
+    .nav .submenu strong {font-size:14px}
+    .nav .submenu strong .number { font:14px Arial; font-weight:bolder; padding-left:5px}	 
+    .nav .submenu span.english-name { font:9px Arial; padding-left:10px}
+    .nav .submenu .logo-fundf10 { width:154px; height:59px; position:absolute;right:0;top:0 ;z-index:2}	
+  .nav .menu { height:36px; padding:0 3px;  position:relative; /*z-index:999999*/;}
+    .nav .menu .left-img { width:3px; height:36px; overflow:hidden;  position:absolute; top:0; left:0px; z-index:auto}  
+    .nav .menu .right-img { width:3px; height:36px; overflow:hidden;  position:absolute; top:0; right:0px; z-index:auto}  
+    .nav .menu table { width:100%; height:36px; line-height:36px; text-align:center}
+    .nav .menu table tr td { font-weight:bolder; cursor:pointer;}
+	  .nav .menu table tr td a { display:block;font-size:14px;margin-left:-3px;position:relative;z-index:10;height:36px;line-height:36px}
+	  .nav .menu .first a{background:none}
+/*    .nav .menu table tr td.fg { width:3px; background:url(../images/images.png) 0 -98px no-repeat; cursor:auto}*/
+/*二级导航*/
+  .nav .menu .subnav { position:absolute; top:36px; left:0; width:100%; display:none}
+    .nav .menu .subnav table {}
+    .nav .menu .subnav table tr td { vertical-align:top; font-weight:normal; text-align:left;width:14.20%}
+    .nav .menu .subnav p { list-style:none; height:20px; line-height:20px; text-indent:15px;  margin-top:2px}
+      .nav .menu .subnav p a:hover {text-decoration: none;font-weight:bolder}
+	  .v{padding-right:135px;padding-left:22px;position:relative;z-index:5}
+	  
+/*快速定�?/
+   .nav-quick { width:15px; overflow:hidden;}
+     .nav-quick .top-img { width:15px; height:15px; overflow:hidden; }   
+     .nav-quick .bottom-img { width:15px; height:15px; overflow:hidden; }   
+     .nav-quick .btn-list { width:15px;overflow:hidden;}	
+       .nav-quick .btn-list	li { width:15px; height:15px; overflow:hidden;  cursor:pointer;} 
+       .nav-quick .btn-list	li.over {  cursor:pointer }	  
+   
+   .nav-quick-tip { height:18px; line-height:18px; padding-right:15px; padding-bottom:14px; }
+     .nav-quick-tip span {height:18px; text-align:right; padding:0 5px; }
+	  
+/*模块*/
+.module {margin-bottom:9px;zoom:1;margin-right:25px;}	
+  .module .title { height:34px; line-height:34px; }	
+    .module .title strong { padding-left:15px}	
+    .module .title .error { width:100px; height:34px; padding-right:0px;  cursor:pointer; text-align:right; }
+  /*自适应结构*/
+  .module .content { margin:auto 10px; padding-bottom:10px; overflow:hidden;_zoom:1;position: relative;}
+    .module .content table.container { border-collapse:collapse; border:0; width:100%}	
+    .module .content table.container tr th { }
+    .module .content table.container tr td {vertical-align:top}
+
+/*数据表样�?/
+.table-data {border-collapse:collapse;width:100%}	
+  .table-data th { border-bottom:none; line-height:18px; font-weight:normal; padding:3px 3px; white-space:nowrap;text-align:center}	  
+  .table-data tr td {height:22px; line-height:22px;  padding:5px; font-size:12px ; white-space:normal;text-align:center}	
+
+  .table-data tr td.data-name {font-size:14px;}
+  .table-data tr td.data-number { font-family:Arial; font-size:12px; }
+  .table-data tr td.data-coord { font-family:Arial; font-size:8px; }
+  .table-data .table_fc span{width:50px;display:block;margin:0 auto;text-align:right}
+  .table-data-wrap{width:585px;display:inline;padding:8px;}
+  .table-data-wrap td{height:22px;line-height:22px}
+  .arrow{width:16px;float:left;height:22px;margin-top:30px}
+  
+  /* progress */
+  .mode_table .progress{text-align:left}
+  .progress div{height:8px;margin:0 -5px;overflow:hidden;text-align:left}
+  .progress .green{background:#7dc538}
+  .progress .red{background:#df3735;margin-top:4px}
+
+  /*数据表排序按�?/
+  .table-data th .sort-yes {  padding-right:16px} 
+  .table-data th .sort-no {  padding-right:16px}
+
+  /*表格增加行按�?/
+  .table-data td.add-true { height:10px; padding:0; overflow:hidden}  
+    .table-data td.add-true a { display:block; height:10px; overflow:hidden; }  
+    .table-data td.add-false { height:10px; overflow:hidden; }
+
+  /*持有人户数和结构*/
+  .table-data td.chart { padding:0; font-family:Arial;}
+     
+  .table-data td.chart .chart-jgygr { width:100%; height:16px; border:none; border-collapse:collapse;}
+    .table-data td.chart .chart-jgygr td { height:16px; overflow:hidden; border:none; text-align:center}
+  
+  /*份额规模*/
+  .table-data td.lrt-none,  .table-data th.lrt-none {  border:none;  text-align:right} 
+  .table-data td.flash-fegm { height:200px; }  
+  .note-fegm { width:98px; padding-right:2px; text-align:right; display:block; }
+  
+  /*基金评级*/
+  .table-data td.jjpj-star { height:36px; }  
+
+  /*星级*/
+  .star { height:15px; width:80px; display:block; float:left;}  
+
+  .table-data td.jjpj-proportion-a { height:36px; }
+    .table-data td.jjpj-proportion-a .star-1 { width:34px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-a .star-2 { width:46px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-a .star-3 { width:60px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-a .star-4 { width:43px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-a .star-5 { width:33px; height:36px; overflow:hidden; }  
+  .table-data td.jjpj-proportion-b { height:36px; }  
+    .table-data td.jjpj-proportion-b .star-1 { width:43px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-b .star-2 { width:41px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-b .star-3 { width:44px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-b .star-4 { width:43px; height:36px; overflow:hidden; }  
+    .table-data td.jjpj-proportion-b .star-5 { width:45px; height:36px; overflow:hidden; }  
+  
+  
+  .jjpj-note {  padding:10px 8px; line-height:22px; margin-top:5px}
+
+/*注释更多样式*/
+.note { line-height:18px;  padding:8px 3px 0px 3px}
+ 
+/*上标签样�?/
+.tab-up { height:21px; width:100%; overflow:hidden;  margin-bottom:10px}
+  .tab-up li {height:21px; line-height:21px; overflow:hidden;  padding-right:20px; text-align:center; float:left; }
+  .tab-up li.over { width:100px; overflow:hidden;  padding-right:20px;  text-align:center; cursor:pointer; float:left}
+    .tab-up li.over span { padding-left:20px; display:block;  }
+  .tab-up li.out { width:100px;  overflow:hidden;  padding-right:20px;  text-align:center; cursor:pointer; float:left}
+    .tab-up li.out div { padding-left:20px; display:block; height:21px; overflow:hidden; }
+	.tab-up li.out div span{height:21px;display:block}
+	.tab-up .last{float:right}
+
+/*下标签样�?/
+.tab-down { height:24px; width:100%; overflow:hidden;  margin-bottom:10px}
+  .tab-down li{ width:120px; height:24px; line-height:20px; overflow:hidden;  text-align:center; cursor:pointer; margin:0 auto; }
+    .tab-down li span { width:20px; display:block; height:24px; overflow:hidden;}
+
+
+/*下标签样�?/
+.tab-down-s { height:24px; width:100%; overflow:hidden;  margin-bottom:10px}
+  .tab-down-s li{ width:120px; height:22px; line-height:18px; overflow:hidden;  text-align:center; cursor:pointer; margin:0 auto; }
+    .tab-down-s li span { width:24px; display:block; height:22px; overflow:hidden;}
+
+/*任职生涯标签样式*/
+.tab-down2 { height:22px; width:100%; overflow:hidden; border-collapse:collapse;}
+  .tab-down2 li { width:120px; height:22px; line-height:20px; overflow:hidden;  text-align:center; cursor:pointer; margin:0 auto; }  
+    .tab-down2 li span { width:20px; display:block; height:22px; overflow:hidden;}
+  .xrjj-content {  padding:0 20px;}
+    .xrjj-content table { margin-top:20px; margin-bottom:20px; }  
+
+
+/*列表形式1*/
+  .list-one-t { height:24px; line-height:24px; }
+  .list-one-t strong { display:block; height:24px; padding-right:25px;  padding-left:5px}
+  .list-one-t span { padding-right:3px}  
+  .list-one-d { margin:10px 0;}  
+  .list-one-d li { padding:0 13px; line-height:26px; height:26px; overflow:hidden; font-size:13px}
+    .list-one-d li span { float:right; font-size:12px; font-family:Arial;}
+
+
+.list-two {}
+  .list-two-d li { padding:0 13px; line-height:26px; height:26px; overflow:hidden; font-size:13px}
+    .list-two-d li span { font-size:12px; font-family:Arial;  padding-right:10px}
+
+/*报错�?/
+.error-box {  width:420px; overflow:hidden; line-height:normal}
+  .error-box .title { height:20px; }
+    .error-box .title .close-botton { width:20px; height:20px; display:block; cursor:pointer}
+  .error-box .conts { padding:0 15px;  line-height:25px;}
+    .error-box .conts em {  padding:0 10px 0 0; letter-spacing:normal; font-style:normal; font-weight:bolder}  
+  .error-box .textarea-box {   width:100%; height:80px; font-size:12px; line-height:20px; overflow:hidden;}
+  .error-box .input-box {   width:100%; height:20px; font-size:12px; line-height:20px; overflow:hidden; }
+  .error-box .input-botton { width:60px; height:20px; border:0;  margin-bottom:5px; _margin-bottom:10px}	
+
+/*TIP帮助*/
+  .tip_icon {  padding-right:20px; cursor:pointer}
+  .tip_box {  padding-left:25px;  height:20px; line-height:22px; overflow:hidden; margin-bottom:10px;}
+    .tip_box .close-btn { display:block; width:20px; height:20px; overflow:hidden;  cursor:pointer}
+  .tip_table { padding:10px; width:500px }
+
+	
+/*现任基金经理 内容下拉形式*/
+.content-drop {  overflow:hidden}
+	
+.content-drop-xrjj { padding:20px; }
+  .content-drop-xrjj table { border-collapse:collapse;}
+  
+  .content-drop-xrjj .photo {}	
+   .content-drop-xrjj .table-in { line-height:20px; vertical-align:bottom; white-space:nowrap} 
+   .content-drop-xrjj table strong.big-number { font-family:Arial; font-size:26px; font-weight:normal}
+  .content-drop-xrjj .introduction {width:100%; line-height:23px; overflow:hidden; text-indent:24px;  padding-top:10px}
+
+/*前任基金经理*/
+.qrjj { width:100%}
+.qrjj .names { font-size:18px; font-weight:800; vertical-align:middle; text-align:center}
+.qrjj .table-in { line-height:20px; vertical-align:bottom; white-space:nowrap} 
+   .qrjj td.table-in strong.big-number { font-family:Arial; font-size:26px; font-weight:normal}
+.content-qrjj { line-height:23px; overflow:hidden;  padding:15px; }
+  .content-qrjj .text { text-indent:24px; line-height:23px; vertical-align:top}
+  .content-qrjj .photo { height:73px; width:60px; overflow:hidden; margin-right:20px}
+
+/*基金简�?/
+.jjjj { width:49.5%; border-collapse:collapse;}
+    .jjjj tr.back td {   white-space:nowrap}
+  .jjjj td{ height:18px; line-height:18px;vertical-align:top; }
+
+  /*Smode_title_hd*/
+.mode_ul{width:49.5%;margin-top:10px}
+.mode_ul ul{margin-top:5px}
+.mode_ul li{height:24px;line-height:24px;}
+.mode_ul li a,.table_ul tr td a{display:block;font-size:14px;padding:0 10px;}
+.mode_ul li a:hover,.table_ul tr td a:hover{text-decoration:underline}
+.mode_ul a span{float:right;font-size:12px}
+.mode_title_hd{height:24px;line-height:24px;}
+.mode_title_hd span{padding:0 6px;float:left;font-weight:bold}
+.mode_title_hd s{width:14px;height:24px;float:left}
+.mode_title_hd a{float:right;margin-right:8px} 
+  /*Emode_title_hd*/
+
+.mode_ul_tip .mode_title_hd{background:none}
+.mode_ul_tip .mode_title_hd span{background:none;font-size:14px;font-weight:normal}
+
+/* Smode_dl*/
+.mode_dl dl{padding:0 10px;overflow:hidden;_zoom:1;border-bottom:1px solid #293038;padding-bottom:8px;margin-bottom:10px}
+.mode_dl dt{font-size:14px;margin-top:5px}
+.mode_dl #atitle a{font-size:14px;margin-top:5px;color:#ffffff}
+.mode_dl #atitle a:hover{text-decoration:underline;color:#00CBFE}
+.mode_dl dd{text-indent:2em;line-height:2}
+.mode_dl .momt{text-align:right}
+.mode_dl .more a{float:right;margin-top:-2em}
+.mode_dl .momt a{margin-top:0;float:none;margin-right:5px}
+.mode_dl .momt a:hover{text-decoration:underline;color:#00CBFE}
+
+/*add  link*/
+.mode_link a{margin-top:0;float:none;margin-right:5px;}
+.mode_link a:hover{text-decoration:underline;color:#00CBFE}
+/* Emode_dl*/
+
+.dxjg { width:100%; border-collapse:collapse; margin-bottom:5px}
+  .dxjg td.names { vertical-align:top}
+  .dxjg td.names span {font-size:18px; font-weight:bolder;}
+  .dxjg td.names strong { font-weight:bolder; }
+  .dxjg td.conts ul li { float:left; width:80px; height:22px; line-height:22px}	
+
+/*最新动�?/	
+.zxdt-xj span { font-size:30px; font-family:Arial; letter-spacing:0px; height:40px; padding-top:5px;}
+  .zxdt-xj strong { font-size:14px; font-weight:bolder;  padding-left:5px; width:70px}
+.zxdt-lj { height:20px; line-height:20px; padding-top:8px}
+.zxdt-gxsj { height:14px; overflow:hidden; margin-top:8px}
+.zxdt-jjgy { height:24px; line-height:24px; }
+  .zxdt-jjgy strong { display:block; height:24px; padding-right:25px;  padding-left:5px}
+  .zxdt-jjgy span { padding-right:3px} 
+.zxdt-tablein { height:16px; padding-top:5px}
+
+/*翻页*/
+.msg{clear:both;padding-top:8px;overflow:hidden;_zoom:1;}
+.msg p{line-height:1.8;text-indent:2em}
+.msg .more a{padding:1px 5px;float:left;display:inline;margin:0 3px}
+/*.pagenav{padding-top:8px;overflow:hidden;_zoom:1}*/
+.msg .page a{padding:1px 5px;float:left;display:inline;margin:0 3px;}
+/*货币�?最新动�?/	
+.zxdt-hb {font-size:12px;font-family:Arial; letter-spacing:1px; height:12px; padding-top:10px}
+  .zxdt-hb strong { font-size:18px; font-weight:bolder;  padding-left:0px}
+.zxdt-hb-gxsj { height:14px; overflow:hidden; margin-top:12px}
+
+/* 指数说明*/
+.zssm{line-height:2;text-indent:2em;margin-top:5px;}
+
+/*table_ul*/
+.table_ul tr td{text-align:left}
+.table_ul span{float:right}
+.excel{padding:0 20px;}
+
+/*底栏	*/
+.footer {  margin-right:35px; padding:0 60px 10px}	
+  .footer .friendlink { height:30px; line-height:30px; text-align:center; }	
+  .footer .statement { font-size:9px; line-height:14px; -webkit-text-size-adjust:none}
+
+ /* news_tip */
+/*   .mode_ul_tip li a{position:relative;*zoom:1} */
+  .module .news_tip{overflow:visible}
+  .mode_ul_tip li a{*zoom:1}
+  .mode_ul_tip li div{border:1px solid #666;position:absolute;padding:3px 5px;background:#ccc;font-size:14px;color:#333;text-indent:2em;z-index:100;width:440px}
+
+ /* progress */
+  .mode_table .progress{text-align:left}
+  .mode_table .progress_hd{font-weight:normal;}
+  .progress_hd p{padding-left:30px;height:24px;line-height:24px;}
+  .mode_table .progress_hd s{display:inline-block;vertical-align:middle;width:8px;height:8px;margin:0 8px;overflow:hidden;margin:8px}
+  .progress_hd p span{margin-right:25px}
+  .progress div{height:8px;margin:0 -5px;overflow:hidden;text-align:left}
+  .progress .green{background:#7dc538}
+  .progress .red{background:#df3735;margin-top:4px}
+
+.sort_img{background:url(../images/sort_arrow_dark.png) no-repeat;width:14px;height:13px;display:inline-block;vertical-align:middle}
+
+#c2B6085{color:#00CBFE;background:url(../images/nav_bg.png) no-repeat center center;color:#00caff}
+#msgMain{margin-top:9px}
+.main{padding-left:10px}
+/*2011�?�?9�?6:46:44*/
+.table-data-wrap .table-data-tip td{padding:2px 10px}
+.table-data-wrap .table-data-tip .thbg td,.table-data-wrap .table-data-tip .table-data-tip-th td{padding:5px 10px}
+.mode_table .thbg{border:none}
+.table-data tr td{padding:2px 5px}
+
+/*融资融券单位*/
+.module .content .dw{
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background: #181D24;
+    height: 30px;
+    color: #88909D;
+}
+#msgMain{zoom:1!important; position: relative!important;}

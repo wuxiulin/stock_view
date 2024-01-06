@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调查问卷</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            display: flex;
+        }
+
+        #survey-container1,
+        #survey-container2 {
+            flex: 1;
+            margin-right: 10px;<!--距离survey-container1距离，右边距控制-->
+        }
+        #survey-container3 {
+            flex: 1;
+            margin-right: 10px;<!--距离survey-container2距离，右边距控制-->
+        }
+        #survey-container4 {
+            flex: 1;
+            margin-right: 10px;<!--距离survey-container3距离，右边距控制-->
+        }
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .options input {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .text-input {
+            width: 300px;
+            margin-top: 10px;
+        }
+        h2 {
+            text-align: center; /* Center horizontally */
+            margin-top: 50px; /* Adjust the margin for vertical centering */
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="survey-container1">
+    <div class="question-container">
+        <h2>测试</h2>
+        <div class="question">1. 请选择你最喜欢的编程语言：</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="Python"> Python</label>
+            <label><input type="radio" name="q1" value="JavaScript"> JavaScript</label>
+            <label><input type="radio" name="q1" value="Java"> Java</label>
+            <label><input type="radio" name="q1" value="C++"> C++</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">2. 你对当前的网站设计满意吗？</div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="Satisfied"> 满意</label>
+            <label><input type="radio" name="q2" value="Neutral"> 一般</label>
+            <label><input type="radio" name="q2" value="Dissatisfied"> 不满意</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">3. 请提供你的建议或意见：</div>
+        <textarea class="text-input" rows="4"></textarea>
+    </div>
+
+    <button onclick="submitSurvey()">提交问卷</button>
+</div>
+
+<div id="survey-container2">
+    <div class="question-container">
+        <div class="question">1. 请选择你最喜欢的编程语言：</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="Python"> Python</label>
+            <label><input type="radio" name="q1" value="JavaScript"> JavaScript</label>
+            <label><input type="radio" name="q1" value="Java"> Java</label>
+            <label><input type="radio" name="q1" value="C++"> C++</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">2. 你对当前的网站设计满意吗？</div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="Satisfied"> 满意</label>
+            <label><input type="radio" name="q2" value="Neutral"> 一般</label>
+            <label><input type="radio" name="q2" value="Dissatisfied"> 不满意</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">3. 请提供你的建议或意见：</div>
+        <textarea class="text-input" rows="4"></textarea>
+    </div>
+
+    <button onclick="submitSurvey2()">提交问卷</button>
+</div>
+
+<div id="survey-container3">
+    <div class="question-container">
+        <div class="question">1. 请选择你最喜欢的编程语言：</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="Python"> Python</label>
+            <label><input type="radio" name="q1" value="JavaScript"> JavaScript</label>
+            <label><input type="radio" name="q1" value="Java"> Java</label>
+            <label><input type="radio" name="q1" value="C++"> C++</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">2. 你对当前的网站设计满意吗？</div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="Satisfied"> 满意</label>
+            <label><input type="radio" name="q2" value="Neutral"> 一般</label>
+            <label><input type="radio" name="q2" value="Dissatisfied"> 不满意</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">3. 请提供你的建议或意见：</div>
+        <textarea class="text-input" rows="4"></textarea>
+    </div>
+
+    <button onclick="submitSurvey2()">提交问卷</button>
+</div>
+
+<div id="survey-container4">
+    <div class="question-container">
+        <div class="question">1. 请选择你最喜欢的编程语言：</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="Python"> Python</label>
+            <label><input type="radio" name="q1" value="JavaScript"> JavaScript</label>
+            <label><input type="radio" name="q1" value="Java"> Java</label>
+            <label><input type="radio" name="q1" value="C++"> C++</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">2. 你对当前的网站设计满意吗？</div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="Satisfied"> 满意</label>
+            <label><input type="radio" name="q2" value="Neutral"> 一般</label>
+            <label><input type="radio" name="q2" value="Dissatisfied"> 不满意</label>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question">3. 请提供你的建议或意见：</div>
+        <textarea class="text-input" rows="4"></textarea>
+    </div>
+
+    <button onclick="submitSurvey2()">提交问卷</button>
+</div>
+
+<script>
+    function submitSurvey() {
+        alert("问卷已提交！");
+    }
+
+    function submitSurvey2() {
+        alert("问卷已提交！");
+    }
+    function submitSurvey3() {
+        alert("问卷已提交！");
+    }
+
+    function submitSurvey4() {
+        alert("问卷已提交！");
+    }
+</script>
+
+</body>
+</html>
