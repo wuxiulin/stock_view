@@ -40,7 +40,8 @@ class ArticlesList:
         token = conf.get("weixin", "token")
         fake_id = conf.get("weixin", 公众号名字+"_fake_id")
         user_agent = conf.get("weixin", "user_agent")
-
+        #print(cookie)
+        #print(user_agent)
         self.FAKEID = fake_id
         # 使用Cookie，跳过登陆操作
         self.headers = {
@@ -119,10 +120,10 @@ class ArticlesList:
                     time.sleep(sleep_time)
                 else:
                     print("更新token 和cookies")
-                    print('方法是，登录 https://mp.weixin.qq.com/ 首页网址中就有，类似https://mp.weixin.qq.com/cgi-bin/home?t=home/index&lang=zh_CN&token=2097716489')
+                    print('方法是，第一步：登录 https://mp.weixin.qq.com/ 首页网址中就有，类似https://mp.weixin.qq.com/cgi-bin/home?t=home/index&lang=zh_CN&token=2097716489')
                     print('取出 token,存入conf/cookies.cfg中，对应项目中')
 
-                    print('内容与互动-草稿箱-新的创作-写新图文  https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=77&token=2097716489&lang=zh_CN&timestamp=1703943289254')
+                    print('第二步：内容与互动-草稿箱-新的创作-写新图文  ')
                     print('F12开发者模式，点击“网络”，CTRL+R,看到‘名称’中，点击appmsgxxxx,表头，请求表头，复制其中cookie到存入conf/cookies.cfg中，对应项目中')
                     break
             else:

@@ -107,7 +107,7 @@ class 证券():
 
 		
 
-class sktPriceVol():
+class stkPriceVol():
 	"""docstring for ClassName"""
 	def __init__(self):
 		self.result=DataStruct()
@@ -840,6 +840,59 @@ class sktPriceVol():
 
 
 		return self.result
+		
+
+	def fun1():
+		#收集股票价量异动信息
+		a=sktPriceVol()
+		#out=a.stk_pv_monitor()#所有监控#a.data也行
+		#print(out)
+		#res=a.test_txt()#测试代码
+		#print(res.data)
+
+		#保存html文档notes
+		#noteplt.notes_stocks(data=out.data,page_type=20) #page_type，设置需要改那个页面内容
+
+
+		#获取并格式化 折线图数据，每日最高板折线图
+		连板折线data=a.多日连板统计(start="20231115",end="20231204")
+		#连板折线tradedays = 连板折线data["date"][   连板折线data['date'].index("2023-11-15") : 连板折线data['date'].index("2023-12-01")+1  ]#g根据输入获得tradedays
+		连板折线tradedays = 连板折线data["date"][   连板折线data['date'].index("2023-11-15") :  ]#g根据输入获得tradedays
+		连板折线dydata=[]
+		for day in 连板折线tradedays:#按照时间顺序，读取，然后push
+			#print(day)
+			连板折线dydata.append(连板折线data['data'][day])
+
+		#获取天地板信息
+		aa=sktPriceVol().多日天地板(start="20231120",end="20231204")
+		label天地板=[]
+		for day in aa['date']:
+			if(aa['data'][day] ):#非空字典
+				label天地板.append(aa['data'][day])
+			##处理标签的位置，让标签在折线图中的每日最高板位置（y值位置）
+		for idata in label天地板:
+			tempdate=idata['date']
+			temp=[ i[1] for i in 连板折线dydata if(i[0]==tempdate)]
+			idata['yValue']=temp[0]
+
+
+		#获取地天板信息
+		aa=sktPriceVol().多日地天板(start="20231120",end="20231204")
+		label地天板=[]
+		for day in aa['date']:
+			if(aa['data'][day] ):#非空字典
+				label地天板.append(aa['data'][day])
+			##处理标签的位置，让标签在折线图中的每日最高板位置（y值位置）
+		#print(连板折线dydata)
+		for idata in label地天板:
+			tempdate=idata['date']
+			#print(datetime.fromtimestamp(int(tempdate)/1000))
+			#print(idata)
+			temp=[ i[1] for i in 连板折线dydata if(i[0]==tempdate)]
+			idata['yValue']=temp[0]
+
+		#可视化，形成html，形成折线图，且画带标签的
+		HC可视化().get_标注曲线(dynamic_data=连板折线dydata,labelxy天地板=label天地板,labelxy地天板=label地天板,name="情绪连板",isopen=1)
 
 
 
@@ -857,17 +910,7 @@ if __name__ == '__main__':
 	#比较方便时sys和在最上层调用调试
 	#这里用sys.path 调试临时用！最后的代码可以没有这个
 
-	#out=sktPriceVol().stk_pv_monitor()
-	#print(out.data)
-	# a=sktPriceVol().stock_天地板(searchtxt="2023年11月29日")
-	# print(a.data)
-
-	#out=sktPriceVol().多日连板统计(start="20231101")
-
-
-	# a=sktPriceVol().多日天地板(start="20231120")
-
-	# a=sktPriceVol().多日地天板(start="20231120")
+ 
 
 	a=证券()
 	b=a.证券个股异动()

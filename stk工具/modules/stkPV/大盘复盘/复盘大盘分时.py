@@ -58,6 +58,7 @@ class 复盘大盘分时_程序笔记类():
 		txt=txt+'如果以今日9:30为基准，白线涨幅{}%，振幅{}%；黄线涨幅{}%，振幅{}%'.format(result2白[1],result2白[2],result2黄[1],result2黄[2])
 
 		return txt
+		
 	def get_web(self):
 		#不好量化，通过网页方式选择题，来得到
 
@@ -530,8 +531,7 @@ class 复盘大盘分时_手动复盘类():
 
 	#把数据写入到html模板中展示
 	def get_chart_html_template1(self,dynamic_data,name,iswebopen=0,src_html_path='',des_html_path=''):
-		src_html_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-		src_html_path= os.path.dirname(src_html_path)+'/html_template1/templates/template1.html'
+
 
 
 		#运行这个 Python 脚本，它将生成一个 HTML 文件（比如 output.html）
@@ -594,12 +594,88 @@ class 复盘大盘分时_手动复盘类():
 				dydata[iikey]=[iivalue,右纵]#每个股票的分时数据
 
 			tempath= os.path.dirname(os.path.abspath(__file__))+ '/static/{}/{}_{}.html'.format(tradeday,tradeday,ikey)
-			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,des_html_path=tempath)
+			src_html_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+			src_html_path= os.path.dirname(src_html_path)+'/html_template1/templates/template2.html'
+			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,src_html_path=src_html_path,des_html_path=tempath)
 			time.sleep(5)
 			dydata={}
 		#生成html  
 
+	def get_chart_多日影响大权重分时叠加图(self,tradeday,iswebopen=0):#这里接口不能获取全部，不能太久，
+		#https://note.youdao.com/s/Ip6sVHtc
+ 		#测试模板案例1  ：   左侧是上证指数，右侧是某个板块核心股的分时图，
+		tempday=tradeday[:4]+'-'+tradeday[4:6]+'-'+tradeday[6:]
+		endday=''
+		index_codes={'上证':"000001",'深圳':'399001',"创业":'399006'}
+		selected_index_data={}
+		for key,code in index_codes.items():
+	 		#上涨指数数据
+	 		#接口只能读取5天数据，所以起始时间太早没有效果，所以这里设置一个很早时间，然后获取尽可能多的数据，大约是5天
+			index_df = ak.index_zh_a_hist_min_em(symbol=code, period="1", start_date='2023-12-26'+" 09:30:00", end_date=tempday+" 19:00:00")
+			#print(index_df['收盘'])
+			selected_index_data[key]=[ [ (datetime.strptime(idate, "%Y-%m-%d %H:%M:%S")).timestamp()*1000   ,idata]   for idate,idata in zip(index_df['时间'],index_df['收盘'])  ]
+			#print(selected_index_data)
 
+		endtime= list(set( [ itm[:10] for itm in index_df['时间']]))#2021-08-31 09:30:00
+		endtime= [ itm[:4]+itm[5:7]+itm[8:] for itm in  endtime]
+		# 将字符串转换为日期对象并进行排序
+		endtime = sorted(endtime, key=lambda x: datetime.strptime(x, '%Y%m%d'))
+ 
+		#统计数据
+		#个股分时图数据
+		merged_dict = {}
+		for endday in endtime:#多日数据
+			data=self.get_blocks_stocks_分时(tradeday=endday)
+			#print(data)
+			for key, value in data.items():
+				merged_dict.setdefault(key, []).append(value)
+		#{'上证'：[{'迈瑞医疗':[[1704418200000.0, 0.33], [1704418260000.0, 0.06]] },{'迈瑞医疗': [[1705555200000.0, 0.33], [1705555260000.0, 0.06]]},],'创业'[],'深圳'[]}
+		#print(merged_dict['上证'])
+		#print('**************************************************')
+		merged_dict1={}
+		for key1, value1 in merged_dict.items():#上证
+			merged_dict2={}
+			for item in value1:#【{}，{}】
+				for key2,value2 in item.items():
+					merged_dict2.setdefault(key2, []).append(value2)
+			merged_dict1[key1]=merged_dict2
+		#{'上证'：{'迈瑞医疗':[  [[1704418200000.0, 0.33], [1704418260000.0, 0.06]],[[1705555200000.0, 0.33], [170555560000.0, 0.06]] ],'创业'[],'深圳'[]}
+		#print(merged_dict1['上证'])
+		#print('**************************************************')
+
+		merged_dict2={}
+		for key1, value1 in merged_dict1.items():#上证
+			temp2={}
+			for key2,value2 in value1.items():
+				temp3=[]
+				for item3 in value2:
+					temp3=temp3+item3#退掉外壳
+				temp2[key2]=temp3
+			merged_dict2[key1]=temp2
+		#{'上证'：{'迈瑞医疗':[[1704418200000.0, 0.33], [1704418260000.0, 0.06],[1705555200000.0, 0.33], [170555560000.0, 0.06] ],'创业'[],'深圳'[]}
+		#print(merged_dict2['上证'])
+		#print('**************************************************')		
+
+		
+		data=merged_dict2
+
+		#格式化
+		左纵=0
+		右纵=1
+		for ikey ,ivalue in data.items():
+			print(ikey)#板块
+			dydata={ikey:[selected_index_data[ikey],左纵]}
+			for iikey,iivalue in ivalue.items():
+				print(iikey)
+				dydata[iikey]=[iivalue,右纵]#每个股票的分时数据
+
+			tempath= os.path.dirname(os.path.abspath(__file__))+ '/static/{}/{}_{}.html'.format(tradeday,tradeday,ikey)
+			src_html_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+			src_html_path= os.path.dirname(src_html_path)+'/html_template1/templates/template2.html'
+			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,src_html_path=src_html_path,des_html_path=tempath)
+			time.sleep(5)
+			dydata={}
+		#生成html  
 
 	def get_blks_对指数分时影响大(self,tradeday,cha=100):
 		#思路是，大盘分时影响是通过流通值的增减影响，所以个股流通值变化反应对大盘潜在影响程度
@@ -661,7 +737,7 @@ class 复盘大盘分时_手动复盘类():
 		for typeblk ,codes in result.items():
 			temp1={}
 			for code in codes:
-				#股票代码
+				#板块代码
 				#不复权数据
 				上个交易日收盘价格= ak.stock_board_industry_index_ths(symbol= code[1], start_date=last_yetd_date_string, end_date=last_yetd_date_string)['收盘价']
 				上个交易日收盘价格=float(上个交易日收盘价格.iloc[0])
@@ -719,10 +795,87 @@ class 复盘大盘分时_手动复盘类():
 				dydata[iikey]=[iivalue,右纵]#每个股票的分时数据
 
 			tempath= os.path.dirname(os.path.abspath(__file__))+ '/static/{}/{}_{}.html'.format(tradeday,tradeday,ikey)
-			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,des_html_path=tempath)
+			src_html_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+			src_html_path= os.path.dirname(src_html_path)+'/html_template1/templates/template3.html'
+			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,src_html_path=src_html_path,des_html_path=tempath)
 			time.sleep(5)
 			dydata={}
 
+	def get_chart_多日影响大行业板块分时叠加图(self,tradeday,iswebopen=0):
+		#https://note.youdao.com/s/Ip6sVHtc
+ 		#测试模板案例1  ：   左侧是上证指数，右侧是某个板块核心股的分时图，
+		tempday=tradeday[:4]+'-'+tradeday[4:6]+'-'+tradeday[6:]
+
+		index_codes={'上证':"000001",'深圳':'399001',"创业":'399006'}
+		selected_index_data={}
+		for key,code in index_codes.items():
+
+	 		#上涨指数数据
+			index_df = ak.index_zh_a_hist_min_em(symbol=code, period="1", start_date='20231226'+" 09:30:00", end_date=tempday+" 19:00:00")
+			#print(index_df['收盘'])
+			selected_index_data[key]=[ [ (datetime.strptime(idate, "%Y-%m-%d %H:%M:%S")).timestamp()*1000   ,idata]   for idate,idata in zip(index_df['时间'],index_df['收盘'])  ]
+			#print(selected_index_data)
+ 
+		endtime= list(set( [ itm[:10] for itm in index_df['时间']]))#2021-08-31 09:30:00
+		endtime= [ itm[:4]+itm[5:7]+itm[8:] for itm in  endtime]
+		# 将字符串转换为日期对象并进行排序
+		endtime = sorted(endtime, key=lambda x: datetime.strptime(x, '%Y%m%d'))
+
+		#统计数据
+		#个股分时图数据
+		merged_dict = {}
+		for endday in endtime:#多日数据
+			data=self.get_blocks_分时(tradeday=endday)
+			#print(data)
+			for key, value in data.items():
+				merged_dict.setdefault(key, []).append(value)
+		print(merged_dict['ths二级行业'])
+		print('**************************************************')
+ 
+		merged_dict1={}
+		for key1, value1 in merged_dict.items():#ths二级行业
+			merged_dict2={}
+			for item in value1:#【{}，{}】合并{}，{}
+				for key2,value2 in item.items():
+					merged_dict2.setdefault(key2, []).append(value2)
+			merged_dict1[key1]=merged_dict2
+		#{'上证'：{'迈瑞医疗':[  [[1704418200000.0, 0.33], [1704418260000.0, 0.06]],[[1705555200000.0, 0.33], [170555560000.0, 0.06]] ],'创业'[],'深圳'[]}
+		print(merged_dict1['ths二级行业'])
+		print('**************************************************')
+
+		merged_dict2={}
+		for key1, value1 in merged_dict1.items():#上证
+			temp2={}
+			for key2,value2 in value1.items():
+				temp3=[]
+				for item3 in value2:
+					temp3=temp3+item3#退掉外壳
+				temp2[key2]=temp3
+			merged_dict2[key1]=temp2
+		#{'上证'：{'迈瑞医疗':[[1704418200000.0, 0.33], [1704418260000.0, 0.06],[1705555200000.0, 0.33], [170555560000.0, 0.06] ],'创业'[],'深圳'[]}
+		print(merged_dict2['ths二级行业'])
+		print('**************************************************')		
+
+
+		data=merged_dict2
+
+
+		#格式化
+		左纵=0
+		右纵=1
+		for ikey ,ivalue in data.items():
+			print(ikey)#板块
+			dydata={'上证':[selected_index_data['上证'],左纵]}
+			for iikey,iivalue in ivalue.items():
+				print(iikey)
+				dydata[iikey]=[iivalue,右纵]#每个股票的分时数据
+
+			tempath= os.path.dirname(os.path.abspath(__file__))+ '/static/{}/{}_{}.html'.format(tradeday,tradeday,ikey)
+			src_html_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+			src_html_path= os.path.dirname(src_html_path)+'/html_template1/templates/template3.html'
+			self.get_chart_html_template1(dydata,"无",iswebopen=iswebopen,src_html_path=src_html_path,des_html_path=tempath)
+			time.sleep(5)
+			dydata={}
 
 if __name__ == '__main__':
 	#txt=复盘大盘分时类_程序笔记类().get笔记_复盘大盘分时_day(tradeday='20240103')

@@ -35,7 +35,7 @@ class 每日北向资金类( ):
 		crlnum=0
 		while True:
 			#subprocess.call(['start', '', browser_path, url], shell=True)
-			subprocess.call([ url], shell=True)
+			#subprocess.call([ url], shell=True)
 			time.sleep(3)
 			# 发起GET请求
 			response = requests.get(url)
@@ -138,7 +138,8 @@ class 每日北向资金类( ):
 					json.dump(result, json_file)
 
 				#后返回
-				return  result[tradeday]
+				#print(tradeday)
+				return  file_content[tradeday]
 			else:#获取不到最新交易日数据，文件中没有匹配日又没有，所以返回为空
 				return None
 
@@ -199,7 +200,7 @@ class 每日北向资金类( ):
 					if file_content[key] != value:#东方财富数据有误导致
 						raise ValueError(f"Conflict for key '{key}': {file_content[key]} != {value}")
 				else:
-					print(temp,key,value)
+					#print(temp,key,value)
 					file_content[key] = value
 
 		#无序保存,如果需要顺序，需要按照交易日重新再梳理一遍后保存到数组中，[{20230101,dt1},{20230102,dt2},{20230103,dt3}]	

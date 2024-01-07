@@ -2,14 +2,10 @@ import configparser
 import akshare as ak
 import sys,os
 
-current_dir =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#print(current_dir)
-sys.path.append(current_dir)
 
-from  noteplt import 复盘笔记类 
-sys.path.append(os.path.dirname(current_dir))
- 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))#后面可以删除调试
 
+from  modules.noteplt.notes_template import 复盘笔记类 
 from  common import CommonStruct
  
 class 动态监控类( ):
@@ -33,7 +29,19 @@ class 动态监控类( ):
 	# with open('modified_example.ini', 'w') as configfile:
 	#     config.write(configfile)
  
+
+
 	def 复盘股价监控(self,tradeday):
+		'''
+		设置 ./stk/stkPV/conf/股价监控.cfg ,文件实现对个股股价的的监控
+		设置方式: 类似如下格式，
+			[600519]
+			price_low_down = [1537, 1448]
+			price_low_down_set = 1
+		变量是关键字,price_low_down   含义：监控股价（price）的最低价（low），下跌（down）到设定值【可以多个依次比较】，开始告警
+		price_low_down_set = 1  含义是set对应1，[1537, 1448]是满足其中条件后，重置 [1537],否则 不重置，还是[1537, 1448]
+
+		'''
 		codes=self.conf.sections()
 		for code in codes:
 			df = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=tradeday , end_date=tradeday , adjust="qfq")
@@ -81,5 +89,6 @@ class 动态监控类( ):
 
 
 if __name__ == '__main__':
+
 	动态监控类().复盘股价监控(tradeday='20240104')
 	pass

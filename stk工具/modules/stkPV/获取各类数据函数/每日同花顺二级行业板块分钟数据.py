@@ -67,7 +67,7 @@ class 每日同花顺二级行业板块分钟数据类( ):
 			# 发起GET请求
 			response = requests.get(url, headers=headers)
 
-			time.sleep(5)
+			time.sleep(10)
 			print(response.status_code)
 			# 检查响应状态码
 			if response.status_code == 200:
@@ -237,8 +237,9 @@ class 每日同花顺二级行业板块分钟数据类( ):
 			# 		temp=None
 			# elif(last_date_string not in pre_days):#今天是非交易日 如果没有保存过
 			# 	temp=self.__get_today_同花顺二级行业板块分钟数据_wencai_js()
+			if(tradeday!=last_date_string):#这个接口目前只能爬取当日，所以这里tradeday日期不是最近一个交易日，退出就是
+				return None
 			temp=self.__get_today_同花顺二级行业板块分钟数据_wencai_js(blk=blk)
-
 			#print(temp)
 			if(temp is not None):
 				tempday=list(temp.keys())[0]

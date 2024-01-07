@@ -107,22 +107,28 @@ class 概念板块( ):
 		else:
 			pre_data={}
 
-		#print(pre_data)
+		#print(type(pre_data),pre_data.keys())
 		df_blocks=self.get_新增概念板块_同花顺_辅助()
 		#print(df_blocks)
 		if(df_blocks.empty):#这里不用返回还要处理
 			res=[]
+			keys_del=[]#时间太久了不要了
 			#处理结果，然后再次保存，
-			for key in pre_data.keys():
+			for key,value in pre_data.items():
 				current_time=datetime.datetime.now()
 				timetag=datetime.datetime.strptime(key, "%Y-%m-%d")
 				#print(current_time - timetag)
 				if(current_time - timetag < timedelta(days=dayset)):
 					#print("9999999999999999999999")
 					#print(pre_data[key]+" "+key)
-					res.append(pre_data[key]+" "+key)
+					res.append(value +" "+key)
 				else:
-					pre_data.pop(key)#时间太久了不要了
+					keys_del.append(key)#时间太久了不要了
+			
+			#时间太久了不要了
+			for key in keys_del:
+				pre_data.pop(key)#时间太久了不要了
+
 			#保存
 			with open(file_path, 'w') as json_file:
 				json.dump(pre_data, json_file)

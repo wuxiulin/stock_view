@@ -5,21 +5,6 @@
     安装Sphinx：
         pip install sphinx
 
-    sphinx-apidoc -o . C:\Users\DELL\Desktop\stk
-
-    创建Sphinx项目：
-
-        在要生成文档的代码目录中执行以下命令：
-        sphinx-quickstart       您需要回答一些问题，例如文档的根目录、源代码目录等。
-
-    配置Sphinx：
-      编辑生成的conf.py文件，确保设置了sys.path以便Sphinx可以找到您的代码。您可能需要添加类似以下的内容：
-
-     
-        import os
-        import sys
-        sys.path.insert(0, os.path.abspath('..'))
-
 
 
     编写文档注释：在您的Python代码中使用适当的文档字符串注释您的类和方法。Sphinx会根据这些注释来生成文档。
@@ -31,7 +16,50 @@
                 """This is a docstring for the my_method."""
                 pass
 
+                                                                    不要的如下步骤
+
+                                                                                    在您的项目根目录下，运行以下命令，将会生成与您的 Python 模块相关的 .rst 文件。
+                                                                                 
+                                                                                    sphinx-apidoc -o   .\source   C:\Users\DELL\Desktop\stk
+                                                                                    .\source  保存.rst文件    C:\Users\DELL\Desktop\stk 是您的 Python 代码所在的路径。这个命令将生成 .rst 文件，其中包含了有关您代码模块的文档。
+   
+
+
+
+    sphinx-apidoc -F -o .\source  C:\Users\DELL\Desktop\stk                  #使用-F参数省掉合并index.rst步骤
+
+
+                                                                                创建Sphinx项目：   在要生成文档的代码目录中执行以下命令：
+                                                                                    
+
+                                                                                    sphinx-quickstart       您需要回答一些问题，例如文档的根目录、源代码目录等。
+                                                                                                    选项yes  让index。rst自动保存到之前的.\source     zh_CN  中文支持
+
+
+    配置Sphinx：
+      编辑生成的conf.py文件，确保设置了sys.path以便Sphinx可以找到您的代码。您可能需要添加类似以下的内容：
+language = 'zh_CN'
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+
+
+    编辑 index.rst 文件：
+
+            Welcome to note's documentation!
+        ================================
+
+        .. toctree::
+            。。。。。。。。不修改这里，而是添加如下这句话
+
+           :glob: *
+
+ 
+
+
+
     生成文档：在Sphinx项目的根目录下运行：
-        sphinx-build -b html xxxsrc xxxdes
+       sphinx-build -b html .\source    .\build
+       
         这将在build目录中生成HTML文档。
         请注意，这只是一个基本的起点。Sphinx有丰富的功能，您可以根据需要进行自定义。更多详细信息，请查阅Sphinx文档：Sphinx Documentation。

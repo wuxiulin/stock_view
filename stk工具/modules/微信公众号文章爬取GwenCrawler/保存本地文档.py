@@ -61,5 +61,9 @@ if __name__ == '__main__':
     
 
 
-    爬取文档到本地().get_today_from_config()
+    爬取文档到本地().get_today_from_config(day='20240107')
+    #爬取文档到本地().get_today_from_config(day='')
 
+
+#自动下载后，同步到github上，然后有链接，被有到道云或其他地方引用
+#无法自动保存到有道云，但是可以自动同步到github上，只要能保存引用就好了

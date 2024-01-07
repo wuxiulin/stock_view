@@ -29,6 +29,12 @@
             // 如果有保存的内容，则将其设置为文本框的值
             textarea.value = localStorage.getItem('20240104_ths二级行业_savedText');
         }
+        else
+        {
+            textarea.value='【板块异动-》大盘对应分时异动阶段】：明显有核心板块对大盘分时巨大影响  \t\n\
+                        【无板块绝对影响大盘阶段】：盘面冷清，日内无强势板块'
+
+        }
 
         // 添加输入事件监听器，实时保存文本框内容到本地存储
         textarea.addEventListener('input', function() {

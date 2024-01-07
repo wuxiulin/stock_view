@@ -135,7 +135,7 @@ class 复盘笔记类( ):
 			for i in range(len(tempdata)):
 				#添加异动信号文字信息
 				newtag = soup.new_tag('p')
-				newtag.string=str(tempdata[i][0])	
+				newtag.string=str(tempdata[i][0]).replace("[", "").replace("]", "").replace("'", "") 
 				newtag['style'] = f'display: block; background-color: cyan; padding: 10px; text-decoration: none; color: black;'
 				div_异动[0].append(newtag)
 				#添加链接
@@ -162,7 +162,7 @@ class 复盘笔记类( ):
 			for i in range(len(tempdata)):
 				#添加异动信号文字信息
 				newtag = soup.new_tag('p')
-				newtag.string=str(tempdata[i] )	
+				newtag.string=str(tempdata[i] ).replace("[", "").replace("]", "").replace("'", "") 
 				newtag['style'] = f'display: block; background-color: cyan; padding: 10px; text-decoration: none; color: black;'
 				div_异动[0].append(newtag)
 			temppath="help-center/"+tmpl
@@ -184,7 +184,7 @@ class 复盘笔记类( ):
 				#写入html
 				#添加异动信号文字信息
 				newtag = soup.new_tag('p')
-				newtag.string=str(tempdata[i])	
+				newtag.string=str(tempdata[i]).replace("[", "").replace("]", "").replace("'", "") 
 				newtag['style'] = f'display: block; background-color: cyan; padding: 10px; text-decoration: none; color: black;'
 				div_异动[0].append(newtag)
 
@@ -210,7 +210,7 @@ class 复盘笔记类( ):
 				#写入html
 				#添加异动信号文字信息
 				newtag = soup.new_tag('p')
-				newtag.string=str(tempdata[i])	
+				newtag.string=str(tempdata[i]).replace("[", "").replace("]", "").replace("'", "") 	
 				newtag['style'] = f'display: block; background-color: cyan; padding: 10px; text-decoration: none; color: black;'
 				div_异动[0].append(newtag)
 
@@ -233,9 +233,22 @@ class 复盘笔记类( ):
 				#写入html
 				#添加异动信号文字信息
 				newtag = soup.new_tag('p')
-				newtag.string=str(tempdata[i])	
+				newtag.string=str(tempdata[i][0]).replace("[", "").replace("]", "").replace("'", "") 
 				newtag['style'] = f'display: block; background-color: cyan; padding: 10px; text-decoration: none; color: black;'
 				div_异动[0].append(newtag)
+
+				#添加链接
+				# 使用new_tag创建一个'a'标签
+				link_tag = soup.new_tag('a')
+				# 设置链接地址
+				link_tag['href'] = tempdata[i][1]
+				#print(tempdata[i][1])
+				# 添加文本内容
+				link_tag.string = 'notelink'
+				link_tag['target'] = "_blank" # 添加这一行来设置在新标签页中打开链接
+				#设置这个<a>是高亮块
+
+				div_异动[0].append(link_tag)
 
 			temppath="help-center/"+tmpl
 			#print(temppath)
@@ -243,6 +256,10 @@ class 复盘笔记类( ):
 
 			with open(path,"w",encoding="utf-8" ) as f:
 				f.write(str(soup.prettify()))	
+
+ 
+ 
+
 		else:
 			print('error 123456')
 			pass
@@ -294,10 +311,13 @@ class 复盘笔记类( ):
 			self.deal_html(data=data,ttype=ttype,tmpl='dynamic_monitor.html')
 
 
-		if(page_type==20):#异动信号
-			self.deal_html(data=data,ttype="stocks",tmpl='stocks.html')
+
+		if(page_type==21):#异动信号
 			self.deal_html(data=data,ttype="index",tmpl='index.html')
+		if(page_type==22):#异动信号
 			self.deal_html(data=data,ttype="blocks",tmpl='blocks.html')
+		if(page_type==23):#异动信号
+			self.deal_html(data=data,ttype="stocks",tmpl='stocks.html')
 		if(page_type==24):
 			self.deal_html(data=data,ttype="time",tmpl='timepoint.html')
 

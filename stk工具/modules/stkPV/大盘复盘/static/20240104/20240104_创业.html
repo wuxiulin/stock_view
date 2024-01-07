@@ -29,6 +29,11 @@
             // 如果有保存的内容，则将其设置为文本框的值
             textarea.value = localStorage.getItem('20240104_创业_savedText');
         }
+        else
+        {
+            textarea.value='【权重护盘阶段】   or 【权重异动->板块异动->大盘对应分时异动阶段】'
+
+        }
 
         // 添加输入事件监听器，实时保存文本框内容到本地存储
         textarea.addEventListener('input', function() {
