@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GB2312"?>
+<hotkeyset>
+	<category name="行情类" id="0">
+		<hotkeyitem name="我的板块" vk="0" jmpid="8318" msg="0"/>
+		<hotkeyitem name="最近浏览" vk="585367619" jmpid="6285" msg="0"/>
+		<hotkeyitem name="港股首页" vk="573833288" jmpid="11536" msg="0"/>
+		<hotkeyitem name="港股通" vk="0" jmpid="10640" msg="0"/>
+		<hotkeyitem name="沪股通" vk="0" jmpid="10649" msg="0"/>
+		<hotkeyitem name="深股通" vk="0" jmpid="8206" msg="0"/>
+		<hotkeyitem name="港股成交榜" vk="0" jmpid="8793" msg="0"/>
+		<hotkeyitem name="港股资金分析" vk="0" jmpid="8794" msg="0"/>
+		<hotkeyitem name="AH对比" vk="0" jmpid="11527" msg="0"/>
+		<hotkeyitem name="AH股联动" vk="0" jmpid="10071" msg="0"/>
+		<hotkeyitem name="港股报价" vk="0" jmpid="4067" msg="0"/>
+		<hotkeyitem name="自选期货" vk="0" jmpid="7221" msg="0"/>
+		<hotkeyitem name="中金所" vk="0" jmpid="7227" msg="0"/>
+		<hotkeyitem name="上期所" vk="0" jmpid="7290" msg="0"/>
+		<hotkeyitem name="大商所" vk="0" jmpid="7294" msg="0"/>
+		<hotkeyitem name="郑商所" vk="0" jmpid="7324" msg="0"/>
+		<hotkeyitem name="上金所" vk="0" jmpid="7435" msg="0"/>
+		<hotkeyitem name="期货夜盘" vk="0" jmpid="4160" msg="0"/>
+		<hotkeyitem name="美元指数" vk="0" jmpid="862" msg="0"/></category>
+	<category name="功能类" id="1">
+		<hotkeyitem name="研报大全" vk="559153241" jmpid="10531" msg="0"/>
+		<hotkeyitem name="资讯中心" vk="0" jmpid="4378" msg="0"/>
+		<hotkeyitem name="公告精选" vk="0" jmpid="6676" msg="0"/>
+		<hotkeyitem name="数据中心" vk="0" jmpid="0" msg="43965"/>
+		<hotkeyitem name="事件驱动" vk="0" jmpid="5751" msg="0"/>
+		<hotkeyitem name="股票预警" vk="568590401" jmpid="0" msg="30440"/>
+		<hotkeyitem name="指标平台" vk="0" jmpid="0" msg="62272"/>
+		<hotkeyitem name="股市备忘录" vk="0" jmpid="0" msg="30890"/>
+		<hotkeyitem name="智能问答" vk="0" jmpid="0" msg="463"/>
+		<hotkeyitem name="股市日记" vk="588513358" jmpid="0" msg="31321"/>
+		<hotkeyitem name="鹰眼盯盘" vk="0" jmpid="0" msg="30981"/>
+		<hotkeyitem name="所属板块" vk="0" jmpid="0" msg="30846"/>
+		<hotkeyitem name="快捷优选" vk="0" jmpid="0" msg="31429"/>
+		<hotkeyitem name="股票筛选器" vk="0" jmpid="6832" msg="0"/>
+		<hotkeyitem name="龙虎榜" vk="576979020" jmpid="0" msg="43952"/>
+		<hotkeyitem name="新股首页" vk="584319064" jmpid="12809" msg="0"/>
+		<hotkeyitem name="新股申购" vk="0" jmpid="12820" msg="0"/>
+		<hotkeyitem name="新股预披露" vk="0" jmpid="12827" msg="0"/>
+		<hotkeyitem name="新股上会" vk="0" jmpid="12828" msg="0"/>
+		<hotkeyitem name="打新收益率" vk="0" jmpid="12829" msg="0"/>
+		<hotkeyitem name="新股动态" vk="0" jmpid="12830" msg="0"/>
+		<hotkeyitem name="涨停分析" vk="0" jmpid="9447" msg="0"/>
+		<hotkeyitem name="修正" vk="560201813" jmpid="0" msg="31061"/>
+		<hotkeyitem name="显示/隐藏全部划画线" vk="561250377" jmpid="0" msg="63342"/></category></hotkeyset>

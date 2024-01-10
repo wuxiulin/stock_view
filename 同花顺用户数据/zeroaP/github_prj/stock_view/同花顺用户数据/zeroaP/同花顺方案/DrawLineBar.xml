@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="GB2312"?>
+<DrawLine_Bar>
+	<item name="直线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>直线,31002,0;</Menu></item>
+	<item name="矩形">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>矩形,30798,52;</Menu></item>
+	<item name="江恩角度线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>江恩角度线,32527,38;</Menu></item>
+	<item name="平行线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>平行线,30998,42;</Menu></item>
+	<item name="等周期线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>等周期线,30800,27;</Menu></item>
+	<item name="黄金分割线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>黄金分割线,30801,16;</Menu></item>
+	<item name="八浪线">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>八浪线,32507,9;</Menu></item>
+	<item name="圆">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>圆,30995,57;</Menu></item>
+	<item name="自定义">
+		<DLBarBtnType>3</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>自定义,-1,88;</Menu></item>
+	<item name="鼠标">
+		<DLBarBtnType>2</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>选择,-1,85;</Menu></item>
+	<item name="标注类">
+		<DLBarBtnType>0</DLBarBtnType>
+		<OwnArrow>1</OwnArrow>
+		<CanRemind>1</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>文字工具,32549,68;标注,32550,70;上涨箭头,30806,71;下跌箭头,30807,72;价格标签,32551,73;</Menu></item>
+	<item name="颜色">
+		<DLBarBtnType>2</DLBarBtnType>
+		<OwnArrow>0</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>颜色,-1,-1;</Menu></item>
+	<item name="删除">
+		<DLBarBtnType>1</DLBarBtnType>
+		<OwnArrow>1</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>删除单根画线,30797,87;删除全部画线,30796,-1;</Menu></item>
+	<item name="截屏">
+		<DLBarBtnType>1</DLBarBtnType>
+		<OwnArrow>1</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>截屏,61564,74;曲线平移,30653,77;区间统计,30900,78;未来预演,31041,79;测量距离,31225,80;查看画线说明,61561,-1;</Menu></item>
+	<item name="设置">
+		<DLBarBtnType>2</DLBarBtnType>
+		<OwnArrow>1</OwnArrow>
+		<CanRemind>0</CanRemind>
+		<LineNum>0</LineNum>
+		<Menu>风格/智能设置,32553,86;隐藏/锁定/删除,32554,-1;隐藏全部画线,30812,-1;显示全部画线,31103,-1;画线浏览,32556,-1;</Menu></item></DrawLine_Bar>
