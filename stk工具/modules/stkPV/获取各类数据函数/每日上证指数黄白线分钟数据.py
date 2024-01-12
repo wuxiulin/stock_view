@@ -79,7 +79,7 @@ class 上证指数黄白线分钟数据类( ):
 		#print(formatted_data)
 		return {tradeday:formatted_data}
 
-	def __get_today_上证指数黄白线分钟数据_wencai_js(self):
+	def get_today_上证指数黄白线分钟数据_wencai_js(self):
 		#https://m.10jqka.com.cn/     ----->  https://m.10jqka.com.cn/stockpage/hs_1A0001/#&atab=geguNews    然后开发者工具找到  https://d.10jqka.com.cn/v6/time/hs_1A0001/last.js
 			#同花顺反爬，'hexin-v'时效是2min，就不能用，所以每次调用接口更新V就好了
 			with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'aes.min.js'), 'r') as f:
@@ -152,7 +152,6 @@ class 上证指数黄白线分钟数据类( ):
 			#print(res['data'])
 			time_periods = res['data'].split(';')
 			formatted_data = [tuple(period.split(',')) for period in time_periods]
-			#print(formatted_data)
 			return {tradeday:formatted_data}
 
 
@@ -261,12 +260,14 @@ class 上证指数黄白线分钟数据类( ):
 					break
 			#print(today_date_string,last_date_string)
 			if(last_date_string==today_date_string):#今天是交易日，然后15点后在执行
-				if(todaynow > datetime.strptime(today_date_string+' 15:01:00','%Y%m%d %H:%M:%S')):
-					temp=self.__get_today_上证指数黄白线分钟数据_wencai_js()
+				if(todaynow > datetime.strptime(today_date_string+' 15:01:00','%Y%m%d %H:%M:%S')  or 
+					todaynow < datetime.strptime(today_date_string+' 05:00:00','%Y%m%d %H:%M:%S')#5点应该还有昨天的数据
+					):
+					temp=self.get_today_上证指数黄白线分钟数据_wencai_js()
 				else:
 					temp=None
 			elif(last_date_string not in pre_days):#今天是非交易日 如果没有保存过
-				temp=self.__get_today_上证指数黄白线分钟数据_wencai_js()
+				temp=self.get_today_上证指数黄白线分钟数据_wencai_js()
 
 			#print(temp)
 			if(temp is not None):
@@ -825,7 +826,7 @@ class 上证指数黄白线分钟数据类( ):
 if __name__ == '__main__':
 	
 	a=上证指数黄白线分钟数据类()
-	out=a.get_day_上证指数黄白线分钟数据(tradeday='20240105')
+	out=a.get_day_上证指数黄白线分钟数据(tradeday='20240111')
 	print("data:   ",out)
 	#b=a.get_days_上证指数黄白线分钟数据_exe(start='20231201',end='20231214')
 	#print(b)

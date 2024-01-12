@@ -98,7 +98,7 @@ class 复盘大盘分时_手动复盘类():
 		if(res is None or len(res)==0):
 			print("get_day_每日最高连板数   is  none ") 
 			return  None
-		#print(res.columns)
+		print(res.columns)
 		col_昨日流通股数=[ col for col in res.columns  if '流通a股[' in col  and last_yetd_date_string in col][0]
 		col_昨日收盘价 =[col for col in res.columns if  '收盘价:前复权[' in col and last_yetd_date_string in col][0]
 
@@ -705,11 +705,17 @@ class 复盘大盘分时_手动复盘类():
 		if(res is None or len(res)==0):
 			print("get_day_每日最高连板数   is  none ") 
 			return  None
-
 		#print(res)
-		#print(res.columns)
+		#print(res['container'])
+		#print(res['xuangu_tableV1'])#问财界面变化，多了一个内侧体验的广告，所以如下改变才行导致的weicapy出现问题，这里手动改
+		#这里有维护这个库，所以自己pip install --upgrade pywencai就可以了
+		#print(res.keys())
+		#print(res['xuangu_tableV1'].columns)
+
 		col_昨日流通值='指数@流通市值[{}]'.format(last_yetd_date_string)
 		col_今日流通值='指数@流通市值[{}]'.format(tradeday)
+		#print(type(res[col_今日流通值][0]),type(res[col_昨日流通值]))
+		res[col_今日流通值]=res[col_今日流通值].astype(float)
 		res['流通值差']=(res[col_今日流通值]-res[col_昨日流通值])/100000000
 		res=res[(res['流通值差'] > cha) | (res['流通值差'] < -cha)]#选择-100亿和100亿之外的数据
 		df_sorted = res.sort_values(by='流通值差').reset_index(drop=True)
@@ -880,6 +886,7 @@ class 复盘大盘分时_手动复盘类():
 if __name__ == '__main__':
 	#txt=复盘大盘分时类_程序笔记类().get笔记_复盘大盘分时_day(tradeday='20240103')
 	#print(txt)
-	复盘大盘分时_手动复盘类().get_chart_今日影响大权重分时叠加图(tradeday='20240104',iswebopen=1)
+	#复盘大盘分时_手动复盘类().get_chart_今日影响大权重分时叠加图(tradeday='20240104',iswebopen=1)
 	#复盘大盘分时_手动复盘类().get_blocks_分时(tradeday='20240103')
-	复盘大盘分时_手动复盘类().get_chart_今日影响大行业板块分时叠加图(tradeday='20240104',iswebopen=1)
+	#复盘大盘分时_手动复盘类().get_chart_今日影响大行业板块分时叠加图(tradeday='20240104',iswebopen=1)
+	复盘大盘分时_手动复盘类().get_blks_对指数分时影响大(tradeday='20240110')

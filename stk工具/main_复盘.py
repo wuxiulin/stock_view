@@ -43,9 +43,9 @@ from modules.stkPV.获取各类数据函数.每日两市成交额 import  每日
 from modules.stkPV.获取各类数据函数.每日北向资金 import  每日北向资金类
 from modules.stkPV.获取各类数据函数.每日涨跌停家数 import 每日涨跌停家数类
 
-from modules.stkPV.动态监控 import 动态监控类
+from modules.stkPV.动态监控 import 股价监控类
 
-
+from modules.stkPV.动态监控 import 指数点位监控格式2类
 
 
 from modules.stkPV.大盘复盘.复盘大盘分时 import  复盘大盘分时_程序笔记类
@@ -109,9 +109,9 @@ class 复盘笔记():
 		##月初缩量提示不是好事，明天能否放量修复就很重要
 
 
-	def 动态监控(self,tradeday):
-		动态监控类().复盘股价监控(tradeday=tradeday)
-
+	def 复盘股价信号(self,tradeday):
+		股价监控类().复盘股价监控(tradeday=tradeday)
+		指数点位监控格式2类().复盘指数监控(tradeday=tradeday)
 
 	def 大盘异动(self):
 		pass
@@ -402,7 +402,7 @@ class 复盘笔记():
 
 		print('开始执行 ：动态监控')
 		print('		正在执行：动态监控类.复盘股价监控()')#打印输出提示执行到哪个模块了
-		笔记.动态监控(tradeday=tradeday)
+		笔记.复盘股价信号(tradeday=tradeday)
 
 
 
@@ -485,7 +485,6 @@ if __name__ == '__main__':
 	todaynow = datetime.now()
 	last_date=todaynow
 	tradeday =todaynow.strftime("%Y%m%d")
-	tradeday =''
 	#print(tradeday,trade_df[1])
 	while True:
 		if(tradeday not in trade_df):
@@ -507,7 +506,10 @@ if __name__ == '__main__':
 	#笔记.程序复盘笔记(tradeday=tradeday)
 
 
-
+#这里最大问题就是数据需要分开保存，就是很多数据一日很多，需要一日日保存，而不是放在一起，查询太慢了所以按照日期保存
+#而有些按照月或者年保存问题不大，
+#有些能akshare，可以自己保存，这里通过github保存，问题不大了，解决了数据问题。
+#这里是为了更好下载、保存、管理数据的问题，然后再是使用的问题，这个目前还是很多问题，需要代码重构啊
 
 
 

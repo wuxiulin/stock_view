@@ -1,0 +1,3 @@
+#https://github.com/dataabc/weiboSpider?tab=readme-ov-file
+#https://github.com/dataabc/weibo-crawler
+#这是同一人写的，没法爬取文章啊
