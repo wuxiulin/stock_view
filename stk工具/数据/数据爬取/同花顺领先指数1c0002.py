@@ -9,25 +9,34 @@ import json
 import inspect
 import configparser
 from datetime import datetime,timedelta
-from  .爬取方式 import 爬取方式类#不要在这个文件使用这个表达方式，从其他文件调用目录结结构问题，
-import os
+
+import os,sys
+import akshare as ak
+
+sys.path.append( os.path.dirname(os.path.dirname(os.path.abspath(__file__)) ))
+sys.path.append( os.path.dirname(os.path.abspath(__file__)) )
+
+
+from  数据保存.数据保存 import 数据保存类
+from  爬取方式 import 爬取方式类#不要在这个文件使用这个表达方式，从其他文件调用目录结结构问题，
 
 class 同花顺领先指数1c0002类( ):
 	"""docstring for ClassName"""
-	def __init__(self):
+	def __init__(self,GlobalCfg =None):
 		self.current_dir = os.path.dirname(os.path.abspath(__file__)) 
-		self.cfgpath= os.path.join( self.current_dir , 'crawl.cfg')
-		
-	def read_cfg(self):
-		os.makedirs(self.current_dir, exist_ok=True)  # 创建文件夹，如果存在则不报错
-		if not os.path.exists(self.cfgpath):
-            # 如果配置文件不存在，创建一个空的配置文件
-			with open(self.cfgpath, 'w'):
-				pass
-        # 读取配置文件，最新更新日期，不要重复爬取
-		self.conf = configparser.ConfigParser()
-		self.conf.read(self.cfgpath, encoding='utf-8')
+		self.conf = GlobalCfg
 
+		self.cfgpath_local= os.path.join( self.current_dir , '配置文件.cfg')
+		print(self.cfgpath_local)
+		if not os.path.exists(self.cfgpath_local):
+    		# 如果配置文件不存在，创建一个空的配置文件
+			with open(self.cfgpath_local, 'w'):
+				pass
+			print('配置文件没有配置')
+			return
+    	# 读取配置文件，最新更新日期，不要重复爬取
+		self.conf_local = configparser.ConfigParser()
+		self.conf_local.read(self.cfgpath_local, encoding='utf-8')
 
 	def crawl_同花顺领先指数1c0002_min(self):
 		'''这里是个统一接口，不同爬取方式，手动接切换，
@@ -111,5 +120,98 @@ class 同花顺领先指数1c0002类( ):
 		#构造需要v的url
 		pass
 
+	def crawl_同花顺领先指数1c0002_min_by_同花顺exe(self,cfgset):
+		start_day=self.conf_local.get(cfgset, 'start_day')#设置开始爬取日期
+		end_day=self.conf_local.get(cfgset, 'end_day')#设置结束日期
+		if(end_day == ''):
+			end_day=datetime.now().strftime("%Y%m%d")
+		since_day=self.conf_local.get(cfgset, 'since_day')#上一次爬取时间
+		if(since_day == ''):
+			since_day='19910809'
+
+		if since_day < start_day:#计算比较设置值和上次爬取时间明确需要爬取确切时间，不重复爬取
+			pass
+		elif since_day < end_day:
+			start_day=since_day
+		else:
+			print('更新完成')
+			return
+
+		trade_df = ak.tool_trade_date_hist_sina()#正序列表 
+		trade_df=[d.strftime("%Y%m%d") for d in list(trade_df['trade_date'])]#时间类型不对，转换
+		#加快寻找时间，虽小时间范围，
+		days=(datetime.strptime(str(datetime.now().year)+'1231', "%Y%m%d")-datetime.strptime(start_day, "%Y%m%d")).days
+		trade_df=trade_df[-days:]#快速缩小范围
+		#print(trade_df)
+		while True:               #调整时间为真实最近交易日
+			if(start_day not in trade_df):
+				start_day=(datetime.strptime(start_day,'%Y%m%d')+timedelta(days=1)).strftime('%Y%m%d')
+			else:
+				break		
+		while True:#调整时间为真实最近交易日
+			if(end_day not in trade_df):
+				end_day=(datetime.strptime(end_day,'%Y%m%d')-timedelta(days=1)).strftime('%Y%m%d')
+			else:
+				break	
+
+		#获取期间交易日list
+		#print(start_day,end_day)
+		startindex = trade_df.index(start_day)
+		#print(startindex)
+		endindex = trade_df.index(end_day)
+		days=trade_df[startindex:endindex+1]
+		#print(days)
+
+		print('计算需要爬取日期{} - {}'.format(start_day,end_day))
+
+		#获取最新交易日，计算offset
+		today_str=datetime.now().strftime("%Y%m%d")
+		last_day=today_str
+		while True:               #调整时间为真实最近交易日
+			if(last_day not in trade_df):
+				#print(last_day)
+				last_day=(datetime.strptime(last_day,'%Y%m%d')-timedelta(days=1)).strftime('%Y%m%d')
+			else:
+				break		
+		if(today_str ==last_day):#今天是交易日
+			tt1=datetime.now().strftime("%Y%m%d")< datetime.strptime(today_str+' 04:00:00','%Y%m%d %H:%M:%S')#一般执行很久，所以不要在快要开盘执行，所以充足时间
+			tt2=datetime.now().strftime("%Y%m%d")> datetime.strptime(today_str+' 15:01:00','%Y%m%d %H:%M:%S')#一般执行很久，所以不要在快要开盘执行，所以充足时间
+			if(not(tt1 or tt2)):
+				print('没有足够更新时间，代码执行过程可能会出问题')
+				return
+			if(tt1): #交易日,没开市
+				last_day=(datetime.strptime(last_day,'%Y%m%d')-timedelta(days=1)).strftime('%Y%m%d')#
+		
+		for day in days:
+			print('开始爬取：',day)
+			offset= (datetime.strptime(last_day,'%Y%m%d') - datetime.strptime(day,'%Y%m%d')).days
+			self.conf_local.set(cfgset,'offset',str(offset))#调整offset
+
+			self.conf_local.set(cfgset,'tradeday',str(day))#正在交易日设置
+			data=爬取方式类(GlobalCfg=self.conf_local).crawl_by_action_records_同花顺_exe_分钟数据(cfgset=cfgset)
+
+			data={day:data}
+			file_dir=self.conf_local.get(cfgset, '数据保存路径')
+			#print(file_dir)
+			file_path=os.path.join(file_dir,'{}.json'.format(list(data.keys())[0]))
+			#print(file_path)
+			数据保存类(GlobalCfg=self.conf_local).save_to_json(data=data,file_path=file_path)
+
+			#更新时间，防止中途停止，下一次重复爬取太多
+			self.conf_local.set(cfgset,'since_day',str(day))
+			with open(self.cfgpath_local, 'w',encoding='utf-8') as configfile:
+				self.conf_local.write(configfile)
+			
 
 		
+		
+
+
+
+
+
+
+if __name__ == '__main__':
+	#由于同花顺爬取方式，这种是在这个文件调试就好了不要在其他地方调用，
+	#这里拿出大块时间来爬取，不能实时爬取，容易出错
+	同花顺领先指数1c0002类().crawl_同花顺领先指数1c0002_min_by_同花顺exe(cfgset='同花顺分时图截图_上证领先')

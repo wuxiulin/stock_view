@@ -1,12 +1,26 @@
 import os
 import json
+import configparser
 
 class 数据保存类():
 
-	def __init__(self):
+	def __init__(self,GlobalCfg=None):
 
 		self.current_dir = os.path.dirname(os.path.abspath(__file__)) 
-		pass
+		self.conf = GlobalCfg
+
+		self.cfgpath_local= os.path.join( self.current_dir , '配置文件.cfg')
+		if not os.path.exists(self.cfgpath_local):
+    		# 如果配置文件不存在，创建一个空的配置文件
+			with open(self.cfgpath_local, 'w'):
+				pass
+			print('配置文件没有配置')
+			return
+    	# 读取配置文件，最新更新日期，不要重复爬取
+		self.conf_local = configparser.ConfigParser()
+		self.conf_local.read(self.conf_local, encoding='utf-8')
+		
+		
 
 	def save_to_json(self,data,file_path):
 		if(data is None):

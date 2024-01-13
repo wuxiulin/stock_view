@@ -22,11 +22,137 @@ import execjs
 class 上证指数黄白线分钟数据类( ):
 	def __init__(self ):
 		pass
+	def __get_today_上证指数黄白线分钟数据_wencai_js_废弃(self):#没发获取历史数据只能是当天的
+		#废弃理由是，这里提示通过问财搜索得到大盘分时图表，然后获得url爬取，但是容易被封掉失效，以后其他方式不行再说
+		#就是这个方法有点绕，这里后面找到更加直接的方式了，方法是类似的，只是是另一个url中数据
+		#不用输入和判断日期，因为调用这个函数，爬取一定是最新这个交易日，哪怕是假期也是最新的有数据的一个交易日
 
+		#这种方式是因为问财旧版中搜索“大盘分时”，得到一个分时K线图，新版得不到，然后分时图是换白线，
+		#分析看这个网页是canvas，分析起来很复杂也没有仔细看，然后开发者工具F12，或者右击审查元素
+		#源代码---网页---top--www.wencai.com---d.10jqka.com.cn---v6--time/hs_1A000001---http://d.10jqka.com.cn/v6/time/hs_1A0001/last.js?hexin-v=Az2SgbT3BN42uKCyiNMQJOwGTJI42nEuew7VAP-CeRTDNlPOxyqB_Ate5fmM
+		#然后尝试一下，"http://d.10jqka.com.cn/v6/time/hs_1A0001/last.js?hexin-v="就可以，
+		#开始以为只能是360浏览器，不清楚，这里后来默认是似乎是google也能获得！
+		url = "http://d.10jqka.com.cn/v6/time/hs_1A0001/last.js?hexin-v="
+		# 360浏览器的默认安装路径
+		#browser_path = r"C:\\Users\\DELL\\AppData\\Roaming\\360se6\\Application\\360se.exe"
+		# 使用subprocess调用start命令
+		crlnum=0
+		while True:
+			#subprocess.call(['start', '', browser_path, url], shell=True)
+			subprocess.call([ url], shell=True)
+			time.sleep(3)
+			# 发起GET请求
+			response = requests.get(url)
+			# 检查响应状态码
+			if response.status_code == 200:
+			    # 输出网页内容
+				content=response.text
+				#print(content)
+			    #print(type(content))
+				break
+			else:
+				crlnum=crlnum+1
+				if(crlnum>20):
+					print(f"Failed to retrieve content. Status code: {response.status_code}")
+					return None
+				continue
+		#关闭浏览器
+		start_index = content.find('(')
+		end_index = content.find(')')
+		# 删除第一个括号及其以外的内容
+		content = content[start_index + 1:end_index]
+		res=json.loads(content)
+		res=res['hs_1A0001']
+		# with open('./data/output.json', 'w') as f:
+		# 	json.dump(data, f, indent=2)
+		#print(type(res))
+		#print(res.keys())
+
+		# for key in res.keys():
+		# 	print(key," :  ",res[key])
+
+		tradeday=res['date']
+		#print(type(res['data']))
+		#print(res['data'])
+		time_periods = res['data'].split(';')
+		formatted_data = [tuple(period.split(',')) for period in time_periods]
+		#print(formatted_data)
+		return {tradeday:formatted_data}
 
 	def get_today_上证指数黄白线分钟数据_wencai_js(self):
-		pass
+		#https://m.10jqka.com.cn/     ----->  https://m.10jqka.com.cn/stockpage/hs_1A0001/#&atab=geguNews    然后开发者工具找到  https://d.10jqka.com.cn/v6/time/hs_1A0001/last.js
+			#同花顺反爬，'hexin-v'时效是2min，就不能用，所以每次调用接口更新V就好了
+			with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'aes.min.js'), 'r') as f:
+				jscontent = f.read()
+			context = execjs.compile(jscontent)#应该是加载功能函数意思或者回调，钩子？？
 
+
+			# 构造请求头部信息
+			headers = {
+			    'Accept': '*/*',
+			    'Accept-Encoding': 'gzip, deflate, br',
+			    'Accept-Language': 'zh-CN,zh;q=0.9',
+			    'Cache-Control': 'no-cache',
+			    'Connection': 'keep-alive',
+			    'Cookie': '__utmz=156575163.1702529122.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utma=156575163.1697276506.1702529122.1702529122.1703600460.2; Hm_lvt_722143063e4892925903024537075d0d=1702871348,1702994719,1703071880,1703600485; Hm_lvt_929f8b362150b1f77b477230541dbbc2=1702871349,1702994720,1703071880,1703600485; historystock=1A0001%7C*%7C300033%7C*%7C833284%7C*%7C833249; user=MDp6ZXJvYVA6Ok5vbmU6NTAwOjM0MDQzODUwMzo3LDExMTExMTExMTExLDQwOzQ0LDExLDQwOzYsMSw0MDs1LDEsNDA7MSwxMDEsNDA7MiwxLDQwOzMsMSw0MDs1LDEsNDA7OCwwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSw0MDsxMDIsMSw0MDoyNDo6OjMzMDQzODUwMzoxNzA0MDMwMzYzOjo6MTQ2MDEyMTg0MDo2MDQ4MDA6MDoxMmI4M2ExYmJmMmY1OWEwYWQ3MWViN2ZjMzE4Yzg5YWM6ZGVmYXVsdF80OjE%3D; userid=330438503; u_name=zeroaP; escapename=zeroaP; ticket=3611331482ac2603c6acaf7278271e66; user_status=0; utk=4d2406a4155c1037c0d2f53322e61e0b; Hm_lvt_78c58f01938e4d85eaf619eae71b4ed1=1703599022,1703966825,1704030361,1704415357; v=A0N3xx5DIjN3ve5H5xp2MtaE0gziuNf6EUwbLnUgn6IZNG3w_YhnSiEcq3iG',
+			    'Host': 'd.10jqka.com.cn',
+			    'Pragma': 'no-cache',
+			    'Referer': 'https://m.10jqka.com.cn/stockpage/hs_1A0001/',
+			    'Sec-Ch-Ua': '"Not.A/Brand";v="8", "Chromium";v="114"',
+			    'Sec-Ch-Ua-Mobile': '?0',
+			    'Sec-Ch-Ua-Platform': '"Windows"',
+			    'Sec-Fetch-Dest': 'script',
+			    'Sec-Fetch-Mode': 'no-cors',
+			    'Sec-Fetch-Site': 'same-site',
+			    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.289 Safari/537.36'
+			}
+
+			crlnum=0
+			while True:
+				#subprocess.call(['start', '', browser_path, url], shell=True)
+				#url = 'http://d.10jqka.com.cn/v6/time/48_{}/last.js?hexin-v={}'.format(blk,context.call("v"))
+				url='https://d.10jqka.com.cn/v6/time/hs_1A0001/last.js'
+				#print(url)
+				# 发起GET请求
+				response = requests.get(url, headers=headers)
+
+				time.sleep(5)
+				#print(response.status_code)
+				# 检查响应状态码
+				if response.status_code == 200:
+				    # 输出网页内容
+					content=response.text
+					#print(content)
+				    #print(type(content))
+					break
+				else:
+					crlnum=crlnum+1
+					if(crlnum>20):
+						print(f"Failed to retrieve content. Status code: {response.status_code}")
+						return None
+					continue
+
+			#关闭浏览器
+			start_index = content.find('(')
+			end_index = content.find(')')
+			# 删除第一个括号及其以外的内容
+			content = content[start_index + 1:end_index]
+			res=json.loads(content)
+			res=res['hs_1A0001']
+			# with open('./data/output.json', 'w') as f:
+			# 	json.dump(data, f, indent=2)
+			#print(type(res))
+			#print(res.keys())
+
+			# for key in res.keys():
+			# 	print(key," :  ",res[key])
+
+			tradeday=res['date']
+			#print(type(res['data']))
+			#print(res['data'])
+			time_periods = res['data'].split(';')
+			formatted_data = [tuple(period.split(',')) for period in time_periods]
+			return {tradeday:formatted_data}
 
 
 
