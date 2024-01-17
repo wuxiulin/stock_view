@@ -1,0 +1,13 @@
+
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>HTML Template</title>
+                        </head>
+                        <body>
+                        <p>    读这篇文章前，请先读一遍1月16日的文章，不然，你不知道我在讲什么。从那篇文章里，我就一直强调25日附近的底。我不会因为前面两个交易日涨了，就改变我的观点，其实，从17日起，我的主图指标就已经给出了顶部信号，也不知道上证是否打了鸡血，还在那里往前冲，一直冲到今天下跌，本来16日我已经降到两成仓位，但后面的上涨伴随着见顶指标的出现，逼着我昨天又卖掉一成。结果，今天我那卖掉的股票竟然微红了3个多小时，显示出无比的强势。这就是个股与大盘的相悖，我一般是服从大盘加减仓位的，即使明天还涨，我也只能看着了。</p><p>   </p><p style="text-align: center;"><img class="" data-copyright="0" data-ratio="0.4431137724550898" data-s="300,640" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/aXTBKx8lNVFXUlyYZMHUpEJyJAPxKdh4Via3xmk5Tb1mBjNFPsL02W0TprkjbdFandbgImJGKP97SibKnuc41NQg/640?wx_fmt=jpeg" data-type="jpeg" data-w="1002" src="aXTBKx8lNVFXUlyYZMHUpEJyJAPxKdh4Via3xmk5Tb1mBjNFPsL02W0TprkjbdFandbgImJGKP97SibKnuc41NQg.PNG" style=""/></p><p style="text-align: left;">  今天，一根阴线砸下来，信号终于没了。<br/></p><p style="text-align: left;">   我的判断同16日的判断一样，没有任何改变，25日左右，就是春季行情的底部。跑了的，在25日附近拿回来。</p><p style="text-align: left;">    附上两条趋势线指标，这可以做为右侧的参考指标，收盘没有站上这两条线，不要提什么大行情。不过，如果在熊市你只看它，估计吃不到什么大肉。熊市，都是左侧交易，右侧走好的时候，基本就是顶部了。看我的文章，你会发现这样一个规律，我往往在行情一片大好的时候，提示你见顶了。而在行情最烂的时候，我这里却提示你买入。这就是左侧的特点，我的所有交易，都是在左侧的，因为我是左撇子。</p><p style="text-align: left;">  </p><p>短趋势线:MA(CLOSE,55);</p><p>MA89:MA(CLOSE,89);</p><p>涨55:IF(短趋势线&gt;REF(短趋势线,1),短趋势线,DRAWNULL),COLORRED,LINETHICK2;</p><p>平:=IF(短趋势线=REF(短趋势线,1),短趋势线,DRAWNULL),COLOR00FFFF,LINETHICK2;</p><p>跌55:IF(短趋势线&lt;REF(短趋势线,1),短趋势线,DRAWNULL),COLORGREEN,LINETHICK2;</p><p>涨MA89:IF(MA89&gt;REF(MA89,1),MA89,DRAWNULL),COLORYELLOW,LINETHICK2;</p><p>DRAWTEXT(ISLASTBAR=1,短趋势线,'55');</p><p>DRAWTEXT(ISLASTBAR=1,MA89,'89');</p><p style="text-align: left;">   这是主图指标，主图叠加就可以了。<span style="text-align: left;">这两条线在牛市还是非常管用的。以后，我会慢慢讲一些趋势线的用法。</span></p>
+                        </body>
+                    </html>
+                    
