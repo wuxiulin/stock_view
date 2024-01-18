@@ -1,0 +1,13 @@
+
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>HTML Template</title>
+                        </head>
+                        <body>
+                        <p>    股指运行到什么样的阶段，我们应当采取什么样的选股策略。刚打到1184的时候，我们主要选取超跌股。当股指在底部运行一段时间以后，我们要选取那些强势一些的股票，如果我们一个一个的翻看，就会浪费我们大量的时间。所以，就要将我们的想法变成对应的选股指标。刚好，前段时间看到了陶博士公布的一个选股公式，很合我意。可惜我这种懒人不可能天天收盘来弄一个rps的函数，这个公式就不能直接用了。但我想了一个变通的方法，给他稍作改动，拿来一试，选出的股票竟然跟原装公式差不多。不敢独享，于是拿出来与大家共享，感谢陶博士的无私奉献。</p><p>  这是一个底部反转选股公式（通达信）</p><p>A:=(C/INDEXC)*10000;</p><p>M21:=MA(A,21);</p><p>M55:=MA(A,55);</p><p>M89:=MA(A,89);</p><p>QD:=M21&gt;M55 AND M55&gt;M89;</p><p>MA233:=MA(CLOSE,233);</p><p>A1:=C/MA233&gt;1;</p><p>NH:=IF(H&lt;HHV(H,55),0,1);</p><p>B:=COUNT(NH,34);NN:=IF(C&gt;MA(C,250),1,0);</p><p>AA:=COUNT(NN,34);</p><p>AB:=HIGH/HHV(HIGH,144)&gt;0.9;</p><p> XG:A1 AND B AND AA&gt;3 AND AA&lt;30 AND ABAND QD;</p><p><br/></p><p>   选出的股票，不是每一个都能走出向上的行情，它的成功率只有20%。你必须在这个基础上再进行严格的筛选，才能大概率地骑上黑马，千万不能随便买，否则将面临严格的亏损。<img class="" data-copyright="0" data-ratio="0.75" data-s="300,640" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/aXTBKx8lNVFZT9iaQogiawo7FC8Sva8ibjEdJnlOFDOaTqAxWaYicol30iaEicIhtj03iaUXPCibPc4ac85IyfUpVRonLg/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" src="aXTBKx8lNVFZT9iaQogiawo7FC8Sva8ibjEdJnlOFDOaTqAxWaYicol30iaEicIhtj03iaUXPCibPc4ac85IyfUpVRonLg.PNG" style="text-align: center;"/></p><p>云南抚仙湖上的打鱼人</p><p>  另，最近又有人说什么跨年度行情了，这种说法年年有，但理想很丰满，现实太骨感，你还记得十一前大咖们的言论吗？更有人统计历年元旦前后的大盘走势，那种统计是结论统计，不是技术统计，请不要相信。看着k线谈走势，不要盲从。大家要注意，前面和以后我所说的大盘，主要是指创业板，我不看好主板，也就很少提及。</p>
+                        </body>
+                    </html>
+                    

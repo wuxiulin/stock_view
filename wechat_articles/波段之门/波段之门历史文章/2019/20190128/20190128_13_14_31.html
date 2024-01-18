@@ -1,0 +1,13 @@
+
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>HTML Template</title>
+                        </head>
+                        <body>
+                        <p>    现在处于春季行情的初期，分红是这个阶段的主题。而现在也不是2449那天，只要选对超跌就行了。现在我们要做一个几十天的波段，所以，我们要判断一下可能的风口，现在的主流资金是否在建仓，可能在买什么股票，我们把它列一个大致的范围。</p><p>   如果现在某一只股票还是比大盘弱，基本就被放弃了。所以，我们要设这样一个条件</p><p>  </p><p>A:=(C/INDEXC)*10000;</p><p>M1:MA(A,55);<br/></p><p>M2:MA(A,89)；</p><p>M3:MA(A,144);</p><p>    M1&gt;M2;<br/></p><p>    这叫做身体好。<br/></p><p>    还要身材好，我们还要加一个条件</p><p>M55:MA(c,55);</p><p>M89:MA(c,89)；</p><p>M55&gt;M89;</p><p>   某一只股票要分红，净资产太低了，概率就不大，我们要限定一个净资产</p><p>  FINANCE(34)&gt;4.5;</p><p>   股本不要太高</p><p>   CAPITAL&lt;2000000 ;</p><p>  业绩太差怎么能够分红，总得差不多吧</p><p>FINANCE(33)&gt;0.4；</p><p> 不能要st股票吧</p><p>  ST:=IF(NAMELIKE('ST') OR NAMELIKE('*ST'),0,1);</p><p>现在总不能在55线下方呆着吧，c&gt;ma55;</p><p>  好了，一个个五好学生就出来了。它们都会涨吗？不会。你还要细选，选那些五官端正的，小荷才露尖尖角的。</p><p>  好了，我给你凑一个完整的吧</p><p>A:=(C/INDEXC)*10000;</p><p><br/></p><p>M1:=MA(A,55);</p><p><br/></p><p>M2:=MA(A,89);</p><p><br/></p><p>M3:=MA(A,144);</p><p><br/></p><p>M55:=MA(C,55);</p><p><br/></p><p>M89:=MA(C,89);</p><p><br/></p><p>ST:=IF(NAMELIKE('ST') OR NAMELIKE('*ST'),0,1);</p><p><br/></p><p>XG:M1&gt;M2 AND  M55&gt;M89 AND ST AND CAPITAL&lt;2000000   AND FINANCE(33)&gt;0.4 AND FINANCE(34)&gt;4.5 AND C&gt;M55;</p><p style="white-space: normal;">ok了，最后选到哪个是你的运气，也许，涨得最好得股票会被你扔掉，没关系，仔细地研究它，你会发现，那不是运气，是你得研究还不到家。什么时候，你认识到选股不是运气了，你就进步了。</p><p style="white-space: normal;">   对了，最近在公布业绩预告，离那些没预告的远点，万一有雷呢。</p><p style="white-space: normal;">   刘走了，易来了，谁都一样，还是那锅汤。</p><p style="white-space: normal;"><br/></p><p style="white-space: normal;"><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                        </body>
+                    </html>
+                    
