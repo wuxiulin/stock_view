@@ -4,6 +4,4 @@ http://htmlpreview.github.io/?
 http://htmlpreview.github.io/?  + html  在线显示
 
 
-无法在线看docx，所以需要在电脑装pandoc软件，然后再docx文档执行cmd，例如D:\github_prj\stock_view\daidai_articles>pandoc 真正的野心家.docx -o output.md
-通过pandoc把docx转为md，然后上传到github实现在线阅读
-或者某个软件转为pdf也行能在pdf在线阅读
+无法在线看docx，转为pdf也行能在pdf在线阅读
