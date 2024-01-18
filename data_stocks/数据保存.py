@@ -20,7 +20,18 @@ class 数据保存类():
 		self.conf_local = configparser.ConfigParser()
 		self.conf_local.read(self.conf_local, encoding='utf-8')
 		
-		
+	def save_to_text(self,data,file_path):
+		if(data is None):
+			print('data is None ,donot save to {}'.format(file_path))
+			return 
+		folder_path = os.path.dirname(file_path)
+		if(folder_path =='' or folder_path is None):
+			folder_path=self.current_dir 
+			file_path=os.path.join(folder_path,file_path)
+		os.makedirs(folder_path, exist_ok=True) #确保路径存在
+		#无论是否存在这里都是覆盖的。
+		with open(file_path, 'w+',encoding="utf-8") as file:
+			file.write(str(data))	
 
 	def save_to_json(self,data,file_path):
 		if(data is None):
